@@ -151,14 +151,14 @@ body.dark { background: var(--obsidian); color: var(--text-light); }
 .story-card.hidden { display: none; }
 
 /* CASE STUDY VISUALS */
-.story-visual { position: relative; height: 220px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+.story-visual { position: relative; min-height: 220px; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 24px; }
+.story-visual-overlay { position: static; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 2; text-align: center; }
+.story-visual-title { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: white; letter-spacing: 0.05em; text-shadow: 0 2px 20px rgba(0,0,0,0.3); text-align: center; }
+.story-visual-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 6px; font-family: 'JetBrains Mono', monospace; text-align: center; }
+.story-evidence { position: static; display: flex; gap: 8px; z-index: 3; flex-wrap: wrap; justify-content: center; }
 .story-visual-ace { background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 50%, #0F172A 100%); }
 .story-visual-vet { background: linear-gradient(135deg, #0F172A 0%, #1E3A3F 50%, #0F172A 100%); }
 .story-visual-ml { background: linear-gradient(135deg, #0F172A 0%, #2E1E3A 50%, #0F172A 100%); }
-.story-visual-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 2; text-align: center; padding: 0 24px; }
-.story-visual-title { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; color: white; letter-spacing: 0.05em; text-shadow: 0 2px 20px rgba(0,0,0,0.3); text-align: center; }
-.story-visual-sub { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 6px; font-family: 'JetBrains Mono', monospace; text-align: center; }
-.story-evidence { position: absolute; bottom: 16px; left: 16px; right: 16px; display: flex; gap: 8px; z-index: 3; flex-wrap: wrap; }
 .evidence-pill { background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); border-radius: 999px; padding: 6px 14px; font-size: 11px; color: white; font-weight: 500; }
 .evidence-pill.accent { background: rgba(16,185,129,0.25); border-color: rgba(16,185,129,0.3); color: #6EE7B7; }
 
