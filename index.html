@@ -520,6 +520,28 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
 ::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
+/* O2C LAYER PROGRESS TRACK */
+.layer-track { display: flex; gap: 5px; margin: 14px 0 16px; flex-wrap: wrap; }
+.layer-pip {
+  flex: 1; min-width: 60px; border-radius: 8px; padding: 8px 4px;
+  text-align: center; border: 1px solid var(--border-subtle);
+  background: var(--bg-panel); transition: all 0.3s ease;
+  cursor: default; text-decoration: none; color: inherit; display: block;
+}
+.layer-pip.done { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.25); }
+.layer-pip.active { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.32); }
+.layer-pip.done:hover { border-color: rgba(16,185,129,0.45); transform: translateY(-1px); }
+.layer-pip-id { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; margin-bottom: 2px; }
+.layer-pip.done .layer-pip-id { color: var(--accent-green); }
+.layer-pip.active .layer-pip-id { color: var(--accent-blue); }
+.layer-pip.pending .layer-pip-id { color: var(--text-muted); }
+.layer-pip-label { font-size: 9px; color: var(--text-muted); line-height: 1.3; margin-bottom: 2px; }
+.layer-pip-status { font-family: 'JetBrains Mono', monospace; font-size: 9px; }
+.layer-pip.done .layer-pip-status { color: var(--accent-green); }
+.layer-pip.active .layer-pip-status { color: var(--accent-blue); }
+.layer-pip.pending .layer-pip-status { color: var(--text-muted); }
+.cs-icon.o2c { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(59,130,246,0.08)); }
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .col-3, .col-4, .col-6, .col-8 { grid-column: span 6; }
@@ -927,6 +949,105 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="results-grid">
             <div class="result-chip"><strong>180K+</strong> records combining a bankruptcy-prediction dataset and a supply-chain delivery-risk dataset<div class="result-meta">Actual · Enriched with NY Fed Global Supply Chain Pressure Index</div></div>
             <div class="result-chip"><strong>4-person</strong> team led through an 8-week delivery plan<div class="result-meta">Actual · Workstreams assigned, deliverables quality-reviewed</div></div>
+          </div>
+        </div>
+
+        <!-- O2C RECONCILIATION -->
+        <div class="cs-card animate-in" style="animation-delay:0.3s">
+          <div class="cs-header">
+            <div class="cs-icon o2c">🔄</div>
+            <div>
+              <div class="cs-title">Order-to-Cash Reconciliation Modernization</div>
+              <div class="cs-sub">Self-directed enterprise case study — automating multi-channel O2C reconciliation on 99K+ orders, from data discovery through SQL exception detection, Power BI dashboard, and AI-assisted controls.</div>
+            </div>
+          </div>
+          <div class="case-tags" style="margin-bottom:12px;">
+            <span class="case-tag">📊 Self-Directed Case Study</span>
+            <span class="case-tag">Olist · Public Dataset · 99K+ orders</span>
+            <span class="case-tag">⏳ In Progress</span>
+          </div>
+
+          <div class="layer-track">
+            <a href="l0-discovery.html" target="_blank" class="layer-pip done">
+              <div class="layer-pip-id">L0</div>
+              <div class="layer-pip-label">Discovery</div>
+              <div class="layer-pip-status">✓ done</div>
+            </a>
+            <div class="layer-pip active">
+              <div class="layer-pip-id">L1</div>
+              <div class="layer-pip-label">Process map</div>
+              <div class="layer-pip-status">▶ now</div>
+            </div>
+            <div class="layer-pip pending">
+              <div class="layer-pip-id">L2</div>
+              <div class="layer-pip-label">Data + SQL</div>
+              <div class="layer-pip-status">— —</div>
+            </div>
+            <div class="layer-pip pending">
+              <div class="layer-pip-id">L3</div>
+              <div class="layer-pip-label">Dashboard</div>
+              <div class="layer-pip-status">— —</div>
+            </div>
+            <div class="layer-pip pending">
+              <div class="layer-pip-id">L4</div>
+              <div class="layer-pip-label">AI use cases</div>
+              <div class="layer-pip-status">— —</div>
+            </div>
+            <div class="layer-pip pending">
+              <div class="layer-pip-id">L5</div>
+              <div class="layer-pip-label">ROI + controls</div>
+              <div class="layer-pip-status">— —</div>
+            </div>
+            <div class="layer-pip pending">
+              <div class="layer-pip-id">L6</div>
+              <div class="layer-pip-label">UAT + closure</div>
+              <div class="layer-pip-status">— —</div>
+            </div>
+          </div>
+
+          <div class="star-flow">
+            <div class="star-step" onclick="toggleStoryStep(this,'o2c-s')">
+              <div class="star-step-icon">📍</div>
+              <div class="star-step-label">Situation</div>
+              <div class="star-step-hint">Manual reconciliation can't detect exceptions at scale</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'o2c-t')">
+              <div class="star-step-icon">🎯</div>
+              <div class="star-step-label">Task</div>
+              <div class="star-step-hint">Design automated O2C system end-to-end</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'o2c-a')">
+              <div class="star-step-icon">⚡</div>
+              <div class="star-step-label">Action</div>
+              <div class="star-step-hint">SQL · DuckDB · BPMN · Power BI · AI controls</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'o2c-r')">
+              <div class="star-step-icon">📈</div>
+              <div class="star-step-label">Result</div>
+              <div class="star-step-hint">In progress · Gate 1 target 31 Aug 2026</div>
+            </div>
+          </div>
+
+          <div class="story-detail-panel" id="o2c-s">
+            <div class="story-detail-text">Olist marketplace processes 99,441 orders across multiple payment types over a 2-year period (2016–2018). Manual reconciliation between order records and payment settlements cannot detect exceptions at scale — resulting in R$143,255 of uncollected payments on 625 canceled orders, 775 orders with missing item records, and 14 delivered orders with no approval event.</div>
+          </div>
+          <div class="story-detail-panel" id="o2c-t">
+            <div class="story-detail-text">Design and document a complete O2C reconciliation modernization — from business discovery and stakeholder analysis through process mapping, SQL exception detection, Power BI dashboard, AI-assisted matching, ROI measurement, and UAT closure. Simulating an enterprise BSA engagement on public/synthetic data.</div>
+          </div>
+          <div class="story-detail-panel" id="o2c-a">
+            <div class="story-detail-text"><ul>
+              <li><strong>L0 (done):</strong> Profiled 99K+ records in DuckDB · identified 5 exception categories · wrote problem statement with stakeholder map</li>
+              <li><strong>L1 (in progress):</strong> BPMN As-Is / To-Be swimlane diagrams in Lucidchart</li>
+              <li><strong>L2–L6 (upcoming):</strong> SQL reconciliation queries · Power BI exception dashboard · AI use cases with human-in-the-loop controls · ROI analysis · UAT closure</li>
+            </ul></div>
+          </div>
+          <div class="story-detail-panel" id="o2c-r">
+            <div class="story-detail-text">In progress — self-directed enterprise case study on public/synthetic data. Gate 1 target: L0–L2 complete + wave-1 job applications sent by 31 Aug 2026. Gate 2: interview-ready by 18 Oct 2026.</div>
+          </div>
+
+          <div class="results-grid">
+            <div class="result-chip"><strong>R$143,255</strong> revenue exposure from 625 canceled orders retaining payment records<div class="result-meta">Actual · SQL analysis · Olist public dataset</div></div>
+            <div class="result-chip"><strong>5 exception types</strong> classified by severity — data integrity gaps to systemic approval failures<div class="result-meta">Actual · DuckDB reconciliation queries · L0 complete</div></div>
           </div>
         </div>
 

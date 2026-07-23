@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L0 — Data Discovery · O2C Reconciliation · Arthunya</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#06060A; --panel:#0E0E18; --card:#141420; --hover:#1A1A2E;
+  --border:rgba(255,255,255,0.06); --border-hi:rgba(37,99,235,0.3);
+  --text:#F0F2F8; --sub:#A8B0C8; --muted:#6B7290;
+  --blue:#3B82F6; --cyan:#22D3EE; --green:#10B981;
+  --amber:#F59E0B; --red:#F43F5E; --purple:#8B5CF6;
+}
+.lm {
+  --bg:#F8F9FC; --panel:#FFFFFF; --card:#F1F3F9; --hover:#E8EBF4;
+  --border:rgba(15,23,42,0.08); --border-hi:rgba(37,99,235,0.2);
+  --text:#0F172A; --sub:#475569; --muted:#94A3B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{font-family:'JetBrains Mono',monospace;font-size:.88em;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.12);border-radius:5px;padding:2px 6px;color:var(--cyan);}
+pre{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;overflow-x:auto;margin:14px 0;}
+pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);line-height:1.8;}
+.keyword{color:#7DD3FC;}
+.fn{color:#86EFAC;}
+.str{color:#FDE68A;}
+.cmt{color:#6B7290;font-style:italic;}
+.num{color:#F9A8D4;}
+
+/* LAYOUT */
+.shell{max-width:860px;margin:0 auto;padding:20px 20px 60px;}
+
+/* TOP NAV */
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:24px;position:relative;overflow:hidden;}
+.topnav::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--green));opacity:.5;}
+.back-link{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--sub);transition:color .2s;}
+.back-link:hover{color:var(--blue);text-decoration:none;}
+.theme-btn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .2s;}
+.theme-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);}
+
+/* HERO */
+.hero{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px 28px 24px;margin-bottom:24px;}
+.layer-badge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--green);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:999px;padding:4px 14px;margin-bottom:14px;}
+.layer-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.85)}}
+.hero-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;background:linear-gradient(135deg,var(--text),var(--sub));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:13.5px;color:var(--sub);margin-bottom:18px;line-height:1.6;}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(59,130,246,.06);color:var(--blue);border:1px solid rgba(59,130,246,.1);}
+
+/* LAYER PROGRESS */
+.layer-nav{display:flex;gap:5px;margin-bottom:24px;}
+.lnav-pip{flex:1;border-radius:8px;padding:8px 4px;text-align:center;border:1px solid var(--border);background:var(--panel);font-family:'JetBrains Mono',monospace;transition:all .2s;cursor:default;}
+.lnav-pip.done{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.28);}
+.lnav-pip.active{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.35);}
+.lnav-pip-id{font-size:10px;font-weight:700;margin-bottom:2px;}
+.lnav-pip.done .lnav-pip-id{color:var(--green);}
+.lnav-pip.active .lnav-pip-id{color:var(--blue);}
+.lnav-pip.pending .lnav-pip-id{color:var(--muted);}
+.lnav-pip-name{font-size:9px;color:var(--muted);}
+.lnav-pip.active .lnav-pip-name{color:var(--blue);}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:28px;}
+.toc-title{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.toc-title::before{content:'';width:14px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:1px;}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.toc-list li a{font-size:13px;color:var(--sub);display:flex;align-items:center;gap:8px;transition:color .2s;}
+.toc-list li a:hover{color:var(--blue);text-decoration:none;}
+.toc-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:24px;}
+.toc-status{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;margin-left:auto;}
+.toc-status.done{background:rgba(16,185,129,.08);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.toc-status.find{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+
+/* STEPS */
+.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;transition:border-color .3s;}
+.step:hover{border-color:var(--border-hi);}
+.step-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue);background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:4px 10px;flex-shrink:0;margin-top:2px;}
+.step-info{}
+.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.step-why{font-size:12px;color:var(--muted);font-style:italic;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 8px;display:flex;align-items:center;gap:6px;}
+.section-label::before{content:'';width:10px;height:1.5px;background:var(--blue);border-radius:1px;opacity:.5;}
+.prose{font-size:13.5px;color:var(--sub);line-height:1.8;margin-bottom:10px;}
+.prose strong{color:var(--text);font-weight:600;}
+.prose em{color:var(--blue);font-style:normal;}
+
+/* FINDING BOXES */
+.finding{border-radius:10px;padding:14px 16px;margin:12px 0;border-left:3px solid;}
+.finding.info{background:rgba(59,130,246,.06);border-color:var(--blue);}
+.finding.warn{background:rgba(245,158,11,.06);border-color:var(--amber);}
+.finding.danger{background:rgba(244,63,94,.06);border-color:var(--red);}
+.finding.success{background:rgba(16,185,129,.06);border-color:var(--green);}
+.finding.bug{background:rgba(139,92,246,.06);border-color:var(--purple);}
+.finding-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.finding.info .finding-label{color:var(--blue);}
+.finding.warn .finding-label{color:var(--amber);}
+.finding.danger .finding-label{color:var(--red);}
+.finding.success .finding-label{color:var(--green);}
+.finding.bug .finding-label{color:var(--purple);}
+.finding-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.finding-text strong{color:var(--text);}
+
+/* RESULT TABLE */
+.result-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:12px 0;}
+.result-table th{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
+.result-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--sub);}
+.result-table tr:last-child td{border-bottom:none;}
+.result-table td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:5px;font-weight:600;}
+.badge.hi{background:rgba(244,63,94,.1);color:var(--red);border:1px solid rgba(244,63,94,.2);}
+.badge.med{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+.badge.lo{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.badge.ok{background:rgba(107,114,144,.1);color:var(--muted);border:1px solid rgba(107,114,144,.2);}
+
+/* SUMMARY */
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0;}
+.sum-chip{background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(6,182,212,.03));border:1px solid rgba(59,130,246,.1);border-radius:10px;padding:14px;font-size:12px;color:var(--sub);}
+.sum-chip strong{color:var(--text);font-weight:700;font-size:13.5px;display:block;margin-bottom:3px;}
+.sum-chip .meta{font-size:10px;color:var(--muted);margin-top:5px;font-family:'JetBrains Mono',monospace;}
+
+/* LESSON */
+.lesson{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0;display:flex;gap:12px;align-items:flex-start;}
+.lesson-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.lesson-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.lesson-text strong{color:var(--text);}
+
+/* FOOTER */
+.footer{text-align:center;padding:28px 0 0;border-top:1px solid var(--border);margin-top:32px;}
+.footer-text{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.footer-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.fnav-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--sub);text-decoration:none;transition:all .2s;}
+.fnav-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.04);}
+.fnav-btn.primary{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.06);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fin{animation:fadeUp .5s cubic-bezier(.4,0,.2,1) forwards;opacity:0;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- NAV -->
+  <div class="topnav fin">
+    <a href="index.html" class="back-link" style="text-decoration:none;">
+      ← Back to portfolio
+    </a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">O2C Reconciliation Modernization</span>
+      <button class="theme-btn" onclick="document.body.classList.toggle('lm');this.textContent=document.body.classList.contains('lm')?'🌙 dark':'☀️ light'">☀️ light</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero fin" style="animation-delay:.05s">
+    <div class="layer-badge"><span class="dot"></span> L0 — Complete</div>
+    <div class="hero-title">Data Discovery & Problem Statement</div>
+    <div class="hero-sub">Profile the Olist dataset, identify reconciliation exceptions using SQL, and write a fact-based problem statement. This layer is the foundation — everything in L1–L6 builds on what we find here.</div>
+    <div class="hero-meta">
+      <span class="meta-chip">📂 Dataset: Olist Brazilian E-Commerce</span>
+      <span class="meta-chip">🛠 Tool: DuckDB + DBeaver</span>
+      <span class="meta-chip">📅 Completed: Jul 2026</span>
+      <span class="meta-chip">⏱ ~4 hours</span>
+    </div>
+  </div>
+
+  <!-- LAYER PROGRESS -->
+  <div class="layer-nav fin" style="animation-delay:.1s">
+    <div class="lnav-pip done"><div class="lnav-pip-id">L0</div><div class="lnav-pip-name">Discovery</div></div>
+    <div class="lnav-pip active"><div class="lnav-pip-id">L1</div><div class="lnav-pip-name">Process map</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L2</div><div class="lnav-pip-name">Data + SQL</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L3</div><div class="lnav-pip-name">Dashboard</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L4</div><div class="lnav-pip-name">AI use cases</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L5</div><div class="lnav-pip-name">ROI + controls</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L6</div><div class="lnav-pip-name">UAT + closure</div></div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc fin" style="animation-delay:.12s">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span>Why this dataset — decision rationale<span class="toc-status done">done</span></a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>Setup: DuckDB + DBeaver<span class="toc-status done">done</span></a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>Profile each table<span class="toc-status done">done</span></a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>Null analysis — orders table<span class="toc-status find">finding</span></a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>Payment type breakdown<span class="toc-status done">done</span></a></li>
+      <li><a href="#s6"><span class="toc-num">06</span>Amount mismatch — core reconciliation query<span class="toc-status find">finding</span></a></li>
+      <li><a href="#s7"><span class="toc-num">07</span>Bug found: many-to-many JOIN fan-out<span class="toc-status find">finding</span></a></li>
+      <li><a href="#s8"><span class="toc-num">08</span>Canceled orders with payment — R$143K<span class="toc-status find">finding</span></a></li>
+      <li><a href="#s9"><span class="toc-num">09</span>Exception summary + problem statement<span class="toc-status done">done</span></a></li>
+    </ul>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step fin" id="s1" style="animation-delay:.14s">
+    <div class="step-header">
+      <div class="step-num">01</div>
+      <div class="step-info">
+        <div class="step-title">Why this dataset — decision rationale</div>
+        <div class="step-why">Before writing a single line of SQL, pick the right data foundation</div>
+      </div>
+    </div>
+    <div class="section-label">Dataset candidates considered</div>
+    <div class="prose">Three options were evaluated for the O2C reconciliation project:</div>
+    <div class="finding info">
+      <div class="finding-label">✓ Chosen — Olist + synthetic settlement (hybrid)</div>
+      <div class="finding-text">
+        <strong>Olist Brazilian E-Commerce</strong> (Kaggle, public domain) — 99,441 real orders, 7 relational tables, multi-payment-type data (credit card, boleto, voucher, debit card), timestamps covering purchase → approval → delivery. Used as the <em>order/billing side</em>.<br><br>
+        A synthetic <em>settlement file</em> will be generated in L2 to simulate what a payment processor would return — matching the reality of enterprise O2C where order system and settlement system are always separate.<br><br>
+        <strong>Why this over fully synthetic:</strong> Real data has real dirty data — nulls, timing anomalies, orphan records. That makes the reconciliation exercise meaningful, not just a clean demo.
+      </div>
+    </div>
+    <div class="finding warn">
+      <div class="finding-label">✗ Not chosen — UCI Online Retail II</div>
+      <div class="finding-text">Invoice-level only. No payment or settlement records at all. Would require building both sides from scratch.</div>
+    </div>
+    <div class="finding warn">
+      <div class="finding-label">✗ Not chosen — Fully synthetic</div>
+      <div class="finding-text">Too much generation time. "Synthetic only" also carries less credibility in a portfolio context than real public data.</div>
+    </div>
+    <div class="section-label">Download source</div>
+    <div class="prose">
+      <a href="https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce" target="_blank">kaggle.com/datasets/olistbr/brazilian-ecommerce</a> — free account required. Download all 8 CSV files. The <code>olist_geolocation_dataset.csv</code> (~1M rows) is not needed for reconciliation work — skip it or open in Python only, never Excel.
+    </div>
+    <div class="lesson">
+      <div class="lesson-icon">💡</div>
+      <div class="lesson-text"><strong>Lesson:</strong> In a real BSA engagement, the dataset decision is a requirements conversation — what data does Finance currently export? What does the payment processor settlement file look like? The dataset choice shapes every query you write downstream.</div>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step fin" id="s2" style="animation-delay:.16s">
+    <div class="step-header">
+      <div class="step-num">02</div>
+      <div class="step-info">
+        <div class="step-title">Setup: DuckDB + DBeaver</div>
+        <div class="step-why">Why not Excel, and how to get a SQL environment running in 10 minutes</div>
+      </div>
+    </div>
+    <div class="prose">Excel can open CSVs but fails at joining multiple tables and slows down past ~100K rows. SQL gives us <em>reproducibility</em> — every finding is a saved query anyone can re-run to verify.</div>
+    <div class="section-label">Install DuckDB</div>
+    <pre><code><span class="cmt"># Terminal (Windows PowerShell or Mac/Linux)</span>
+<span class="keyword">pip</span> install duckdb
+
+<span class="cmt"># Then install DBeaver Community (free SQL editor UI)</span>
+<span class="cmt"># https://dbeaver.io/download/ → Community Edition</span></code></pre>
+    <div class="section-label">Connect DBeaver to DuckDB</div>
+    <div class="prose">DBeaver → New Connection → search "DuckDB" → set path to a new <code>.duckdb</code> file, e.g. <code>C:/olist/olist.duckdb</code>. DBeaver creates the file on first connect.</div>
+    <div class="section-label">Load all CSVs as tables — run one at a time (Ctrl+Enter per block)</div>
+    <pre><code><span class="keyword">CREATE TABLE</span> orders   <span class="keyword">AS SELECT</span> * <span class="keyword">FROM</span> <span class="fn">read_csv_auto</span>(<span class="str">'H:/path/olist_orders_dataset.csv'</span>);
+<span class="keyword">CREATE TABLE</span> payments <span class="keyword">AS SELECT</span> * <span class="keyword">FROM</span> <span class="fn">read_csv_auto</span>(<span class="str">'H:/path/olist_order_payments_dataset.csv'</span>);
+<span class="keyword">CREATE TABLE</span> items    <span class="keyword">AS SELECT</span> * <span class="keyword">FROM</span> <span class="fn">read_csv_auto</span>(<span class="str">'H:/path/olist_order_items_dataset.csv'</span>);</code></pre>
+    <div class="finding info">
+      <div class="finding-label">⚠ Common error: path backslash</div>
+      <div class="finding-text">Windows paths use <code>\</code> but SQL needs <code>/</code>. Change <code>C:\folder\file.csv</code> to <code>C:/folder/file.csv</code>.</div>
+    </div>
+    <div class="finding info">
+      <div class="finding-label">⚠ Common error: running all queries at once</div>
+      <div class="finding-text">Highlight only the CREATE TABLE you want, then Ctrl+Enter. If you run all three at once, the second CREATE fires before the first finishes — you get "table does not exist" on the SELECT that follows.</div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Why DuckDB instead of MySQL/PostgreSQL:</strong> DuckDB reads CSV directly with <code>read_csv_auto()</code> — no import wizard, no schema definition upfront. SQL syntax is standard and transfers to Snowflake, BigQuery, or Redshift with minimal changes.</div></div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step fin" id="s3" style="animation-delay:.18s">
+    <div class="step-header">
+      <div class="step-num">03</div>
+      <div class="step-info">
+        <div class="step-title">Profile each table</div>
+        <div class="step-why">Before any analysis — understand what you're working with</div>
+      </div>
+    </div>
+    <div class="prose">First instinct is always to jump into analysis. Don't. Spend 10 minutes profiling first. It prevents wrong assumptions and saves hours of debugging later.</div>
+    <div class="section-label">What columns exist?</div>
+    <pre><code><span class="cmt">-- Excel equivalent: look at row 1 (header row)</span>
+<span class="keyword">DESCRIBE</span> orders;</code></pre>
+    <div class="prose">Returns column names and data types. Key columns for O2C: <code>order_id</code>, <code>order_status</code>, <code>order_purchase_timestamp</code>, <code>order_approved_at</code>, <code>order_delivered_customer_date</code>, <code>order_estimated_delivery_date</code>.</div>
+    <div class="section-label">See real data — first 5 rows</div>
+    <pre><code><span class="cmt">-- Excel equivalent: look at rows 2–6</span>
+<span class="keyword">SELECT</span> * <span class="keyword">FROM</span> orders <span class="keyword">LIMIT</span> <span class="num">5</span>;</code></pre>
+    <div class="section-label">Order status distribution</div>
+    <pre><code><span class="cmt">-- Excel equivalent: Pivot Table → Rows=order_status, Values=Count</span>
+<span class="keyword">SELECT</span>
+    order_status,
+    <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> total,
+    <span class="fn">ROUND</span>(<span class="fn">COUNT</span>(*) * <span class="num">100.0</span> / <span class="fn">SUM</span>(<span class="fn">COUNT</span>(*)) <span class="keyword">OVER</span> (), <span class="num">1</span>) <span class="keyword">AS</span> pct
+<span class="keyword">FROM</span> orders
+<span class="keyword">GROUP BY</span> order_status
+<span class="keyword">ORDER BY</span> total <span class="keyword">DESC</span>;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>order_status</th><th>total</th><th>pct %</th></tr></thead>
+      <tbody>
+        <tr><td>delivered</td><td>96,478</td><td>97.0%</td></tr>
+        <tr><td>shipped</td><td>1,107</td><td>1.1%</td></tr>
+        <tr><td>canceled</td><td>625</td><td>0.6%</td></tr>
+        <tr><td>unavailable</td><td>609</td><td>0.6%</td></tr>
+        <tr><td>invoiced</td><td>314</td><td>0.3%</td></tr>
+        <tr><td>processing</td><td>301</td><td>0.3%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step fin" id="s4" style="animation-delay:.2s">
+    <div class="step-header">
+      <div class="step-num">04</div>
+      <div class="step-info">
+        <div class="step-title">Null analysis — orders table</div>
+        <div class="step-why">Nulls in the wrong columns = data integrity exceptions</div>
+      </div>
+    </div>
+    <div class="prose"><code>COUNT(column)</code> counts only non-null rows. So <code>COUNT(*) - COUNT(col)</code> = number of nulls. This pattern replaces Excel's <code>=COUNTBLANK()</code> but works across 99K rows instantly.</div>
+    <pre><code><span class="keyword">SELECT</span>
+    <span class="fn">COUNT</span>(*)                              <span class="keyword">AS</span> total_rows,
+    <span class="fn">COUNT</span>(order_approved_at)              <span class="keyword">AS</span> has_approved,
+    <span class="fn">COUNT</span>(*) - <span class="fn">COUNT</span>(order_approved_at)   <span class="keyword">AS</span> null_approved,
+    <span class="fn">COUNT</span>(order_delivered_customer_date)  <span class="keyword">AS</span> has_delivered,
+    <span class="fn">COUNT</span>(*) - <span class="fn">COUNT</span>(order_delivered_customer_date) <span class="keyword">AS</span> null_delivered
+<span class="keyword">FROM</span> orders;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>metric</th><th>value</th></tr></thead>
+      <tbody>
+        <tr><td>total_rows</td><td>99,441</td></tr>
+        <tr><td>null_approved</td><td>160</td></tr>
+        <tr><td>null_delivered</td><td>2,965</td></tr>
+      </tbody>
+    </table>
+    <div class="section-label">Drill into null_approved — what status are they?</div>
+    <pre><code><span class="keyword">SELECT</span> order_status, <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> total
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> order_approved_at <span class="keyword">IS NULL</span>
+<span class="keyword">GROUP BY</span> order_status
+<span class="keyword">ORDER BY</span> total <span class="keyword">DESC</span>;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>order_status</th><th>total</th><th>interpretation</th></tr></thead>
+      <tbody>
+        <tr><td>canceled</td><td>141</td><td>Expected — canceled before approval</td></tr>
+        <tr><td>delivered</td><td>14</td><td>⚠ Problem — delivered with no approval record</td></tr>
+        <tr><td>created</td><td>5</td><td>Expected — pending approval</td></tr>
+      </tbody>
+    </table>
+    <div class="section-label">Investigate — inspect the 14 records directly</div>
+    <div class="prose">Finding 14 is not enough — pull the actual rows before drawing any conclusions. This query retrieves every timeline-relevant column so we can see what the records look like.</div>
+    <pre><code><span class="cmt">-- pull the actual 14 records and inspect their timestamps</span>
+<span class="keyword">SELECT</span>
+    order_id,
+    order_status,
+    order_purchase_timestamp,
+    order_approved_at,                  <span class="cmt">-- this column will be NULL for all 14 rows</span>
+    order_delivered_customer_date
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> order_approved_at <span class="keyword">IS NULL</span>
+  <span class="keyword">AND</span> order_status = <span class="str">'delivered'</span>
+<span class="keyword">ORDER BY</span> order_purchase_timestamp;     <span class="cmt">-- sort by purchase date to spot patterns</span></code></pre>
+    <div class="prose">The result is 14 rows. Scanning the <code>order_purchase_timestamp</code> column, all records appear to cluster in Jan–Feb 2017. That is an observation at this point, not a confirmed finding — the next query counts it precisely.</div>
+
+    <div class="section-label">Confirm the pattern — count by month</div>
+    <div class="prose"><code>STRFTIME</code> trims a timestamp down to year-month only, then <code>GROUP BY</code> counts how many orders fall in each month. Excel equivalent: <code>=TEXT(A2,"YYYY-MM")</code> followed by a Pivot Table on that column.</div>
+    <pre><code><span class="cmt">-- trim timestamp to year-month, then count per month</span>
+<span class="keyword">SELECT</span>
+    <span class="fn">STRFTIME</span>(order_purchase_timestamp, <span class="str">'%Y-%m'</span>) <span class="keyword">AS</span> purchase_month,
+    <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> total
+<span class="keyword">FROM</span> orders
+<span class="keyword">WHERE</span> order_approved_at <span class="keyword">IS NULL</span>
+  <span class="keyword">AND</span> order_status = <span class="str">'delivered'</span>
+<span class="keyword">GROUP BY</span> purchase_month
+<span class="keyword">ORDER BY</span> purchase_month;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>purchase_month</th><th>total</th></tr></thead>
+      <tbody>
+        <tr><td>2017-01</td><td>2</td></tr>
+        <tr><td>2017-02</td><td>12</td></tr>
+      </tbody>
+    </table>
+    <div class="prose" style="margin-top:10px;">Confirmed — all 14 records fall within just 2 months. A random error would scatter across the full 2-year dataset. Two months means a <em>systemic event</em>, not individual mistakes.</div>
+
+    <div class="finding danger">
+      <div class="finding-label">🔴 Finding — 14 delivered orders, no approval record</div>
+      <div class="finding-text">
+        All 14 records cluster in <strong>Jan–Feb 2017</strong> (2 in January, 12 in February). This is a <strong>systemic data gap</strong>, not random human error — likely a system outage or migration event in Q1 2017 that prevented approval timestamps from being recorded while fulfillment continued normally.
+        <br><br>In a real Finance audit, these would be flagged as: <em>revenue recognized with no corresponding approval event — audit trail incomplete for 14 transactions.</em>
+      </div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>SQL lesson — IS NULL vs = NULL:</strong> In SQL, <code>NULL = NULL</code> evaluates to unknown (not true), so <code>WHERE col = NULL</code> always returns zero rows. Always write <code>IS NULL</code> or <code>IS NOT NULL</code>.</div></div>
+    <div class="lesson"><div class="lesson-icon">📌</div><div class="lesson-text"><strong>Note for later review:</strong> These two queries are <em>investigative queries</em> — written to confirm a hypothesis mid-analysis, not to produce a deliverable directly. Come back to these once <code>STRFTIME</code>, <code>AND</code> conditions, and <code>GROUP BY</code> feel fully familiar.</div></div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step fin" id="s5" style="animation-delay:.22s">
+    <div class="step-header">
+      <div class="step-num">05</div>
+      <div class="step-info">
+        <div class="step-title">Payment type breakdown</div>
+        <div class="step-why">Understand how customers pay before reconciling payment amounts</div>
+      </div>
+    </div>
+    <pre><code><span class="keyword">SELECT</span>
+    payment_type,
+    <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> total_transactions,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(payment_value), <span class="num">2</span>)  <span class="keyword">AS</span> total_value,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(payment_value), <span class="num">2</span>)  <span class="keyword">AS</span> avg_value
+<span class="keyword">FROM</span> payments
+<span class="keyword">GROUP BY</span> payment_type
+<span class="keyword">ORDER BY</span> total_value <span class="keyword">DESC</span>;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>payment_type</th><th>transactions</th><th>total_value R$</th><th>avg R$</th></tr></thead>
+      <tbody>
+        <tr><td>credit_card</td><td>76,795</td><td>12,542,084</td><td>163.32</td></tr>
+        <tr><td>boleto</td><td>19,784</td><td>2,869,361</td><td>145.03</td></tr>
+        <tr><td>voucher</td><td>5,775</td><td>379,437</td><td>65.70</td></tr>
+        <tr><td>debit_card</td><td>1,529</td><td>217,990</td><td>142.57</td></tr>
+        <tr><td>not_defined</td><td>3</td><td>0.00</td><td>0.00</td></tr>
+      </tbody>
+    </table>
+    <div class="finding warn">
+      <div class="finding-label">⚠ Finding — not_defined, R$0.00</div>
+      <div class="finding-text">3 payment records with no payment type and zero value. A payment record that exists but carries no value or type is an <strong>orphan record</strong> — flag for L2 exception report.</div>
+    </div>
+    <div class="finding info">
+      <div class="finding-label">ℹ Observation — voucher avg R$65.70 vs credit_card avg R$163.32</div>
+      <div class="finding-text">Voucher average is less than half of credit card. This means vouchers are likely <strong>partial payment offsets</strong> (discount codes), not standalone payment method — important for reconciliation logic: a voucher + credit_card combination on one order must be summed together before comparing to order total.</div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step fin" id="s6" style="animation-delay:.24s">
+    <div class="step-header">
+      <div class="step-num">06</div>
+      <div class="step-info">
+        <div class="step-title">Amount mismatch — core reconciliation query</div>
+        <div class="step-why">Do what customers paid match what the order system says they owe?</div>
+      </div>
+    </div>
+    <div class="prose">This is the core O2C reconciliation question: <em>order total (items + freight) vs payment total</em>. We use CTEs (<code>WITH ... AS</code>) to pre-aggregate each table to one row per order before joining — this prevents a critical bug (see Step 07).</div>
+    <pre><code><span class="keyword">WITH</span> order_value <span class="keyword">AS</span> (
+    <span class="keyword">SELECT</span>
+        order_id,
+        <span class="fn">ROUND</span>(<span class="fn">SUM</span>(price + freight_value), <span class="num">2</span>) <span class="keyword">AS</span> order_total
+    <span class="keyword">FROM</span> items
+    <span class="keyword">GROUP BY</span> order_id
+),
+payment_value <span class="keyword">AS</span> (
+    <span class="keyword">SELECT</span>
+        order_id,
+        <span class="fn">ROUND</span>(<span class="fn">SUM</span>(payment_value), <span class="num">2</span>)   <span class="keyword">AS</span> payment_total,
+        <span class="fn">MAX</span>(payment_installments)          <span class="keyword">AS</span> installments
+    <span class="keyword">FROM</span> payments
+    <span class="keyword">GROUP BY</span> order_id
+)
+<span class="keyword">SELECT</span>
+    o.order_id,
+    ov.order_total,
+    pv.payment_total,
+    <span class="fn">ROUND</span>(ov.order_total - pv.payment_total, <span class="num">2</span>) <span class="keyword">AS</span> diff,
+    pv.installments,
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> pv.installments > <span class="num">1</span>
+         <span class="keyword">AND</span> pv.payment_total > ov.order_total <span class="keyword">THEN</span> <span class="str">'INSTALLMENT_INTEREST'</span>
+        <span class="keyword">WHEN</span> pv.payment_total < ov.order_total  <span class="keyword">THEN</span> <span class="str">'UNDERPAYMENT'</span>
+        <span class="keyword">ELSE</span> <span class="str">'OVERPAYMENT'</span>
+    <span class="keyword">END</span> <span class="keyword">AS</span> exception_type
+<span class="keyword">FROM</span> orders o
+<span class="keyword">JOIN</span> order_value   ov <span class="keyword">ON</span> o.order_id = ov.order_id
+<span class="keyword">JOIN</span> payment_value pv <span class="keyword">ON</span> o.order_id = pv.order_id
+<span class="keyword">WHERE</span> <span class="fn">ABS</span>(ov.order_total - pv.payment_total) > <span class="num">0.01</span>
+<span class="keyword">ORDER BY</span> <span class="fn">ABS</span>(diff) <span class="keyword">DESC</span>;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>exception_type</th><th>orders</th><th>total variance R$</th><th>avg variance R$</th></tr></thead>
+      <tbody>
+        <tr><td>INSTALLMENT_INTEREST</td><td>257</td><td>3,063.77</td><td>11.92</td></tr>
+        <tr><td>UNDERPAYMENT</td><td>83</td><td>199.52</td><td>2.40</td></tr>
+        <tr><td>OVERPAYMENT</td><td>29</td><td>6.59</td><td>0.23</td></tr>
+      </tbody>
+    </table>
+    <div class="finding success">
+      <div class="finding-label">✓ Interpretation</div>
+      <div class="finding-text">
+        <strong>INSTALLMENT_INTEREST (257):</strong> Expected business behavior — credit card installment fees in Brazil are charged on top of item price. Not a reconciliation error; exclude from exception report.<br><br>
+        <strong>UNDERPAYMENT (83, R$199.52):</strong> Average R$2.40 per order — likely partial voucher redemption that wasn't fully offset. Flag for Finance review, low priority.<br><br>
+        <strong>OVERPAYMENT (29, R$6.59 total):</strong> Average R$0.23 — floating-point rounding in payment processor. Below materiality threshold. Document and close.
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step fin" id="s7" style="animation-delay:.26s">
+    <div class="step-header">
+      <div class="step-num">07</div>
+      <div class="step-info">
+        <div class="step-title">Bug found: many-to-many JOIN fan-out</div>
+        <div class="step-why">What went wrong the first time, and why CTEs fix it</div>
+      </div>
+    </div>
+    <div class="prose">The first version of the amount mismatch query joined items directly to payments without pre-aggregating. The result was wildly inflated numbers — one order showed a payment of R$109,312 against an order total of R$13,664.</div>
+    <div class="finding bug">
+      <div class="finding-label">🐛 Bug — many-to-many JOIN creates row multiplication</div>
+      <div class="finding-text">
+        When an order has 3 items AND 2 payment rows, a direct JOIN creates 3×2 = <strong>6 rows</strong>.<br>
+        <code>SUM(price)</code> then counts each item price <strong>twice</strong> (once per payment row).<br>
+        <code>SUM(payment_value)</code> counts each payment <strong>three times</strong> (once per item row).<br><br>
+        <strong>Fix:</strong> Use CTEs to reduce each table to one row per <code>order_id</code> before joining. Then the join is always 1-to-1.
+      </div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Lesson:</strong> Always aggregate before joining when both sides of a JOIN can have multiple rows per key. This is called the "fan-out problem" and it's one of the most common silent data errors in SQL — the query runs without error, the numbers just look wrong. The fix is <code>WITH table AS (SELECT key, SUM(...) ... GROUP BY key)</code>.</div></div>
+  </div>
+
+  <!-- STEP 8 -->
+  <div class="step fin" id="s8" style="animation-delay:.28s">
+    <div class="step-header">
+      <div class="step-num">08</div>
+      <div class="step-info">
+        <div class="step-title">Canceled orders with payment — R$143,255</div>
+        <div class="step-why">The biggest financial exposure in the dataset</div>
+      </div>
+    </div>
+    <div class="prose">625 orders have <code>order_status = 'canceled'</code> but still carry active payment records. This means the customer paid, the order was canceled, but there is no refund or write-off in the data.</div>
+    <pre><code><span class="keyword">SELECT</span>
+    <span class="fn">COUNT</span>(<span class="keyword">DISTINCT</span> o.order_id) <span class="keyword">AS</span> canceled_with_payment,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(p.payment_value), <span class="num">2</span>) <span class="keyword">AS</span> total_at_risk,
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(p.payment_value), <span class="num">2</span>) <span class="keyword">AS</span> avg_per_order
+<span class="keyword">FROM</span> orders o
+<span class="keyword">JOIN</span> payments p <span class="keyword">ON</span> o.order_id = p.order_id
+<span class="keyword">WHERE</span> o.order_status = <span class="str">'canceled'</span>;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>metric</th><th>value</th></tr></thead>
+      <tbody>
+        <tr><td>canceled_with_payment</td><td>625</td></tr>
+        <tr><td>total_at_risk R$</td><td>143,255.60</td></tr>
+        <tr><td>avg_per_order R$</td><td>215.75</td></tr>
+      </tbody>
+    </table>
+    <div class="finding danger">
+      <div class="finding-label">🔴 Critical — R$143,255 revenue exposure</div>
+      <div class="finding-text">Every single canceled order (625 of 625) has a payment record. This is the headline finding of the entire L0 layer. In a real Finance context, each of these 625 orders needs one of three dispositions: <strong>(1) refund issued</strong>, <strong>(2) write-off approved</strong>, or <strong>(3) payment reapplied to a replacement order</strong>. None of these are recorded in the current dataset.</div>
+    </div>
+  </div>
+
+  <!-- STEP 9 -->
+  <div class="step fin" id="s9" style="animation-delay:.3s">
+    <div class="step-header">
+      <div class="step-num">09</div>
+      <div class="step-info">
+        <div class="step-title">Exception summary + problem statement</div>
+        <div class="step-why">Translate findings into business language</div>
+      </div>
+    </div>
+    <table class="result-table">
+      <thead><tr><th>priority</th><th>exception</th><th>count</th><th>financial exposure</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge hi">HIGH</span></td><td>Canceled orders retaining payment</td><td>625</td><td>R$143,255</td></tr>
+        <tr><td><span class="badge med">MED</span></td><td>Underpayment</td><td>83</td><td>R$199.52</td></tr>
+        <tr><td><span class="badge med">MED</span></td><td>Orders with no item records</td><td>775</td><td>unknown</td></tr>
+        <tr><td><span class="badge med">MED</span></td><td>Approval gap Q1 2017</td><td>14</td><td>audit risk</td></tr>
+        <tr><td><span class="badge lo">LOW</span></td><td>Overpayment (rounding)</td><td>29</td><td>R$6.59</td></tr>
+        <tr><td><span class="badge ok">EXP</span></td><td>Installment interest</td><td>257</td><td>expected behavior</td></tr>
+      </tbody>
+    </table>
+    <div class="section-label">Problem statement (L0 deliverable)</div>
+    <div class="finding success">
+      <div class="finding-label">Context</div>
+      <div class="finding-text">Olist marketplace processes 99,441 orders across four payment types over a 2-year period (2016–2018), totaling R$16,008,872.</div>
+    </div>
+    <div class="finding danger">
+      <div class="finding-label">Problem</div>
+      <div class="finding-text">Manual reconciliation between order records and payment settlements cannot detect exceptions at scale. SQL analysis identified R$143,255 of collected payments on 625 canceled orders with no refund or write-off record, 775 orders with missing item records, and a systemic data gap affecting 14 delivered orders in Q1 2017.</div>
+    </div>
+    <div class="finding warn">
+      <div class="finding-label">Impact</div>
+      <div class="finding-text">R$143,455 total material exposure. Manual reconciliation estimated at 2–3 business days per monthly close cycle. Exceptions discovered late increase refund processing cost and audit risk.</div>
+    </div>
+    <div class="finding info">
+      <div class="finding-label">Objective</div>
+      <div class="finding-text">Design an automated O2C reconciliation system achieving ≥95% match rate on order-to-payment reconciliation, classifying exceptions by type and severity, and flagging material items for Finance review by T+1.</div>
+    </div>
+    <div class="summary-grid">
+      <div class="sum-chip"><strong>99,441</strong> orders profiled across 7 relational tables<div class="meta">Actual · Olist public dataset 2016–2018</div></div>
+      <div class="sum-chip"><strong>R$143,255</strong> revenue exposure identified from canceled orders<div class="meta">Actual · SQL query · canceled + payment records</div></div>
+      <div class="sum-chip"><strong>5</strong> exception categories classified by severity<div class="meta">Actual · DuckDB reconciliation queries</div></div>
+      <div class="sum-chip"><strong>1 bug</strong> found and fixed — many-to-many JOIN fan-out<div class="meta">Actual · CTE pre-aggregation pattern applied</div></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer fin" style="animation-delay:.32s">
+    <div class="footer-text">O2C Reconciliation Modernization · Self-directed case study · Public/synthetic data only · Arthunya Kanoklertwongse</div>
+    <div class="footer-nav">
+      <a href="index.html" class="fnav-btn">← Back to portfolio</a>
+      <a href="#" class="fnav-btn primary">L1 — Process Mapping →</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
