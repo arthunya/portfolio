@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L1 — Process Mapping · O2C Reconciliation · Arthunya</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#06060A; --panel:#0E0E18; --card:#141420; --hover:#1A1A2E;
+  --border:rgba(255,255,255,0.06); --border-hi:rgba(37,99,235,0.3);
+  --text:#F0F2F8; --sub:#A8B0C8; --muted:#6B7290;
+  --blue:#3B82F6; --cyan:#22D3EE; --green:#10B981;
+  --amber:#F59E0B; --red:#F43F5E; --purple:#8B5CF6;
+}
+.lm {
+  --bg:#F8F9FC; --panel:#FFFFFF; --card:#F1F3F9; --hover:#E8EBF4;
+  --border:rgba(15,23,42,0.08); --border-hi:rgba(37,99,235,0.2);
+  --text:#0F172A; --sub:#475569; --muted:#94A3B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+.shell{max-width:860px;margin:0 auto;padding:20px 20px 60px;}
+
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:24px;position:relative;overflow:hidden;}
+.topnav::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--green));opacity:.5;}
+.back-link{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--sub);transition:color .2s;}
+.back-link:hover{color:var(--blue);text-decoration:none;}
+.theme-btn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .2s;}
+.theme-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);}
+
+.hero{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px 28px 24px;margin-bottom:24px;}
+.layer-badge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--green);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:999px;padding:4px 14px;margin-bottom:14px;}
+.layer-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.85)}}
+.hero-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;background:linear-gradient(135deg,var(--text),var(--sub));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:13.5px;color:var(--sub);margin-bottom:18px;line-height:1.6;}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(59,130,246,.06);color:var(--blue);border:1px solid rgba(59,130,246,.1);}
+
+.layer-nav{display:flex;gap:5px;margin-bottom:24px;}
+.lnav-pip{flex:1;border-radius:8px;padding:8px 4px;text-align:center;border:1px solid var(--border);background:var(--panel);font-family:'JetBrains Mono',monospace;transition:all .2s;cursor:default;text-decoration:none;display:block;}
+.lnav-pip.done{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.28);}
+.lnav-pip.active{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.35);}
+.lnav-pip-id{font-size:10px;font-weight:700;margin-bottom:2px;}
+.lnav-pip.done .lnav-pip-id{color:var(--green);}
+.lnav-pip.active .lnav-pip-id{color:var(--blue);}
+.lnav-pip.pending .lnav-pip-id{color:var(--muted);}
+.lnav-pip-name{font-size:9px;color:var(--muted);}
+.lnav-pip.active .lnav-pip-name{color:var(--blue);}
+
+.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:28px;}
+.toc-title{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.toc-title::before{content:'';width:14px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:1px;}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.toc-list li a{font-size:13px;color:var(--sub);display:flex;align-items:center;gap:8px;transition:color .2s;}
+.toc-list li a:hover{color:var(--blue);text-decoration:none;}
+.toc-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:24px;}
+.toc-status{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;margin-left:auto;}
+.toc-status.done{background:rgba(16,185,129,.08);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.toc-status.find{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+
+.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;transition:border-color .3s;}
+.step:hover{border-color:var(--border-hi);}
+.step-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue);background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:4px 10px;flex-shrink:0;margin-top:2px;}
+.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.step-why{font-size:12px;color:var(--muted);font-style:italic;}
+.prose{font-size:13.5px;color:var(--sub);line-height:1.8;margin-bottom:10px;}
+.prose strong{color:var(--text);font-weight:600;}
+
+.finding{border-radius:10px;padding:14px 16px;margin:12px 0;border-left:3px solid;}
+.finding.info{background:rgba(59,130,246,.06);border-color:var(--blue);}
+.finding.warn{background:rgba(245,158,11,.06);border-color:var(--amber);}
+.finding.danger{background:rgba(244,63,94,.06);border-color:var(--red);}
+.finding-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.finding.info .finding-label{color:var(--blue);}
+.finding.warn .finding-label{color:var(--amber);}
+.finding.danger .finding-label{color:var(--red);}
+.finding-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.finding-text strong{color:var(--text);}
+
+.result-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:12px 0;}
+.result-table th{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
+.result-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--sub);}
+.result-table tr:last-child td{border-bottom:none;}
+
+.summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0;}
+.sum-chip{background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(6,182,212,.03));border:1px solid rgba(59,130,246,.1);border-radius:10px;padding:14px;font-size:12px;color:var(--sub);}
+.sum-chip strong{color:var(--text);font-weight:700;font-size:18px;display:block;margin-bottom:3px;font-family:'JetBrains Mono',monospace;}
+
+.lesson{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0;display:flex;gap:12px;align-items:flex-start;}
+.lesson-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.lesson-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.lesson-text strong{color:var(--text);}
+
+.diagram-box{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;margin:12px 0;}
+
+.footer{text-align:center;padding:28px 0 0;border-top:1px solid var(--border);margin-top:32px;}
+.footer-text{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.footer-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.fnav-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--sub);text-decoration:none;transition:all .2s;}
+.fnav-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.04);}
+.fnav-btn.primary{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.06);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fin{animation:fadeUp .5s cubic-bezier(.4,0,.2,1) forwards;opacity:0;}
+@media (max-width:640px){.summary-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- NAV -->
+  <div class="topnav fin">
+    <a href="index.html" class="back-link" style="text-decoration:none;">← Back to portfolio</a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">O2C Reconciliation Modernization</span>
+      <button class="theme-btn" onclick="document.body.classList.toggle('lm');this.textContent=document.body.classList.contains('lm')?'🌙 dark':'☀️ light'">☀️ light</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero fin" style="animation-delay:.05s">
+    <div class="layer-badge"><span class="dot"></span> L1 — Complete</div>
+    <div class="hero-title">Process Mapping — the Plain-English Version</div>
+    <div class="hero-sub">L0 found where money and data get lost inside 99,441 orders. This layer turns those SQL findings into a picture — no finance or operations background required to follow it.</div>
+    <div class="hero-meta">
+      <span class="meta-chip">🎯 Goal: findings → process picture</span>
+      <span class="meta-chip">🛠 Method: plain-language flow + Lucidchart BPMN spec</span>
+      <span class="meta-chip">📅 Completed: Jul 2026</span>
+    </div>
+  </div>
+
+  <!-- LAYER PROGRESS -->
+  <div class="layer-nav fin" style="animation-delay:.1s">
+    <a href="l0-discovery.html" class="lnav-pip done"><div class="lnav-pip-id">L0</div><div class="lnav-pip-name">Discovery</div></a>
+    <div class="lnav-pip done"><div class="lnav-pip-id">L1</div><div class="lnav-pip-name">Process map</div></div>
+    <div class="lnav-pip active"><div class="lnav-pip-id">L2</div><div class="lnav-pip-name">Data + SQL</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L3</div><div class="lnav-pip-name">Dashboard</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L4</div><div class="lnav-pip-name">AI use cases</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L5</div><div class="lnav-pip-name">ROI + controls</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L6</div><div class="lnav-pip-name">UAT + closure</div></div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc fin" style="animation-delay:.14s">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span> The four stages every order goes through <span class="toc-status done">done</span></a></li>
+      <li><a href="#s2"><span class="toc-num">02</span> Where the money currently leaks <span class="toc-status find">finding</span></a></li>
+      <li><a href="#s3"><span class="toc-num">03</span> The fix — what changes <span class="toc-status done">done</span></a></li>
+      <li><a href="#s4"><span class="toc-num">04</span> At a glance <span class="toc-status done">done</span></a></li>
+    </ul>
+  </div>
+
+  <!-- STEP 01 -->
+  <div class="step fin" id="s1" style="animation-delay:.18s">
+    <div class="step-header">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-title">The four stages every order goes through</div>
+        <div class="step-why">Strip away the internal system jargon — this is what actually happens</div>
+      </div>
+    </div>
+    <div class="prose">Every online order — at Olist, or anywhere — moves through the same four stages, regardless of which team or system owns each one.</div>
+
+    <div class="diagram-box">
+    <svg width="100%" viewBox="0 0 1000 226" role="img">
+      <title>Four stages of an order, as-is</title>
+      <desc>You order, payment goes through, it ships, money settles — with three warning flags placed where L0 found problems.</desc>
+      <defs>
+        <marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round"/>
+        </marker>
+      </defs>
+      <g>
+        <rect x="40" y="30" width="190" height="90" rx="14" fill="var(--card)" stroke="var(--border)"/>
+        <text x="135" y="60" text-anchor="middle" font-size="20">🛒</text>
+        <text x="135" y="86" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text)">You order</text>
+        <text x="135" y="104" text-anchor="middle" font-size="11" fill="var(--sub)">Customer</text>
+      </g>
+      <g>
+        <rect x="283" y="30" width="190" height="90" rx="14" fill="var(--card)" stroke="var(--border)"/>
+        <text x="378" y="60" text-anchor="middle" font-size="20">💳</text>
+        <text x="378" y="86" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text)">Payment goes through</text>
+        <text x="378" y="104" text-anchor="middle" font-size="11" fill="var(--sub)">Processor</text>
+      </g>
+      <g>
+        <rect x="526" y="30" width="190" height="90" rx="14" fill="var(--card)" stroke="var(--border)"/>
+        <text x="621" y="60" text-anchor="middle" font-size="20">📦</text>
+        <text x="621" y="86" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text)">It ships to you</text>
+        <text x="621" y="104" text-anchor="middle" font-size="11" fill="var(--sub)">Order system</text>
+      </g>
+      <g>
+        <rect x="769" y="30" width="190" height="90" rx="14" fill="var(--card)" stroke="var(--border)"/>
+        <text x="864" y="60" text-anchor="middle" font-size="20">💰</text>
+        <text x="864" y="86" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text)">Money settles</text>
+        <text x="864" y="104" text-anchor="middle" font-size="11" fill="var(--sub)">Finance</text>
+      </g>
+      <line x1="230" y1="75" x2="283" y2="75" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a1)"/>
+      <line x1="473" y1="75" x2="526" y2="75" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a1)"/>
+      <line x1="716" y1="75" x2="769" y2="75" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a1)"/>
+
+      <line x1="378" y1="120" x2="180" y2="150" stroke="var(--red)" stroke-width="1" stroke-dasharray="3 3"/>
+      <rect x="40" y="150" width="280" height="56" rx="10" fill="rgba(244,63,94,0.08)" stroke="rgba(244,63,94,0.3)"/>
+      <text x="180" y="174" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--red)">625 canceled orders</text>
+      <text x="180" y="192" text-anchor="middle" font-size="10" fill="var(--sub)">kept the money — R$143,255</text>
+
+      <line x1="500" y1="120" x2="500" y2="150" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 3"/>
+      <rect x="360" y="150" width="280" height="56" rx="10" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.3)"/>
+      <text x="500" y="174" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--amber)">14 orders approved late</text>
+      <text x="500" y="192" text-anchor="middle" font-size="10" fill="var(--sub)">all in Jan–Feb 2017</text>
+
+      <line x1="621" y1="120" x2="820" y2="150" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 3"/>
+      <rect x="680" y="150" width="280" height="56" rx="10" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.3)"/>
+      <text x="820" y="174" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--amber)">775 orders</text>
+      <text x="820" y="192" text-anchor="middle" font-size="10" fill="var(--sub)">no record of what shipped</text>
+    </svg>
+    </div>
+
+    <div class="lesson">
+      <span class="lesson-icon">💡</span>
+      <span class="lesson-text">The technical name for this kind of picture is a <strong>BPMN swimlane diagram</strong> — each stage sits in a lane owned by a different team or system. You don't need to remember the name, just the four boxes and the three flags. The full 8-step technical version (split by system event, for writing SQL exception queries) lives in the Lucidchart spec used for L2.</span>
+    </div>
+  </div>
+
+  <!-- STEP 02 -->
+  <div class="step fin" id="s2" style="animation-delay:.22s">
+    <div class="step-header">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-title">Where the money currently leaks</div>
+        <div class="step-why">Straight from the L0 SQL findings — no sampling, no estimation</div>
+      </div>
+    </div>
+
+    <div class="finding danger">
+      <div class="finding-label">🔴 Biggest leak</div>
+      <div class="finding-text">625 orders were canceled, but the money was never given back. <strong>R$143,255</strong> is sitting in limbo — nobody in the current process decided whether to refund it, write it off, or apply it to a replacement order.</div>
+    </div>
+    <div class="finding warn">
+      <div class="finding-label">⚠ Data gap</div>
+      <div class="finding-text">775 orders have no record of what actually shipped. If a customer disputes what they received, there's nothing in the system to check it against.</div>
+    </div>
+    <div class="finding warn">
+      <div class="finding-label">⚠ System event</div>
+      <div class="finding-text">14 orders were marked "delivered" without ever being formally approved. All 14 cluster in a two-month window (Jan–Feb 2017) — that pattern points to a system outage, not 14 separate human mistakes.</div>
+    </div>
+  </div>
+
+  <!-- STEP 03 -->
+  <div class="step fin" id="s3" style="animation-delay:.26s">
+    <div class="step-header">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-title">The fix — what changes</div>
+        <div class="step-why">A computer checks every order; a person only reviews what doesn't add up</div>
+      </div>
+    </div>
+    <div class="prose">None of this needs a person checking every order. It needs a computer to check every order, and a person to look only at the ones that don't add up.</div>
+
+    <div class="diagram-box">
+    <svg width="100%" viewBox="0 0 1000 260" role="img">
+      <title>Four stages of an order, to-be</title>
+      <desc>The first two stages stay the same. After payment settles, three new automated steps replace manual reconciliation, ending in a daily report only for flagged orders.</desc>
+      <defs>
+        <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="var(--muted)" stroke-width="1.5" stroke-linecap="round"/>
+        </marker>
+      </defs>
+      <rect x="60" y="30" width="380" height="80" rx="14" fill="var(--card)" stroke="var(--border)"/>
+      <text x="250" y="65" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text)">Order placed → ships to you</text>
+      <text x="250" y="85" text-anchor="middle" font-size="11" fill="var(--sub)">Unchanged from today</text>
+
+      <rect x="560" y="30" width="380" height="80" rx="14" fill="var(--card)" stroke="var(--border)"/>
+      <text x="750" y="65" text-anchor="middle" font-size="13" font-weight="600" fill="var(--text)">Money settles</text>
+      <text x="750" y="85" text-anchor="middle" font-size="11" fill="var(--sub)">Processor</text>
+
+      <line x1="440" y1="70" x2="560" y2="70" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a2)"/>
+      <path d="M750 110 L750 140 L172 140 L172 165" fill="none" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a2)"/>
+
+      <rect x="60" y="165" width="224" height="76" rx="12" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.3)"/>
+      <text x="172" y="196" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--green)">Computer checks the numbers</text>
+      <text x="172" y="214" text-anchor="middle" font-size="10.5" fill="var(--sub)">Order total vs payment total</text>
+
+      <line x1="284" y1="203" x2="316" y2="203" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a2)"/>
+      <rect x="316" y="165" width="224" height="76" rx="12" fill="rgba(16,185,129,0.08)" stroke="rgba(16,185,129,0.3)"/>
+      <text x="428" y="196" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--green)">Sorts by problem type</text>
+      <text x="428" y="214" text-anchor="middle" font-size="10.5" fill="var(--sub)">Canceled, missing, underpaid...</text>
+
+      <line x1="540" y1="203" x2="572" y2="203" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a2)"/>
+      <rect x="572" y="165" width="224" height="76" rx="12" fill="rgba(244,63,94,0.08)" stroke="rgba(244,63,94,0.3)"/>
+      <text x="684" y="196" text-anchor="middle" font-size="12.5" font-weight="600" fill="var(--red)">Person reviews the flagged ones</text>
+      <text x="684" y="214" text-anchor="middle" font-size="10.5" fill="var(--sub)">~0.7% of orders, not 100%</text>
+
+      <line x1="796" y1="203" x2="828" y2="203" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a2)"/>
+      <rect x="828" y="165" width="112" height="76" rx="12" fill="var(--card)" stroke="var(--border)"/>
+      <text x="884" y="196" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text)">Daily report</text>
+      <text x="884" y="214" text-anchor="middle" font-size="10" fill="var(--sub)">Next morning</text>
+    </svg>
+    </div>
+
+    <table class="result-table">
+      <tr><th>Today</th><th>After the fix</th></tr>
+      <tr><td>Someone finds problems only when they go looking, usually weeks later</td><td>Problems surface automatically the day they happen</td></tr>
+      <tr><td>Every order gets treated the same, whether it's fine or not</td><td>Only the ~0.7% of orders that don't add up need a human look</td></tr>
+      <tr><td>No consistent label for what kind of problem it is</td><td>Every flagged order comes pre-sorted: canceled-but-paid, missing shipment, underpaid, etc.</td></tr>
+    </table>
+  </div>
+
+  <!-- STEP 04 -->
+  <div class="step fin" id="s4" style="animation-delay:.3s">
+    <div class="step-header">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-title">At a glance</div>
+        <div class="step-why">The technical BPMN version (8 steps, 2 lanes) lives in the Lucidchart spec for L2</div>
+      </div>
+    </div>
+    <div class="summary-grid">
+      <div class="sum-chip"><strong>4</strong>plain-language stages mapped to the real process</div>
+      <div class="sum-chip"><strong>3</strong>leak points pinpointed from L0 findings</div>
+      <div class="sum-chip"><strong>~0.7%</strong>of orders would need human review under the fix</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer fin" style="animation-delay:.34s">
+    <div class="footer-text">O2C Reconciliation Modernization · Self-directed case study · Public/synthetic data only · Arthunya Kanoklertwongse</div>
+    <div class="footer-nav">
+      <a href="l0-discovery.html" class="fnav-btn">← L0 — Data Discovery</a>
+      <a href="index.html" class="fnav-btn">Back to portfolio</a>
+      <a href="#" class="fnav-btn primary">L2 — Data + SQL →</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
