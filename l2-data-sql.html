@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L2 — Data + SQL · O2C Reconciliation · Arthunya</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#06060A; --panel:#0E0E18; --card:#141420; --hover:#1A1A2E;
+  --border:rgba(255,255,255,0.06); --border-hi:rgba(37,99,235,0.3);
+  --text:#F0F2F8; --sub:#A8B0C8; --muted:#6B7290;
+  --blue:#3B82F6; --cyan:#22D3EE; --green:#10B981;
+  --amber:#F59E0B; --red:#F43F5E; --purple:#8B5CF6;
+}
+.lm {
+  --bg:#F8F9FC; --panel:#FFFFFF; --card:#F1F3F9; --hover:#E8EBF4;
+  --border:rgba(15,23,42,0.08); --border-hi:rgba(37,99,235,0.2);
+  --text:#0F172A; --sub:#475569; --muted:#94A3B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{font-family:'JetBrains Mono',monospace;font-size:.88em;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.12);border-radius:5px;padding:2px 6px;color:var(--cyan);}
+pre{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;overflow-x:auto;margin:14px 0;}
+pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);line-height:1.8;}
+.keyword{color:#7DD3FC;}
+.fn{color:#86EFAC;}
+.str{color:#FDE68A;}
+.cmt{color:#6B7290;font-style:italic;}
+.num{color:#F9A8D4;}
+
+/* LAYOUT */
+.shell{max-width:860px;margin:0 auto;padding:20px 20px 60px;}
+
+/* TOP NAV */
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:24px;position:relative;overflow:hidden;}
+.topnav::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--green));opacity:.5;}
+.back-link{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--sub);transition:color .2s;}
+.back-link:hover{color:var(--blue);text-decoration:none;}
+.theme-btn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .2s;}
+.theme-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);}
+
+/* HERO */
+.hero{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px 28px 24px;margin-bottom:24px;}
+.layer-badge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--green);background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:999px;padding:4px 14px;margin-bottom:14px;}
+.layer-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.85)}}
+.hero-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;background:linear-gradient(135deg,var(--text),var(--sub));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:13.5px;color:var(--sub);margin-bottom:18px;line-height:1.6;}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(59,130,246,.06);color:var(--blue);border:1px solid rgba(59,130,246,.1);}
+
+/* LAYER PROGRESS */
+.layer-nav{display:flex;gap:5px;margin-bottom:24px;}
+.lnav-pip{flex:1;border-radius:8px;padding:8px 4px;text-align:center;border:1px solid var(--border);background:var(--panel);font-family:'JetBrains Mono',monospace;transition:all .2s;cursor:default;text-decoration:none;display:block;}
+.lnav-pip.done{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.28);}
+.lnav-pip.active{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.35);}
+.lnav-pip-id{font-size:10px;font-weight:700;margin-bottom:2px;}
+.lnav-pip.done .lnav-pip-id{color:var(--green);}
+.lnav-pip.active .lnav-pip-id{color:var(--blue);}
+.lnav-pip.pending .lnav-pip-id{color:var(--muted);}
+.lnav-pip-name{font-size:9px;color:var(--muted);}
+.lnav-pip.active .lnav-pip-name{color:var(--blue);}
+
+/* TOC */
+.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:28px;}
+.toc-title{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.toc-title::before{content:'';width:14px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:1px;}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.toc-list li a{font-size:13px;color:var(--sub);display:flex;align-items:center;gap:8px;transition:color .2s;}
+.toc-list li a:hover{color:var(--blue);text-decoration:none;}
+.toc-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:24px;}
+.toc-status{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;margin-left:auto;}
+.toc-status.done{background:rgba(16,185,129,.08);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.toc-status.find{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+
+/* STEPS */
+.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;transition:border-color .3s;}
+.step:hover{border-color:var(--border-hi);}
+.step-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue);background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:4px 10px;flex-shrink:0;margin-top:2px;}
+.step-info{}
+.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.step-why{font-size:12px;color:var(--muted);font-style:italic;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 8px;display:flex;align-items:center;gap:6px;}
+.section-label::before{content:'';width:10px;height:1.5px;background:var(--blue);border-radius:1px;opacity:.5;}
+.prose{font-size:13.5px;color:var(--sub);line-height:1.8;margin-bottom:10px;}
+.prose strong{color:var(--text);font-weight:600;}
+.prose em{color:var(--blue);font-style:normal;}
+
+/* FINDING BOXES */
+.finding{border-radius:10px;padding:14px 16px;margin:12px 0;border-left:3px solid;}
+.finding.info{background:rgba(59,130,246,.06);border-color:var(--blue);}
+.finding.warn{background:rgba(245,158,11,.06);border-color:var(--amber);}
+.finding.danger{background:rgba(244,63,94,.06);border-color:var(--red);}
+.finding.success{background:rgba(16,185,129,.06);border-color:var(--green);}
+.finding.bug{background:rgba(139,92,246,.06);border-color:var(--purple);}
+.finding-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.finding.info .finding-label{color:var(--blue);}
+.finding.warn .finding-label{color:var(--amber);}
+.finding.danger .finding-label{color:var(--red);}
+.finding.success .finding-label{color:var(--green);}
+.finding.bug .finding-label{color:var(--purple);}
+.finding-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.finding-text strong{color:var(--text);}
+
+/* RESULT TABLE */
+.result-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:12px 0;}
+.result-table th{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
+.result-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--sub);}
+.result-table tr:last-child td{border-bottom:none;}
+.result-table td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:5px;font-weight:600;}
+.badge.hi{background:rgba(244,63,94,.1);color:var(--red);border:1px solid rgba(244,63,94,.2);}
+.badge.med{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+.badge.lo{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.badge.ok{background:rgba(107,114,144,.1);color:var(--muted);border:1px solid rgba(107,114,144,.2);}
+
+/* SUMMARY */
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0;}
+.sum-chip{background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(6,182,212,.03));border:1px solid rgba(59,130,246,.1);border-radius:10px;padding:14px;font-size:12px;color:var(--sub);}
+.sum-chip strong{color:var(--text);font-weight:700;font-size:13.5px;display:block;margin-bottom:3px;}
+.sum-chip .meta{font-size:10px;color:var(--muted);margin-top:5px;font-family:'JetBrains Mono',monospace;}
+
+/* LESSON */
+.lesson{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0;display:flex;gap:12px;align-items:flex-start;}
+.lesson-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.lesson-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.lesson-text strong{color:var(--text);}
+
+/* FOOTER */
+.footer{text-align:center;padding:28px 0 0;border-top:1px solid var(--border);margin-top:32px;}
+.footer-text{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.footer-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.fnav-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--sub);text-decoration:none;transition:all .2s;}
+.fnav-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.04);}
+.fnav-btn.primary{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.06);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fin{animation:fadeUp .5s cubic-bezier(.4,0,.2,1) forwards;opacity:0;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- NAV -->
+  <div class="topnav fin">
+    <a href="index.html" class="back-link" style="text-decoration:none;">
+      ← Back to portfolio
+    </a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">O2C Reconciliation Modernization</span>
+      <button class="theme-btn" onclick="document.body.classList.toggle('lm');this.textContent=document.body.classList.contains('lm')?'🌙 dark':'☀️ light'">☀️ light</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero fin" style="animation-delay:.05s">
+    <div class="layer-badge"><span class="dot"></span> L2 — Complete</div>
+    <div class="hero-title">Data + SQL — Reconciliation Engine</div>
+    <div class="hero-sub">Turn L1's To-Be process design (match → classify → flag) into working SQL. Three chained queries automate what a Finance analyst would otherwise do manually every close cycle.</div>
+    <div class="hero-meta">
+      <span class="meta-chip">📂 Dataset: Olist Brazilian E-Commerce</span>
+      <span class="meta-chip">🛠 Tool: DuckDB + DBeaver</span>
+      <span class="meta-chip">📅 Completed: Jul 2026</span>
+      <span class="meta-chip">🎯 Target: ≥95% match rate</span>
+    </div>
+  </div>
+
+  <!-- LAYER PROGRESS -->
+  <div class="layer-nav fin" style="animation-delay:.1s">
+    <a href="l0-discovery.html" class="lnav-pip done"><div class="lnav-pip-id">L0</div><div class="lnav-pip-name">Discovery</div></a>
+    <a href="l1-process-mapping.html" class="lnav-pip done"><div class="lnav-pip-id">L1</div><div class="lnav-pip-name">Process map</div></a>
+    <div class="lnav-pip done"><div class="lnav-pip-id">L2</div><div class="lnav-pip-name">Data + SQL</div></div>
+    <div class="lnav-pip active"><div class="lnav-pip-id">L3</div><div class="lnav-pip-name">Dashboard</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L4</div><div class="lnav-pip-name">AI use cases</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L5</div><div class="lnav-pip-name">ROI + controls</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L6</div><div class="lnav-pip-name">UAT + closure</div></div>
+  </div>
+
+  <!-- TOC -->
+  <div class="toc fin" style="animation-delay:.12s">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span>Query 1 — Auto match<span class="toc-status done">done</span></a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>Query 2 — Auto classify<span class="toc-status done">done</span></a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>Bug found: CASE WHEN priority order<span class="toc-status find">finding</span></a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>Bug found: reusing "diff" for the wrong question<span class="toc-status find">finding</span></a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>Query 3 — Exception summary + severity<span class="toc-status done">done</span></a></li>
+      <li><a href="#s6"><span class="toc-num">06</span>Reconciling L2 against L0's original numbers<span class="toc-status find">finding</span></a></li>
+      <li><a href="#s7"><span class="toc-num">07</span>Results + handoff to L3<span class="toc-status done">done</span></a></li>
+    </ul>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step fin" id="s1" style="animation-delay:.14s">
+    <div class="step-header">
+      <div class="step-num">01</div>
+      <div class="step-info">
+        <div class="step-title">Query 1 — Auto match</div>
+        <div class="step-why">Does what the customer paid match what the order system says they owe?</div>
+      </div>
+    </div>
+    <div class="prose">Pre-aggregate <code>items</code> and <code>payments</code> to one row per <code>order_id</code> using the CTE pattern from L0 (prevents the fan-out bug found there), then <code>LEFT JOIN</code> from <code>orders</code> so every order survives — even ones missing items or payments entirely.</div>
+    <pre><code><span class="keyword">CREATE OR REPLACE TABLE</span> l2_auto_match <span class="keyword">AS</span>
+<span class="keyword">WITH</span> order_value <span class="keyword">AS</span> (
+    <span class="keyword">SELECT</span> order_id, <span class="fn">ROUND</span>(<span class="fn">SUM</span>(price + freight_value), <span class="num">2</span>) <span class="keyword">AS</span> order_total
+    <span class="keyword">FROM</span> items <span class="keyword">GROUP BY</span> order_id
+),
+payment_value <span class="keyword">AS</span> (
+    <span class="keyword">SELECT</span> order_id, <span class="fn">ROUND</span>(<span class="fn">SUM</span>(payment_value), <span class="num">2</span>) <span class="keyword">AS</span> payment_total,
+           <span class="fn">MAX</span>(payment_installments) <span class="keyword">AS</span> installments
+    <span class="keyword">FROM</span> payments <span class="keyword">GROUP BY</span> order_id
+)
+<span class="keyword">SELECT</span>
+    o.order_id, o.order_status, o.order_approved_at,
+    ov.order_total, pv.payment_total, pv.installments,
+    <span class="fn">ROUND</span>(<span class="fn">COALESCE</span>(pv.payment_total, <span class="num">0</span>) - <span class="fn">COALESCE</span>(ov.order_total, <span class="num">0</span>), <span class="num">2</span>) <span class="keyword">AS</span> diff,
+    <span class="keyword">CASE WHEN</span> <span class="fn">ABS</span>(<span class="fn">COALESCE</span>(pv.payment_total, <span class="num">0</span>) - <span class="fn">COALESCE</span>(ov.order_total, <span class="num">0</span>)) &lt;= <span class="num">0.01</span>
+         <span class="keyword">THEN</span> <span class="str">'MATCH'</span> <span class="keyword">ELSE</span> <span class="str">'MISMATCH'</span> <span class="keyword">END</span> <span class="keyword">AS</span> match_status
+<span class="keyword">FROM</span> orders o
+<span class="keyword">LEFT JOIN</span> order_value   ov <span class="keyword">ON</span> o.order_id = ov.order_id
+<span class="keyword">LEFT JOIN</span> payment_value pv <span class="keyword">ON</span> o.order_id = pv.order_id;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>match_status</th><th>orders</th></tr></thead>
+      <tbody>
+        <tr><td>MATCH</td><td>98,299</td></tr>
+        <tr><td>MISMATCH</td><td>1,142</td></tr>
+      </tbody>
+    </table>
+    <div class="finding info">
+      <div class="finding-label">Why LEFT JOIN, not JOIN</div>
+      <div class="finding-text"><code>JOIN</code> (inner) silently drops any order with no matching item or payment row — the exact kind of gap that matters most in reconciliation. <code>LEFT JOIN</code> + <code>COALESCE(x, 0)</code> keeps every one of the 99,441 orders and turns "no data" into a real, calculable exception instead of a missing row.</div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Trick:</strong> LEFT JOIN keeps every row from the main table even when the other side is empty. COALESCE fills that empty side with 0 so the math still works. The two always travel together in a reconciliation query.</div></div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step fin" id="s2" style="animation-delay:.16s">
+    <div class="step-header">
+      <div class="step-num">02</div>
+      <div class="step-info">
+        <div class="step-title">Query 2 — Auto classify</div>
+        <div class="step-why">Sort the 1,142 mismatches into the exception types Finance actually needs to act on</div>
+      </div>
+    </div>
+    <div class="prose">Built on top of <code>l2_auto_match</code>. A single <code>CASE WHEN</code> assigns exactly one <code>exception_type</code> per order across 6 categories plus a normal "OK" state.</div>
+    <pre><code><span class="keyword">CREATE OR REPLACE TABLE</span> l2_exception_classified <span class="keyword">AS</span>
+<span class="keyword">SELECT</span> *,
+    <span class="keyword">CASE</span>
+        <span class="keyword">WHEN</span> order_status = <span class="str">'canceled'</span> <span class="keyword">AND</span> payment_total &gt; <span class="num">0</span> <span class="keyword">THEN</span> <span class="str">'CANCELED_WITH_PAYMENT'</span>
+        <span class="keyword">WHEN</span> order_approved_at <span class="keyword">IS NULL AND</span> order_status = <span class="str">'delivered'</span> <span class="keyword">THEN</span> <span class="str">'APPROVAL_GAP'</span>
+        <span class="keyword">WHEN</span> order_total <span class="keyword">IS NULL THEN</span> <span class="str">'MISSING_ITEMS'</span>
+        <span class="keyword">WHEN</span> match_status = <span class="str">'MATCH'</span> <span class="keyword">THEN</span> <span class="str">'OK'</span>
+        <span class="keyword">WHEN</span> installments &gt; <span class="num">1</span> <span class="keyword">AND</span> payment_total &gt; order_total <span class="keyword">THEN</span> <span class="str">'INSTALLMENT_INTEREST'</span>
+        <span class="keyword">WHEN</span> payment_total &lt; order_total <span class="keyword">THEN</span> <span class="str">'UNDERPAYMENT'</span>
+        <span class="keyword">ELSE</span> <span class="str">'OVERPAYMENT'</span>
+    <span class="keyword">END AS</span> exception_type
+<span class="keyword">FROM</span> l2_auto_match;</code></pre>
+    <div class="prose">First attempt returned only 2 orders for <code>CANCELED_WITH_PAYMENT</code> — L0 had documented 625. See Step 03 for what went wrong and why.</div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step fin" id="s3" style="animation-delay:.18s">
+    <div class="step-header">
+      <div class="step-num">03</div>
+      <div class="step-info">
+        <div class="step-title">Bug found: CASE WHEN priority order</div>
+        <div class="step-why">CASE WHEN behaves like if/elif, not a set of independent ifs</div>
+      </div>
+    </div>
+    <div class="prose">Most canceled orders also have no item records at all — <code>order_total</code> is <code>NULL</code>. Checking <code>MISSING_ITEMS</code> before <code>CANCELED_WITH_PAYMENT</code> meant those orders were claimed by the first branch and never reached the canceled-order check.</div>
+    <div class="finding bug">
+      <div class="finding-label">🐛 Bug — wrong branch order in CASE WHEN</div>
+      <div class="finding-text">
+        <code>CASE WHEN</code> stops at the <strong>first</strong> condition that evaluates true — it does not check every condition. Once a row matches <code>order_total IS NULL</code>, it is locked into <code>MISSING_ITEMS</code> even if it also satisfies <code>order_status = 'canceled'</code>.<br><br>
+        <strong>Fix:</strong> reorder branches so business-status flags (canceled, approval gap) — which matter regardless of dollar amounts — are checked before amount-based flags. Result jumped from 2 → 622 orders correctly classified as <code>CANCELED_WITH_PAYMENT</code>.
+      </div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Lesson:</strong> CASE WHEN = if/elif, never if/if. Always order branches from most specific/business-critical to most general — the most important flag has to win the tie, not whichever condition happens to sit first in the pipeline logically.</div></div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step fin" id="s4" style="animation-delay:.2s">
+    <div class="step-header">
+      <div class="step-num">04</div>
+      <div class="step-info">
+        <div class="step-title">Bug found: reusing "diff" for the wrong question</div>
+        <div class="step-why">Not every exception type is answering the same question</div>
+      </div>
+    </div>
+    <div class="prose">Once <code>CANCELED_WITH_PAYMENT</code> was correctly classified, its reported exposure showed R$37,369.88 — far short of L0's R$143,255.60.</div>
+    <div class="finding bug">
+      <div class="finding-label">🐛 Bug — diff answers "reconciliation," not "risk exposure"</div>
+      <div class="finding-text">
+        <code>diff</code> = <code>payment_total − order_total</code>, built to answer <em>"does the amount match?"</em> But for a canceled order, the real question is <em>"how much money did we collect that we now need to refund or write off?"</em> — that's <code>payment_total</code> on its own, regardless of whether it happens to equal <code>order_total</code>.<br><br>
+        <strong>Fix:</strong> report <code>SUM(payment_total)</code> for <code>CANCELED_WITH_PAYMENT</code> instead of <code>SUM(diff)</code>. Result matched L0 exactly: R$143,255.60.
+      </div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Lesson:</strong> The same column can't always answer two different business questions. Reconciliation exceptions ask "how far apart are the two numbers?" Risk-exposure flags ask "how much money is actually at stake?" Match the aggregate to the question being asked, not to whichever column is already sitting on the table.</div></div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step fin" id="s5" style="animation-delay:.22s">
+    <div class="step-header">
+      <div class="step-num">05</div>
+      <div class="step-info">
+        <div class="step-title">Query 3 — Exception summary + severity</div>
+        <div class="step-why">Roll every exception type up to HIGH / MED / LOW / EXP for Finance triage</div>
+      </div>
+    </div>
+    <div class="prose">Severity tier reuses L0's original priority table (Layer 0, Section 09). Financial exposure switches its aggregate per exception type per Step 04's fix.</div>
+    <pre><code><span class="keyword">CREATE OR REPLACE TABLE</span> l2_exception_summary <span class="keyword">AS</span>
+<span class="keyword">SELECT</span>
+    exception_type,
+    <span class="keyword">CASE</span> exception_type
+        <span class="keyword">WHEN</span> <span class="str">'CANCELED_WITH_PAYMENT'</span> <span class="keyword">THEN</span> <span class="str">'HIGH'</span>
+        <span class="keyword">WHEN</span> <span class="str">'UNDERPAYMENT'</span>          <span class="keyword">THEN</span> <span class="str">'MED'</span>
+        <span class="keyword">WHEN</span> <span class="str">'MISSING_ITEMS'</span>         <span class="keyword">THEN</span> <span class="str">'MED'</span>
+        <span class="keyword">WHEN</span> <span class="str">'APPROVAL_GAP'</span>          <span class="keyword">THEN</span> <span class="str">'MED'</span>
+        <span class="keyword">WHEN</span> <span class="str">'OVERPAYMENT'</span>           <span class="keyword">THEN</span> <span class="str">'LOW'</span>
+        <span class="keyword">WHEN</span> <span class="str">'INSTALLMENT_INTEREST'</span>  <span class="keyword">THEN</span> <span class="str">'EXP'</span>
+    <span class="keyword">END AS</span> severity,
+    <span class="fn">COUNT</span>(*) <span class="keyword">AS</span> orders,
+    <span class="fn">ROUND</span>(<span class="fn">SUM</span>(
+        <span class="keyword">CASE WHEN</span> exception_type = <span class="str">'CANCELED_WITH_PAYMENT'</span>
+             <span class="keyword">THEN</span> payment_total <span class="keyword">ELSE</span> <span class="fn">ABS</span>(diff) <span class="keyword">END</span>
+    ), <span class="num">2</span>) <span class="keyword">AS</span> financial_exposure
+<span class="keyword">FROM</span> l2_exception_classified
+<span class="keyword">WHERE</span> exception_type != <span class="str">'OK'</span>
+<span class="keyword">GROUP BY</span> exception_type;</code></pre>
+    <table class="result-table">
+      <thead><tr><th>severity</th><th>exception</th><th>orders</th><th>financial exposure</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge hi">HIGH</span></td><td>Canceled with payment</td><td>622</td><td>R$143,255.60</td></tr>
+        <tr><td><span class="badge med">MED</span></td><td>Missing items</td><td>614</td><td>R$125,254.08</td></tr>
+        <tr><td><span class="badge med">MED</span></td><td>Underpayment</td><td>83</td><td>R$199.52</td></tr>
+        <tr><td><span class="badge med">MED</span></td><td>Approval gap Q1 2017</td><td>14</td><td>audit risk</td></tr>
+        <tr><td><span class="badge lo">LOW</span></td><td>Overpayment (rounding)</td><td>30</td><td>R$150.05</td></tr>
+        <tr><td><span class="badge ok">EXP</span></td><td>Installment interest</td><td>255</td><td>R$3,031.76 (expected)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="step fin" id="s6" style="animation-delay:.24s">
+    <div class="step-header">
+      <div class="step-num">06</div>
+      <div class="step-info">
+        <div class="step-title">Reconciling L2 against L0's original numbers</div>
+        <div class="step-why">The counts shifted slightly — and that's a feature, not a discrepancy</div>
+      </div>
+    </div>
+    <div class="prose">L0's exception counts came from separate, independent ad-hoc queries — not a single unified classification. L2's job was to make every order resolve to exactly <strong>one</strong> exception type, which surfaced two refinements:</div>
+    <div class="finding success">
+      <div class="finding-label">✓ CANCELED_WITH_PAYMENT: 622 vs 625</div>
+      <div class="finding-text">3 of L0's original 625 had a payment record present but valued at <strong>R$0.00</strong> — no money actually changed hands. L2 filters on <code>payment_total &gt; 0</code>, so those 3 are correctly excluded from the financial-risk count.</div>
+    </div>
+    <div class="finding info">
+      <div class="finding-label">ℹ MISSING_ITEMS: 614 vs 775 · OVERPAYMENT: 30 vs 29</div>
+      <div class="finding-text">L0's separate queries weren't mutually exclusive — an order could be counted in more than one ad-hoc query at once. L2's single CASE WHEN tree assigns each order to exactly one bucket, so some orders that were double-counted in L0 now sit in a single, correct category. The full set still sums to exactly 99,441.</div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Lesson:</strong> Independent exploratory queries (L0) are for finding patterns. A production classification (L2) has to be mutually exclusive and collectively exhaustive — every row gets exactly one label, and the labels sum to the total. Reconciling the two is itself part of the audit trail, not a sign something broke.</div></div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="step fin" id="s7" style="animation-delay:.26s">
+    <div class="step-header">
+      <div class="step-num">07</div>
+      <div class="step-info">
+        <div class="step-title">Results + handoff to L3</div>
+        <div class="step-why">Three chained tables now sit ready for a Power BI dashboard</div>
+      </div>
+    </div>
+    <div class="summary-grid">
+      <div class="sum-chip"><strong>98.37%</strong> match rate<div class="meta">Target ≥95% · 97,823 / 99,441 orders</div></div>
+      <div class="sum-chip"><strong>3 tables</strong> chained in DuckDB<div class="meta">l2_auto_match → l2_exception_classified → l2_exception_summary</div></div>
+      <div class="sum-chip"><strong>2 bugs</strong> found and fixed<div class="meta">CASE WHEN branch order · column reuse across questions</div></div>
+      <div class="sum-chip"><strong>R$272,891</strong> total exception exposure<div class="meta">Excludes expected installment interest</div></div>
+    </div>
+    <div class="prose">L3 connects <code>l2_exception_summary</code> and <code>l2_exception_classified</code> to Power BI for a severity-tiered dashboard with order-level drill-down.</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer fin" style="animation-delay:.28s">
+    <div class="footer-text">O2C Reconciliation Modernization · Self-directed case study · Public/synthetic data only · Arthunya Kanoklertwongse</div>
+    <div class="footer-nav">
+      <a href="l1-process-mapping.html" class="fnav-btn">← L1 — Process Mapping</a>
+      <a href="index.html" class="fnav-btn">Back to portfolio</a>
+      <a href="#" class="fnav-btn primary">L3 — Dashboard →</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
