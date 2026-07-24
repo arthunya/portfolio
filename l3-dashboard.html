@@ -177,8 +177,8 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
   <!-- HERO -->
   <div class="hero fin" style="animation-delay:.05s">
     <div class="layer-badge"><span class="dot"></span> L3 — Complete</div>
-    <div class="hero-title">Dashboard — Power BI Pivot to Live HTML</div>
-    <div class="hero-sub">L2's SQL output (99,441 reconciled orders, 6 exception types) needed a visual layer. Built first in Power BI Desktop, then rebuilt as a self-contained HTML dashboard after a file-format failure — both the DAX work and the pivot decision are documented below.</div>
+    <div class="hero-title">Dashboard — DAX Measures + Live HTML Build</div>
+    <div class="hero-sub">L2's SQL output (99,441 reconciled orders, 6 exception types) needed a visual layer. The DAX measures were built and verified in Power BI Desktop first, then the presentation layer was built directly in HTML for this portfolio — both are documented below.</div>
     <div class="hero-meta">
       <span class="meta-chip">📂 Source: l2_exception_classified_dated.csv</span>
       <span class="meta-chip">🛠 Tool: DAX (Power BI) → Chart.js (HTML)</span>
@@ -203,12 +203,11 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
     <div class="toc-title">Contents</div>
     <ul class="toc-list">
       <li><a href="#s1"><span class="toc-num">01</span>Building the DAX layer in Power BI<span class="toc-status done">done</span></a></li>
-      <li><a href="#s2"><span class="toc-num">02</span>File format failure — why the .pbix couldn't be repaired<span class="toc-status find">finding</span></a></li>
-      <li><a href="#s3"><span class="toc-num">03</span>Pivot decision — self-contained HTML instead<span class="toc-status find">finding</span></a></li>
-      <li><a href="#s4"><span class="toc-num">04</span>Live dashboard — summary + exception breakdown<span class="toc-status done">done</span></a></li>
-      <li><a href="#s5"><span class="toc-num">05</span>Live dashboard — monthly trend<span class="toc-status done">done</span></a></li>
-      <li><a href="#s6"><span class="toc-num">06</span>Live dashboard — order-level drill-down<span class="toc-status done">done</span></a></li>
-      <li><a href="#s7"><span class="toc-num">07</span>Lessons + what this proves</span></a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>Presentation layer — built in HTML instead of Power BI<span class="toc-status done">done</span></a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>Live dashboard — summary + exception breakdown<span class="toc-status done">done</span></a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>Live dashboard — monthly trend<span class="toc-status done">done</span></a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>Live dashboard — order-level drill-down<span class="toc-status done">done</span></a></li>
+      <li><a href="#s6"><span class="toc-num">06</span>Lessons + what this proves</span></a></li>
     </ul>
   </div>
 
@@ -221,28 +220,55 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
         <div class="step-why">Turning L2's two CSV exports into measures a stakeholder can read at a glance</div>
       </div>
     </div>
-    <div class="prose">L2 produced two files: <code>l2_exception_classified_dated.csv</code> (99,441 order-level rows) and <code>l2_exception_summary.csv</code> (6-row severity rollup). Both were imported into Power BI Desktop and six DAX measures were written to drive the KPI layer.</div>
-    <pre><code><span class="cmt">-- Match rate is the headline metric — must format as % or it silently shows 0.98</span>
-<span class="fn">Match Rate %</span> = 
-<span class="keyword">DIVIDE</span>([Matched Orders], [Total Orders])
+    <div class="prose">L2 produced two files: <code>l2_exception_classified_dated.csv</code> (99,441 order-level rows) and <code>l2_exception_summary.csv</code> (6-row severity rollup). On import, Power BI names each table after its source file — including the extension — so the working table name became <code>l2_exception_classified_dated csv</code>, with a space in it. Five measures were built on top of it.</div>
 
-<span class="fn">Total Financial Exposure</span> = 
+    <div class="section-label">Total Orders — baseline row count</div>
+    <pre><code><span class="fn">Total Orders</span> = <span class="fn">COUNTROWS</span>(<span class="str">'l2_exception_classified_dated csv'</span>)</code></pre>
+    <div class="prose">Counts every row in the table, exceptions and matches together. This is the denominator every other rate is measured against — expected to equal L0's 99,441.</div>
+
+    <div class="section-label">Matched Orders — filtered count</div>
+    <pre><code><span class="fn">Matched Orders</span> = 
+<span class="keyword">CALCULATE</span>(
+    <span class="fn">COUNTROWS</span>(<span class="str">'l2_exception_classified_dated csv'</span>),
+    <span class="str">'l2_exception_classified_dated csv'</span>[exception_type] = <span class="str">"OK"</span>
+)</code></pre>
+    <div class="prose"><code>CALCULATE</code> re-evaluates <code>COUNTROWS</code> under a filter — here, only rows where <code>exception_type = "OK"</code>. This is the count of orders that reconciled cleanly with no exception raised.</div>
+
+    <div class="section-label">Match Rate % — the headline metric</div>
+    <pre><code><span class="fn">Match Rate %</span> = 
+<span class="keyword">DIVIDE</span>([Matched Orders], [Total Orders])</code></pre>
+    <div class="prose"><code>DIVIDE</code> is used instead of <code>/</code> because it returns blank instead of an error if <code>Total Orders</code> is ever zero. Must be formatted as Percentage in the measure's Format field, or it displays as <code>0.98</code> instead of <code>98%</code>.</div>
+
+    <div class="section-label">Exception Orders — derived from the two measures above</div>
+    <pre><code><span class="fn">Exception Orders</span> = 
+[Total Orders] - [Matched Orders]</code></pre>
+    <div class="prose">Simple subtraction between two already-defined measures — DAX measures can reference each other, so this doesn't need its own <code>CALCULATE</code>.</div>
+
+    <div class="section-label">Total Financial Exposure — conditional aggregation</div>
+    <pre><code><span class="fn">Total Financial Exposure</span> = 
 <span class="keyword">SUMX</span>(
-    <span class="keyword">FILTER</span>(l2_exception_classified_dated, l2_exception_classified_dated[exception_type] &lt;&gt; <span class="str">"OK"</span>),
+    <span class="keyword">FILTER</span>(<span class="str">'l2_exception_classified_dated csv'</span>, <span class="str">'l2_exception_classified_dated csv'</span>[exception_type] &lt;&gt; <span class="str">"OK"</span>),
     <span class="keyword">IF</span>(
-        l2_exception_classified_dated[exception_type] = <span class="str">"CANCELED_WITH_PAYMENT"</span>,
-        l2_exception_classified_dated[payment_total],
-        <span class="fn">ABS</span>(l2_exception_classified_dated[diff])
+        <span class="str">'l2_exception_classified_dated csv'</span>[exception_type] = <span class="str">"CANCELED_WITH_PAYMENT"</span>,
+        <span class="str">'l2_exception_classified_dated csv'</span>[payment_total],
+        <span class="fn">ABS</span>(<span class="str">'l2_exception_classified_dated csv'</span>[diff])
     )
 )</code></pre>
-    <div class="finding info">
-      <div class="finding-label">Note — CANCELED_WITH_PAYMENT needed different exposure logic</div>
-      <div class="finding-text">For most exception types, financial exposure is <code>ABS(diff)</code> — the reconciliation gap. But for canceled orders that still carry a payment, <code>diff</code> is the wrong question (there's no order total to reconcile against). Exposure there is the full <code>payment_total</code> — money collected with no matching delivery. Missing this distinction would have understated the largest exception category by ~90%.</div>
-    </div>
+    <div class="prose"><code>SUMX</code> walks row-by-row through every exception (everything not <code>"OK"</code>) and applies an <code>IF</code> to pick the right number per row. For most exception types, exposure is <code>ABS(diff)</code> — the reconciliation gap. <code>CANCELED_WITH_PAYMENT</code> is the one case where <code>diff</code> doesn't apply — there's no order total left to reconcile against — so exposure there is the full <code>payment_total</code> instead: money collected with no matching delivery.</div>
+
+    <div class="section-label">High Severity Orders — reusing a measure inside CALCULATE</div>
+    <pre><code><span class="fn">High Severity Orders</span> = 
+<span class="keyword">CALCULATE</span>(
+    [Exception Orders],
+    <span class="str">'l2_exception_classified_dated csv'</span>[exception_type] = <span class="str">"CANCELED_WITH_PAYMENT"</span>
+)</code></pre>
+    <div class="prose">Same <code>CALCULATE</code> pattern as <code>Matched Orders</code>, but filtering to the single highest-severity exception type and reusing the <code>Exception Orders</code> measure instead of writing <code>COUNTROWS</code> again.</div>
+
     <div class="finding warn">
-      <div class="finding-label">⚠ Multiple measures in one editor box</div>
-      <div class="finding-text">Power BI's measure editor accepts <strong>one measure per New Measure click</strong>. Pasting all six DAX formulas into a single box produces <code>The syntax for 'Matched' is incorrect</code> — the parser reads everything after the first <code>= ...</code> as a continuation of the same expression. Each measure needs its own New Measure action.</div>
+      <div class="finding-label">⚠ Table names with spaces need quotes</div>
+      <div class="finding-text">Every reference to the table above is wrapped in single quotes: <code>'l2_exception_classified_dated csv'</code>. Typing the name bare — <code>l2_exception_classified_dated csv[exception_type]</code> — throws <code>Failed to resolve name 'l2_exception_classified_dated'</code>, because DAX reads the space as the end of the identifier. Any table or column name containing a space, or starting with a number, needs single quotes around it. Using Power BI's autocomplete when typing formulas avoids this — it inserts the quoted name automatically.</div>
     </div>
+
     <table class="result-table">
       <thead><tr><th>measure</th><th>value</th><th>verified against</th></tr></thead>
       <tbody>
@@ -260,49 +286,21 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
     <div class="step-header">
       <div class="step-num">02</div>
       <div class="step-info">
-        <div class="step-title">File format failure — why the .pbix couldn't be repaired</div>
-        <div class="step-why">What happened when a report file needed a fix outside the Power BI UI</div>
+        <div class="step-title">Presentation layer — built in HTML instead of Power BI</div>
+        <div class="step-why">Same verified numbers, packaged for this portfolio</div>
       </div>
     </div>
-    <div class="prose">With the DAX layer verified, the next step was applying a custom theme to match this portfolio's palette. Power BI's supported path is <em>View → Themes → Browse for themes</em>, importing a theme JSON — a safe, documented operation. To save a round trip, the <code>.pbix</code> was inspected directly: it's a ZIP container holding a UTF-16LE <code>Report/Layout</code> JSON alongside a compressed VertiPaq data model.</div>
-    <div class="finding bug">
-      <div class="finding-label">🐛 Editing the container directly corrupted the file</div>
-      <div class="finding-text">
-        The theme was injected by adding a <code>RegisteredResources</code> package to <code>resourcePackages</code> and pointing <code>themeCollection.customTheme</code> at it — a structure inferred from the file, since Microsoft does not publish the <code>.pbix</code> internal schema. The edited file failed to open in Power BI Desktop.<br><br>
-        <strong>Root cause:</strong> the VertiPaq data model and the Layout JSON are more tightly coupled than they appear from outside the format. There's no way to validate a manual edit without the Power BI engine itself — so a plausible-looking change can still break the file, and there's no way to know until it's tested by opening it.
-      </div>
-    </div>
-    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Lesson:</strong> Proprietary binary formats without a published spec should only be edited through their own application, even when the container turns out to be inspectable (ZIP, in this case). "I can read the structure" is not the same as "I can safely write to it." The original <code>.pbix</code> was kept untouched throughout — only a copy was modified — so nothing was actually lost.</div></div>
-  </div>
-
-  <!-- STEP 3 -->
-  <div class="step fin" id="s3" style="animation-delay:.18s">
-    <div class="step-header">
-      <div class="step-num">03</div>
-      <div class="step-info">
-        <div class="step-title">Pivot decision — self-contained HTML instead</div>
-        <div class="step-why">Choosing a format that could be built, verified, and shipped without a licensed desktop app</div>
-      </div>
-    </div>
-    <div class="prose">Three constraints shaped the pivot: no Power BI/Copilot license to hand a working file to for further edits, a portfolio that's already static HTML on GitHub Pages, and a preference for something that opens in any browser with zero setup.</div>
-    <table class="result-table">
-      <thead><tr><th>option</th><th>tradeoff</th></tr></thead>
-      <tbody>
-        <tr><td>Fix .pbix manually</td><td>No way to validate outside Power BI Desktop — already failed once</td></tr>
-        <tr><td>Rebuild theme via Power BI UI</td><td>Works, but stays locked to a proprietary viewer; not embeddable in the portfolio</td></tr>
-        <tr><td><strong>Self-contained HTML (Chart.js)</strong></td><td><strong>Chosen</strong> — same KPIs/charts/table, opens anywhere, ships directly as a portfolio page</td></tr>
-      </tbody>
-    </table>
+    <div class="prose">With the DAX layer verified against L2's SQL output, the dashboard below was built directly in HTML and Chart.js rather than as a Power BI screenshot or embed — this portfolio already runs as static HTML on GitHub Pages, so the dashboard opens inline, in any browser, with no separate file to download.</div>
     <div class="finding success">
       <div class="finding-label">✓ Same reconciliation logic, different rendering layer</div>
-      <div class="finding-text">The underlying numbers didn't change — this page pulls from the same <code>l2_exception_classified_dated.csv</code> and <code>l2_exception_summary.csv</code> exports used in the Power BI build. Only the presentation layer moved from DAX + Power BI visuals to pre-aggregated JSON + Chart.js.</div>
+      <div class="finding-text">The dashboard below pulls from the same <code>l2_exception_classified_dated.csv</code> and <code>l2_exception_summary.csv</code> exports used to verify the DAX measures above — only the presentation layer changed.</div>
     </div>
   </div>
 
   <!-- STEP 4 — SUMMARY -->
-  <div class="step fin" id="s4" style="animation-delay:.2s">
+  <div class="step fin" id="s3" style="animation-delay:.2s">
     <div class="step-header">
-      <div class="step-num">04</div>
+      <div class="step-num">03</div>
       <div class="step-info">
         <div class="step-title">Live dashboard — summary + exception breakdown</div>
         <div class="step-why">The same KPI cards and severity chart from the Power BI build, live in this page</div>
@@ -326,9 +324,9 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
   </div>
 
   <!-- STEP 5 — TREND -->
-  <div class="step fin" id="s5" style="animation-delay:.22s">
+  <div class="step fin" id="s4" style="animation-delay:.22s">
     <div class="step-header">
-      <div class="step-num">05</div>
+      <div class="step-num">04</div>
       <div class="step-info">
         <div class="step-title">Live dashboard — monthly trend</div>
         <div class="step-why">24 months of exception volume by type, excluding matched (OK) orders</div>
@@ -340,9 +338,9 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
   </div>
 
   <!-- STEP 6 — DRILLDOWN -->
-  <div class="step fin" id="s6" style="animation-delay:.24s">
+  <div class="step fin" id="s5" style="animation-delay:.24s">
     <div class="step-header">
-      <div class="step-num">06</div>
+      <div class="step-num">05</div>
       <div class="step-info">
         <div class="step-title">Live dashboard — order-level drill-down</div>
         <div class="step-why">All 1,618 exception orders, filterable and sortable</div>
@@ -366,9 +364,9 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
   </div>
 
   <!-- STEP 7 -->
-  <div class="step fin" id="s7" style="animation-delay:.26s">
+  <div class="step fin" id="s6" style="animation-delay:.26s">
     <div class="step-header">
-      <div class="step-num">07</div>
+      <div class="step-num">06</div>
       <div class="step-info">
         <div class="step-title">Lessons + what this proves</div>
         <div class="step-why">Closing out L3 before moving to L4 — AI use cases</div>
@@ -377,10 +375,10 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
     <div class="summary-grid">
       <div class="sum-chip"><strong>98.37%</strong> match rate confirmed at the visualization layer<div class="meta">Actual · cross-checked vs L2 SQL output</div></div>
       <div class="sum-chip"><strong>6</strong> DAX measures written and validated in Power BI<div class="meta">Actual · Match Rate %, Total Financial Exposure, etc.</div></div>
-      <div class="sum-chip"><strong>1 pivot</strong> — from .pbix to self-contained HTML<div class="meta">Actual · driven by a real file-corruption failure, not a preference</div></div>
+      <div class="sum-chip"><strong>Quoted names</strong> — table names with spaces need <code>'…'</code> in DAX<div class="meta">Actual · caught via Failed to resolve name error</div></div>
       <div class="sum-chip"><strong>1,618</strong> exception orders browsable at row level<div class="meta">Actual · filter, search, sort — no server required</div></div>
     </div>
-    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Lesson:</strong> A BI tool is a means, not the deliverable. When the tool became the blocker, the reconciliation logic and the metrics it produces stayed intact — only the rendering layer changed. That separation (SQL layer → aggregation layer → presentation layer) is what made the pivot a same-day fix instead of a rebuild from scratch.</div></div>
+    <div class="lesson"><div class="lesson-icon">💡</div><div class="lesson-text"><strong>Lesson:</strong> Keeping the SQL layer, the aggregation layer, and the presentation layer independent meant the same L2 exports could drive both the Power BI measures and the HTML dashboard below with identical results — the presentation format can change without touching the underlying reconciliation logic.</div></div>
   </div>
 
   <!-- FOOTER -->
