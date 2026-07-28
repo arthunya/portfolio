@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L4 — AI-Augmented Financial Exception Review Workflow · O2C Reconciliation · Arthunya</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#06060A; --panel:#0E0E18; --card:#141420; --hover:#1A1A2E;
+  --border:rgba(255,255,255,0.06); --border-hi:rgba(37,99,235,0.3);
+  --text:#F0F2F8; --sub:#A8B0C8; --muted:#6B7290;
+  --blue:#3B82F6; --cyan:#22D3EE; --green:#10B981;
+  --amber:#F59E0B; --red:#F43F5E; --purple:#8B5CF6;
+}
+.lm {
+  --bg:#F8F9FC; --panel:#FFFFFF; --card:#F1F3F9; --hover:#E8EBF4;
+  --border:rgba(15,23,42,0.08); --border-hi:rgba(37,99,235,0.2);
+  --text:#0F172A; --sub:#475569; --muted:#94A3B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{font-family:'JetBrains Mono',monospace;font-size:.88em;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.12);border-radius:5px;padding:2px 6px;color:var(--cyan);}
+pre{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;overflow-x:auto;margin:14px 0;}
+pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);line-height:1.8;}
+.keyword{color:#7DD3FC;}
+.fn{color:#86EFAC;}
+.str{color:#FDE68A;}
+.cmt{color:#6B7290;font-style:italic;}
+.num{color:#F9A8D4;}
+
+.shell{max-width:860px;margin:0 auto;padding:20px 20px 60px;}
+
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:24px;position:relative;overflow:hidden;}
+.topnav::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--green));opacity:.5;}
+.back-link{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--sub);transition:color .2s;}
+.back-link:hover{color:var(--blue);text-decoration:none;}
+.theme-btn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .2s;}
+.theme-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);}
+
+.hero{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px 28px 24px;margin-bottom:24px;}
+.layer-badge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--amber);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:999px;padding:4px 14px;margin-bottom:14px;}
+.layer-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.85)}}
+.hero-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;background:linear-gradient(135deg,var(--text),var(--sub));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:13.5px;color:var(--sub);margin-bottom:18px;line-height:1.6;}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(59,130,246,.06);color:var(--blue);border:1px solid rgba(59,130,246,.1);}
+
+.layer-nav{display:flex;gap:5px;margin-bottom:24px;}
+.lnav-pip{flex:1;border-radius:8px;padding:8px 4px;text-align:center;border:1px solid var(--border);background:var(--panel);font-family:'JetBrains Mono',monospace;transition:all .2s;cursor:default;text-decoration:none;display:block;}
+.lnav-pip.done{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.28);}
+.lnav-pip.active{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.35);}
+.lnav-pip-id{font-size:10px;font-weight:700;margin-bottom:2px;}
+.lnav-pip.done .lnav-pip-id{color:var(--green);}
+.lnav-pip.active .lnav-pip-id{color:var(--amber);}
+.lnav-pip.pending .lnav-pip-id{color:var(--muted);}
+.lnav-pip-name{font-size:9px;color:var(--muted);}
+.lnav-pip.active .lnav-pip-name{color:var(--amber);}
+
+.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:28px;}
+.toc-title{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.toc-title::before{content:'';width:14px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:1px;}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.toc-list li a{font-size:13px;color:var(--sub);display:flex;align-items:center;gap:8px;transition:color .2s;}
+.toc-list li a:hover{color:var(--blue);text-decoration:none;}
+.toc-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:24px;}
+.toc-status{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;margin-left:auto;}
+.toc-status.done{background:rgba(16,185,129,.08);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.toc-status.find{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+
+.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;transition:border-color .3s;}
+.step:hover{border-color:var(--border-hi);}
+.step-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue);background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:4px 10px;flex-shrink:0;margin-top:2px;}
+.step-info{}
+.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.step-why{font-size:12px;color:var(--muted);font-style:italic;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 8px;display:flex;align-items:center;gap:6px;}
+.section-label::before{content:'';width:10px;height:1.5px;background:var(--blue);border-radius:1px;opacity:.5;}
+.prose{font-size:13.5px;color:var(--sub);line-height:1.8;margin-bottom:10px;}
+.prose strong{color:var(--text);font-weight:600;}
+.prose em{color:var(--blue);font-style:normal;}
+
+.finding{border-radius:10px;padding:14px 16px;margin:12px 0;border-left:3px solid;}
+.finding.info{background:rgba(59,130,246,.06);border-color:var(--blue);}
+.finding.warn{background:rgba(245,158,11,.06);border-color:var(--amber);}
+.finding.danger{background:rgba(244,63,94,.06);border-color:var(--red);}
+.finding.success{background:rgba(16,185,129,.06);border-color:var(--green);}
+.finding.bug{background:rgba(139,92,246,.06);border-color:var(--purple);}
+.finding-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.finding.info .finding-label{color:var(--blue);}
+.finding.warn .finding-label{color:var(--amber);}
+.finding.danger .finding-label{color:var(--red);}
+.finding.success .finding-label{color:var(--green);}
+.finding.bug .finding-label{color:var(--purple);}
+.finding-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.finding-text strong{color:var(--text);}
+
+.result-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:12px 0;}
+.result-table th{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
+.result-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--sub);}
+.result-table tr:last-child td{border-bottom:none;}
+.result-table td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:5px;font-weight:600;}
+.badge.hi{background:rgba(244,63,94,.1);color:var(--red);border:1px solid rgba(244,63,94,.2);}
+.badge.med{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+.badge.lo{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.badge.ok{background:rgba(107,114,144,.1);color:var(--muted);border:1px solid rgba(107,114,144,.2);}
+
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0;}
+.sum-chip{background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(6,182,212,.03));border:1px solid rgba(59,130,246,.1);border-radius:10px;padding:14px;font-size:12px;color:var(--sub);}
+.sum-chip strong{color:var(--text);font-weight:700;font-size:13.5px;display:block;margin-bottom:3px;}
+.sum-chip .meta{font-size:10px;color:var(--muted);margin-top:5px;font-family:'JetBrains Mono',monospace;}
+
+.lesson{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0;display:flex;gap:12px;align-items:flex-start;}
+.lesson-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.lesson-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.lesson-text strong{color:var(--text);}
+
+.footer{text-align:center;padding:28px 0 0;border-top:1px solid var(--border);margin-top:32px;}
+.footer-text{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.footer-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.fnav-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--sub);text-decoration:none;transition:all .2s;}
+.fnav-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.04);}
+.fnav-btn.primary{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.06);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fin{animation:fadeUp .5s cubic-bezier(.4,0,.2,1) forwards;opacity:0;}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:14px 0;}
+.kpi-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.kpi-label{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;}
+.kpi-value{font-size:22px;font-weight:800;color:var(--text);}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+
+.flow-row{display:flex;align-items:stretch;gap:6px;margin:16px 0;flex-wrap:wrap;}
+.flow-step{flex:1;min-width:130px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 10px;text-align:center;position:relative;}
+.flow-step.ai{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.05);}
+.flow-step-num{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:4px;}
+.flow-step.ai .flow-step-num{color:var(--amber);}
+.flow-step-name{font-size:11.5px;font-weight:600;color:var(--text);line-height:1.3;}
+.flow-arrow{display:flex;align-items:center;color:var(--muted);font-size:14px;padding:0 2px;}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;}
+.ba-col{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.ba-col.before{border-color:rgba(244,63,94,.2);}
+.ba-col.after{border-color:rgba(16,185,129,.2);}
+.ba-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.ba-col.before .ba-label{color:var(--red);}
+.ba-col.after .ba-label{color:var(--green);}
+.ba-item{font-size:12.5px;color:var(--sub);padding:6px 0;border-bottom:1px solid var(--border);}
+.ba-item:last-child{border-bottom:none;}
+
+.demo-panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;}
+.tier-select{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.tier-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--sub);cursor:pointer;transition:all .15s;}
+.tier-btn:hover{border-color:var(--border-hi);}
+.tier-btn.active.CRITICAL{background:rgba(244,63,94,.12);border-color:var(--red);color:var(--red);}
+.tier-btn.active.view{background:rgba(59,130,246,.12);border-color:var(--blue);color:var(--blue);}
+.tier-btn.active.HIGH{background:rgba(245,158,11,.12);border-color:var(--amber);color:var(--amber);}
+.tier-btn.active.MEDIUM{background:rgba(234,179,8,.12);border-color:#EAB308;color:#EAB308;}
+.tier-btn.active.LOW{background:rgba(107,114,144,.12);border-color:var(--muted);color:var(--muted);}
+.exception-list{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;max-height:220px;overflow-y:auto;}
+.exc-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s;}
+.exc-item:hover{border-color:var(--border-hi);}
+.exc-item.selected{border-color:var(--blue);background:rgba(59,130,246,.08);}
+.exc-item-id{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);}
+.exc-item-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+.ai-package{background:var(--card);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:16px 18px;margin-top:4px;}
+.ai-package-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;}
+.ai-field{margin-bottom:10px;}
+.ai-field:last-child{margin-bottom:0;}
+.ai-field-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px;}
+.ai-field-body{font-size:13px;color:var(--sub);line-height:1.6;}
+.validation-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.val-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:8px 14px;border-radius:7px;border:1px solid var(--border);background:var(--panel);color:var(--sub);cursor:pointer;transition:all .15s;}
+.val-btn:hover{border-color:var(--border-hi);}
+.val-btn.approve:hover{border-color:var(--green);color:var(--green);}
+.val-btn.modify:hover{border-color:var(--blue);color:var(--blue);}
+.val-btn.reject:hover{border-color:var(--red);color:var(--red);}
+.val-btn.escalate:hover{border-color:var(--purple);color:var(--purple);}
+.decision-log{margin-top:14px;padding:10px 14px;border-radius:8px;background:var(--panel);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);display:none;}
+.decision-log.show{display:block;}
+.decision-log strong{color:var(--text);}
+.empty-hint{font-size:12.5px;color:var(--muted);text-align:center;padding:24px 0;font-style:italic;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="topnav fin">
+    <a href="index.html" class="back-link" style="text-decoration:none;">
+      &larr; Back to portfolio
+    </a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">O2C Reconciliation Modernization</span>
+      <button class="theme-btn" onclick="document.body.classList.toggle('lm');this.textContent=document.body.classList.contains('lm')?'dark':'light'">light</button>
+    </div>
+  </div>
+
+  <div class="hero fin" style="animation-delay:.05s">
+    <div class="layer-badge"><span class="dot"></span> L4 &mdash; AI-Augmented Financial Exception Review Workflow</div>
+    <div class="hero-title">Deciding Where AI Belongs in a Financial Review Process</div>
+    <div class="hero-sub">L2/L3 turned 1,618 raw exceptions into a scored, prioritized queue using SQL business rules only &mdash; no AI involved yet. The design question for L4 wasn't whether AI could summarize this queue &mdash; it was where AI should sit in the process, and where it deliberately shouldn't.</div>
+    <div class="hero-meta">
+      <span class="meta-chip">Source: l4_prioritized_queue (from L2/L3 output)</span>
+      <span class="meta-chip">AI: Claude &mdash; review-prep drafting only</span>
+      <span class="meta-chip">Sample: 20 orders, all 4 business categories</span>
+      <span class="meta-chip">Built: Jul 2026</span>
+    </div>
+  </div>
+
+  <div class="finding info fin" style="animation-delay:.07s;">
+    <div class="finding-text" style="font-size:14px;"><strong>The hardest part wasn't building AI.</strong> It was deciding where AI should and shouldn't exist in a financial review process.</div>
+  </div>
+
+  <div class="layer-nav fin" style="animation-delay:.1s">
+    <a href="l0-discovery.html" class="lnav-pip done"><div class="lnav-pip-id">L0</div><div class="lnav-pip-name">Discovery</div></a>
+    <a href="l1-process-mapping.html" class="lnav-pip done"><div class="lnav-pip-id">L1</div><div class="lnav-pip-name">Process map</div></a>
+    <a href="l2-data-sql.html" class="lnav-pip done"><div class="lnav-pip-id">L2</div><div class="lnav-pip-name">Data + SQL</div></a>
+    <a href="l3-dashboard.html" class="lnav-pip done"><div class="lnav-pip-id">L3</div><div class="lnav-pip-name">Dashboard</div></a>
+    <div class="lnav-pip active"><div class="lnav-pip-id">L4</div><div class="lnav-pip-name">AI review</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L5</div><div class="lnav-pip-name">ROI + controls</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L6</div><div class="lnav-pip-name">UAT + closure</div></div>
+  </div>
+
+  <div class="toc fin" style="animation-delay:.12s">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span>The business problem<span class="toc-status done">done</span></a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>Current state vs. future state workflow<span class="toc-status done">done</span></a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>Why human-in-the-loop<span class="toc-status done">done</span></a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>Interactive demo &mdash; try it<span class="toc-status done">done</span></a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>Business impact<span class="toc-status done">done</span></a></li>
+      <li><a href="#s6"><span class="toc-num">06</span>Lessons + what this proves</span></a></li>
+    </ul>
+  </div>
+
+  <div class="step fin" id="s1" style="animation-delay:.14s">
+    <div class="step-header">
+      <div class="step-num">01</div>
+      <div class="step-info">
+        <div class="step-title">The business problem</div>
+        <div class="step-why">Why 1,618 exceptions can't all be reviewed the same way</div>
+      </div>
+    </div>
+    <div class="prose">L2 classified every one of the 99,441 orders into exactly one bucket &mdash; 97,823 matched cleanly, and 1,618 didn't. Those 1,618 span four very different underlying problems: money already collected on a canceled order, missing item records, a logging gap in the approval step, and expected installment-interest variance. Today, an analyst reviewing this queue has no way to tell, at a glance, which of the 1,618 is worth 10 minutes of attention and which is worth 30 seconds.</div>
+    <div class="finding warn">
+      <div class="finding-label">What "manual review" looks like without this workflow</div>
+      <div class="finding-text">Every exception gets opened, read, and reasoned about from scratch &mdash; regardless of whether it's a R$4,809 cash-recovery case or a R$0.00 approval-logging gap. Without a scoring or prioritization layer, the analyst's queue is effectively unordered, and documentation quality varies by whoever reviewed it and how much time they had that day.</div>
+    </div>
+  </div>
+
+  <div class="step fin" id="s2" style="animation-delay:.16s">
+    <div class="step-header">
+      <div class="step-num">02</div>
+      <div class="step-info">
+        <div class="step-title">Current state vs. future state workflow</div>
+        <div class="step-why">Where AI sits in the process &mdash; and where it deliberately doesn't</div>
+      </div>
+    </div>
+    <div class="before-after">
+      <div class="ba-col before">
+        <div class="ba-label">Before</div>
+        <div class="ba-item">1,618 exceptions in one flat list</div>
+        <div class="ba-item">Analyst opens each one from scratch</div>
+        <div class="ba-item">~10&ndash;15 min/case <em>(industry-typical estimate &mdash; not measured on this dataset)</em></div>
+        <div class="ba-item">Documentation quality varies by reviewer</div>
+        <div class="ba-item">No prioritization &mdash; order is arbitrary</div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label">After</div>
+        <div class="ba-item">Same 1,618, scored and tiered by SQL rules</div>
+        <div class="ba-item">Queue ordered: Cash Recovery &rarr; Data Integrity &rarr; Process Gap &rarr; Expected Variance</div>
+        <div class="ba-item">AI drafts summary + cause + action per case</div>
+        <div class="ba-item">Analyst reviews a consistent package every time</div>
+        <div class="ba-item">Human still makes every final decision</div>
+      </div>
+    </div>
+    <div class="section-label">The 6-step workflow</div>
+    <div class="flow-row">
+      <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-name">Financial Risk Assessment</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-name">Exception Prioritization</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-name">Review Queue Generation</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step ai"><div class="flow-step-num">4 &middot; AI</div><div class="flow-step-name">AI-Assisted Review Prep</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-name">Human Validation & Decision</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-name">Audit Trail Logging</div></div>
+    </div>
+    <div class="prose">Steps 1&ndash;3 are pure SQL business rules &mdash; the same <code>l4_risk_assessment</code> and <code>l4_prioritized_queue</code> tables verified against L2/L3's 1,618 total. Step 4 is the only step where AI touches the process, and it only drafts context. Step 5 is where a human actually decides. Step 6 records what happened, independent of the AI's draft.</div>
+  </div>
+
+  <div class="step fin" id="s3" style="animation-delay:.18s">
+    <div class="step-header">
+      <div class="step-num">03</div>
+      <div class="step-info">
+        <div class="step-title">Why human-in-the-loop</div>
+        <div class="step-why">AI should assist financial exception review, not make financial decisions</div>
+      </div>
+    </div>
+    <div class="prose">Financial decisions &mdash; approving a write-off, rejecting a refund, escalating a case &mdash; remain the responsibility of a human analyst. The AI step in this workflow is scoped narrowly on purpose:</div>
+    <div class="finding info">
+      <div class="finding-label">What the AI does</div>
+      <div class="finding-text">Reads the fields already computed by SQL (category, tier, exposure, order status, payment/order totals) and drafts a plain-language <strong>summary</strong>, a <strong>possible cause</strong>, and a <strong>recommended action</strong> &mdash; grounded strictly in those fields, with an explicit instruction not to invent facts it wasn't given.</div>
+    </div>
+    <div class="finding danger">
+      <div class="finding-label">What the AI does not do</div>
+      <div class="finding-text">It does not classify the exception (SQL already did that in L2). It does not assign the risk tier (SQL already did that in Step 1&ndash;2). It does not approve, reject, or write anything back to the ledger. Every one of those stays a human action in Step 5.</div>
+    </div>
+    <div class="prose">This scoping is what makes the workflow defensible in an interview: every step before the AI is traceable back to a SQL query, and the AI's own output carries a visible disclosure that it requires human validation &mdash; shown live in the demo below.</div>
+  </div>
+
+  <div class="step fin" id="s4" style="animation-delay:.2s">
+    <div class="step-header">
+      <div class="step-num">04</div>
+      <div class="step-info">
+        <div class="step-title">Interactive demo &mdash; try it</div>
+        <div class="step-why">20 real orders from the prioritized queue, with AI-drafted review packages generated once via the Claude API and embedded below (no live API calls on this page)</div>
+      </div>
+    </div>
+    <div class="demo-panel">
+      <div class="section-label" style="margin-top:0;">Step A &mdash; pick a risk tier</div>
+      <div class="tier-select" id="tierSelect"></div>
+      <div class="section-label">Step B &mdash; pick an exception</div>
+      <div class="exception-list" id="exceptionList"></div>
+      <div class="section-label">Step C &mdash; what the analyst sees</div>
+      <div class="tier-select" id="viewToggle" style="margin-bottom:14px;">
+        <button class="tier-btn" data-view="without">Without AI</button>
+        <button class="tier-btn active view" data-view="with">With AI</button>
+      </div>
+      <div id="aiPackageWrap"><div class="empty-hint">Select an exception above to see its review package.</div></div>
+    </div>
+  </div>
+
+  <div class="step fin" id="s5" style="animation-delay:.22s">
+    <div class="step-header">
+      <div class="step-num">05</div>
+      <div class="step-info">
+        <div class="step-title">Business impact</div>
+        <div class="step-why">What's measured vs. what's estimated &mdash; kept explicitly separate</div>
+      </div>
+    </div>
+    <div class="before-after">
+      <div class="ba-col before">
+        <div class="ba-label">Without this workflow</div>
+        <div class="ba-item">1,618 independent investigations</div>
+        <div class="ba-item">Documentation varies by reviewer</div>
+        <div class="ba-item">Priority unclear &mdash; tribal knowledge dependent</div>
+        <div class="ba-item">New analysts take longer to ramp</div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label">With this workflow</div>
+        <div class="ba-item">Prioritized queue &mdash; 4 categories, 4 tiers</div>
+        <div class="ba-item">Consistent documentation on every case</div>
+        <div class="ba-item">Recommended next action drafted upfront</div>
+        <div class="ba-item">Auditable, human-validated decision trail</div>
+      </div>
+    </div>
+    <div class="prose">The categories and rankings above are what a consistent review process actually buys &mdash; not fewer exceptions, but a queue an analyst (new or experienced) can pick up and reason about the same way every time.</div>
+    <div class="kpi-row">
+      <div class="kpi-card"><div class="kpi-label">Total exceptions</div><div class="kpi-value">1,618</div><div class="kpi-sub">Actual &mdash; verified vs. L2/L3</div></div>
+      <div class="kpi-card"><div class="kpi-label">Financial exposure</div><div class="kpi-value">R$271,891</div><div class="kpi-sub">Actual &mdash; verified vs. L2/L3</div></div>
+      <div class="kpi-card"><div class="kpi-label">Match rate</div><div class="kpi-value">98.37%</div><div class="kpi-sub">Actual &mdash; verified vs. L2/L3</div></div>
+      <div class="kpi-card"><div class="kpi-label">Business categories</div><div class="kpi-value">4</div><div class="kpi-sub">Actual &mdash; Cash Recovery, Data Integrity, Process Gap, Expected Variance</div></div>
+    </div>
+    <table class="result-table">
+      <thead><tr><th>business category</th><th>orders</th><th>underlying exception type(s)</th></tr></thead>
+      <tbody>
+        <tr><td>Cash Recovery Risk</td><td>735</td><td>CANCELED_WITH_PAYMENT + UNDERPAYMENT + OVERPAYMENT</td></tr>
+        <tr><td>Data Integrity Risk</td><td>614</td><td>MISSING_ITEMS</td></tr>
+        <tr><td>Expected Variance</td><td>255</td><td>INSTALLMENT_INTEREST</td></tr>
+        <tr><td>Process Control Gap</td><td>14</td><td>APPROVAL_GAP</td></tr>
+      </tbody>
+    </table>
+    <div class="finding warn">
+      <div class="finding-label">What's an estimate, not a measurement</div>
+      <div class="finding-text">The "10&ndash;15 min/case" manual-review baseline in Step 02 is an industry-typical assumption, not a timed measurement on this dataset &mdash; there's no production system here to benchmark against. Any time-savings figure derived from it should be presented as an estimate in interviews, not a measured result.</div>
+    </div>
+  </div>
+
+  <div class="step fin" id="s6" style="animation-delay:.24s">
+    <div class="step-header">
+      <div class="step-num">06</div>
+      <div class="step-info">
+        <div class="step-title">Lessons + what this proves</div>
+        <div class="step-why">Closing out L4 before moving to L5 &mdash; ROI + controls</div>
+      </div>
+    </div>
+    <div class="summary-grid">
+      <div class="sum-chip"><strong>1 AI step</strong> out of 6 &mdash; everything else is SQL business rules<div class="meta">Actual &mdash; traceable to l4_risk_assessment / l4_prioritized_queue</div></div>
+      <div class="sum-chip"><strong>4 categories</strong> represented in the interactive demo<div class="meta">Actual &mdash; sampled by category, not just by tier</div></div>
+      <div class="sum-chip"><strong>0 write-backs</strong> &mdash; AI output never changes the ledger<div class="meta">Actual &mdash; enforced by workflow design, not by policy alone</div></div>
+      <div class="sum-chip"><strong>20 real notes</strong> generated once via Claude API, embedded as static data<div class="meta">Actual &mdash; no live API calls needed to view this page</div></div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">&#9733;</div><div class="lesson-text"><strong>Lesson:</strong> Keeping classification and prioritization entirely in SQL, and limiting AI to drafting language a human still has to validate, is what makes every design choice here defensible in an interview &mdash; not the AI output itself, but the boundary drawn around it.</div></div>
+  </div>
+
+  <div class="footer fin" style="animation-delay:.26s">
+    <div class="footer-text">O2C Reconciliation Modernization &middot; Self-directed case study &middot; Public/synthetic data only &middot; Arthunya Kanoklertwongse</div>
+    <div class="footer-nav">
+      <a href="l3-dashboard.html" class="fnav-btn">&larr; L3 &mdash; Dashboard</a>
+      <a href="index.html" class="fnav-btn">Back to portfolio</a>
+      <a href="#" class="fnav-btn primary">L5 &mdash; ROI + Controls &rarr;</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const PAYLOAD = {"demo": [{"order_id": "e04abd8149ef81b95221e88f6ed9ab6a", "business_category": "Process Control Gap", "risk_tier": "CRITICAL", "exception_type": "APPROVAL_GAP", "financial_exposure": 0.0, "order_status": "delivered", "order_total": 349.01, "payment_total": 349.01, "installments": 1, "diff": 0.0, "order_approved_at": null, "summary": "Order was delivered and fully paid (R$349.01) but has no recorded approval timestamp.", "possible_cause": "The approval step in the order workflow appears to have been skipped or not logged, even though fulfillment proceeded normally.", "recommended_action": "Check the order-management system for a manual or system-level approval event that wasn't captured in this record, and confirm the approval control was actually performed."}, {"order_id": "ce6d150fb29ada17d2082f4847107665", "business_category": "Expected Variance", "risk_tier": "CRITICAL", "exception_type": "INSTALLMENT_INTEREST", "financial_exposure": 182.81, "order_status": "delivered", "order_total": 1403.66, "payment_total": 1586.47, "installments": 10, "diff": 182.81, "order_approved_at": "2018-01-27", "summary": "Customer paid R$1,586.47 across 10 installments against an order total of R$1,403.66, a R$182.81 difference.", "possible_cause": "The variance is consistent with financing interest accumulated over a 10-installment payment plan rather than an overcharge.", "recommended_action": "Confirm the R$182.81 aligns with the installment provider's standard interest rate for a 10-installment plan; no recovery action expected if it does."}, {"order_id": "8a9adc69528e1001fc68dd0aaebbb54a", "business_category": "Process Control Gap", "risk_tier": "CRITICAL", "exception_type": "APPROVAL_GAP", "financial_exposure": 0.0, "order_status": "delivered", "order_total": 396.86, "payment_total": 396.86, "installments": 1, "diff": 0.0, "order_approved_at": null, "summary": "Order delivered and paid in full (R$396.86) with no approval timestamp on file.", "possible_cause": "Same pattern as other approval-gap cases \u2014 the approval step wasn't logged despite the order completing normally.", "recommended_action": "Verify against the approval system whether this order was approved through a channel not captured in this ledger."}, {"order_id": "7013bcfc1c97fe719a7b5e05e61c12db", "business_category": "Process Control Gap", "risk_tier": "CRITICAL", "exception_type": "APPROVAL_GAP", "financial_exposure": 0.0, "order_status": "delivered", "order_total": 65.52, "payment_total": 65.52, "installments": 1, "diff": 0.0, "order_approved_at": null, "summary": "Small-value order (R$65.52) delivered and paid in full, missing an approval record.", "possible_cause": "Consistent with the other approval-gap orders \u2014 a logging gap in the approval step, not a financial discrepancy.", "recommended_action": "Confirm approval occurred via system audit log rather than assuming it was skipped, given no financial exposure is involved."}, {"order_id": "5cf925b116421afa85ee25e99b4c34fb", "business_category": "Process Control Gap", "risk_tier": "CRITICAL", "exception_type": "APPROVAL_GAP", "financial_exposure": 0.0, "order_status": "delivered", "order_total": 106.81, "payment_total": 106.81, "installments": 1, "diff": 0.0, "order_approved_at": null, "summary": "Order for R$106.81 delivered and paid but has no approval timestamp.", "possible_cause": "Matches the recurring approval-logging gap seen across this batch, not an isolated incident.", "recommended_action": "Since multiple orders share this pattern, consider a batch investigation into whether the approval-logging step has a systemic issue rather than reviewing case by case."}, {"order_id": "12a95a3c06dbaec84bcfb0e2da5d228a", "business_category": "Process Control Gap", "risk_tier": "HIGH", "exception_type": "APPROVAL_GAP", "financial_exposure": 0.0, "order_status": "delivered", "order_total": 95.76, "payment_total": 95.76, "installments": 1, "diff": 0.0, "order_approved_at": null, "summary": "Order for R$95.76 delivered and paid, no approval timestamp recorded.", "possible_cause": "Same approval-logging gap pattern; this one ranks HIGH rather than CRITICAL likely due to quartile ranking within the category rather than a different underlying issue.", "recommended_action": "Group with the CRITICAL-tier approval-gap orders above for a single systemic root-cause check rather than reviewing in isolation."}, {"order_id": "996c7e73600ad3723e8627ab7bef81e4", "business_category": "Expected Variance", "risk_tier": "CRITICAL", "exception_type": "INSTALLMENT_INTEREST", "financial_exposure": 76.53, "order_status": "delivered", "order_total": 587.9, "payment_total": 664.43, "installments": 10, "diff": 76.53, "order_approved_at": "2018-07-16", "summary": "Payment total (R$664.43) exceeds order total (R$587.90) by R$76.53 across a 10-installment plan.", "possible_cause": "Consistent with expected installment financing interest rather than a payment error.", "recommended_action": "Confirm the interest amount matches the standard rate for a 10-installment plan; escalate only if it deviates from the expected schedule."}, {"order_id": "b4c4b76c642808cbe472a32b86cddc95", "business_category": "Cash Recovery Risk", "risk_tier": "CRITICAL", "exception_type": "CANCELED_WITH_PAYMENT", "financial_exposure": 4809.44, "order_status": "canceled", "order_total": 4809.44, "payment_total": 4809.44, "installments": 5, "diff": 0.0, "order_approved_at": "2018-07-12", "summary": "Order was canceled after R$4,809.44 was already collected in full via a 5-installment plan.", "possible_cause": "Cancellation occurred after payment capture; the diff of R$0.00 shows the amount collected matches the order total exactly, so no refund appears to have been processed yet.", "recommended_action": "Verify with the payment processor whether a refund was issued for this canceled order; if not, this is the highest-exposure recovery case in the batch and should be prioritized."}, {"order_id": "6e5fe7366a2e1bfbf3257dba0af1267f", "business_category": "Expected Variance", "risk_tier": "CRITICAL", "exception_type": "INSTALLMENT_INTEREST", "financial_exposure": 119.01, "order_status": "delivered", "order_total": 287.91, "payment_total": 406.92, "installments": 10, "diff": 119.01, "order_approved_at": "2016-10-10", "summary": "Payment total (R$406.92) exceeds order total (R$287.91) by R$119.01 over 10 installments.", "possible_cause": "Consistent with installment interest; the variance-to-total ratio (about 41%) is proportionally larger than similar cases in this batch, worth a closer look.", "recommended_action": "Double-check this one against the standard installment rate table specifically, since the proportional variance is higher than peers with the same installment count."}, {"order_id": "70b7e94ea46d3e8b5bc12a50186edaf0", "business_category": "Expected Variance", "risk_tier": "CRITICAL", "exception_type": "INSTALLMENT_INTEREST", "financial_exposure": 61.69, "order_status": "delivered", "order_total": 213.15, "payment_total": 274.84, "installments": 24, "diff": 61.69, "order_approved_at": "2018-01-01", "summary": "Payment total (R$274.84) exceeds order total (R$213.15) by R$61.69 across 24 installments \u2014 the longest plan in this batch.", "possible_cause": "Consistent with cumulative interest over an extended 24-installment schedule.", "recommended_action": "Confirm the rate against the provider's long-installment interest table, since 24 installments is an outlier length compared to the rest of the sample."}, {"order_id": "70b742795bc441e94a44a084b6d9ce7a", "business_category": "Expected Variance", "risk_tier": "CRITICAL", "exception_type": "INSTALLMENT_INTEREST", "financial_exposure": 111.89, "order_status": "delivered", "order_total": 466.93, "payment_total": 578.82, "installments": 20, "diff": 111.89, "order_approved_at": "2017-08-24", "summary": "Payment total (R$578.82) exceeds order total (R$466.93) by R$111.89 over 20 installments.", "possible_cause": "Consistent with expected installment interest for a long-term (20-installment) plan.", "recommended_action": "Confirm against the standard rate table; no recovery action expected if the rate matches."}, {"order_id": "83e6338b5cf25dcf222551cb8da8d0d6", "business_category": "Cash Recovery Risk", "risk_tier": "CRITICAL", "exception_type": "CANCELED_WITH_PAYMENT", "financial_exposure": 2692.82, "order_status": "canceled", "order_total": 2692.82, "payment_total": 2692.82, "installments": 2, "diff": 0.0, "order_approved_at": "2017-08-19", "summary": "Order canceled after R$2,692.82 was collected in full via a 2-installment plan.", "possible_cause": "Same recovery pattern as other canceled-with-payment orders \u2014 cancellation after full payment capture, refund status unconfirmed.", "recommended_action": "Check payment processor records for a refund on this order; if none exists, treat as an open recovery/write-off decision."}, {"order_id": "078f6a01964ee122ef20881df839af31", "business_category": "Cash Recovery Risk", "risk_tier": "CRITICAL", "exception_type": "CANCELED_WITH_PAYMENT", "financial_exposure": 2419.2, "order_status": "canceled", "order_total": 2419.2, "payment_total": 2419.2, "installments": 10, "diff": 0.0, "order_approved_at": "2018-08-06", "summary": "Order canceled after R$2,419.20 was collected in full across 10 installments.", "possible_cause": "Same cancellation-after-payment pattern; the 10-installment structure means any refund process may need to account for reversing multiple charges, not one lump sum.", "recommended_action": "Confirm refund status with the payment processor, noting that a refund here would need to unwind 10 separate installment charges rather than a single transaction."}, {"order_id": "03310aa823a66056268a3bab36e827fb", "business_category": "Cash Recovery Risk", "risk_tier": "CRITICAL", "exception_type": "CANCELED_WITH_PAYMENT", "financial_exposure": 3184.34, "order_status": "canceled", "order_total": null, "payment_total": 3184.34, "installments": 1, "diff": 3184.34, "order_approved_at": null, "summary": "Order canceled with R$3,184.34 collected, but the order_total field is missing for this record.", "possible_cause": "Given the data provided, it's not possible to confirm whether the missing order_total reflects a data gap in the items table or a separate issue; this may be worth flagging as a data-quality concern in addition to a cash-recovery one.", "recommended_action": "Because order_total is unavailable, verify the original order value from another source before deciding on a refund or write-off amount \u2014 do not rely on payment_total alone as confirmation of the correct order value."}, {"order_id": "2c990009034e1fc83904584b26b5fd25", "business_category": "Data Integrity Risk", "risk_tier": "CRITICAL", "exception_type": "MISSING_ITEMS", "financial_exposure": 2234.7, "order_status": "unavailable", "order_total": null, "payment_total": 2234.7, "installments": 1, "diff": 2234.7, "order_approved_at": "2018-07-18", "summary": "R$2,234.70 was collected for this order, but no item records exist and the order status is \"unavailable.\"", "possible_cause": "The absence of item-level data combined with a non-standard \"unavailable\" status suggests a data-sync gap between the order and item systems rather than a normal delivered/canceled outcome.", "recommended_action": "Check the source item/inventory system directly for this order_id before assuming payment_total represents money owed or at risk \u2014 the missing items make this hard to interpret from ledger data alone."}, {"order_id": "fc20b8e282da6f3fbcdd3a3cedecb723", "business_category": "Data Integrity Risk", "risk_tier": "CRITICAL", "exception_type": "MISSING_ITEMS", "financial_exposure": 3782.19, "order_status": "unavailable", "order_total": null, "payment_total": 3782.19, "installments": 10, "diff": 3782.19, "order_approved_at": "2017-03-02", "summary": "R$3,782.19 collected across 10 installments, no item records, order status \"unavailable\" \u2014 the highest-exposure missing-items case in this batch.", "possible_cause": "Same data-sync gap pattern as other missing-items orders, here at higher dollar value and installment count, which may increase the difficulty of tracing the original item record.", "recommended_action": "Prioritize this one for direct lookup in the source item system given its size, before treating the full R$3,782.19 as at-risk exposure."}, {"order_id": "36cde427894b4797db8316e92b8e58f2", "business_category": "Data Integrity Risk", "risk_tier": "CRITICAL", "exception_type": "MISSING_ITEMS", "financial_exposure": 2116.01, "order_status": "unavailable", "order_total": null, "payment_total": 2116.01, "installments": 9, "diff": 2116.01, "order_approved_at": "2017-03-23", "summary": "R$2,116.01 collected across 9 installments, no item records, order status \"unavailable.\"", "possible_cause": "Consistent with the recurring missing-items / unavailable-status pattern seen across this batch.", "recommended_action": "Include in the same batch lookup against the item system recommended for the other missing-items cases, rather than reviewing individually."}, {"order_id": "05c852fbe20c108caf9f479633cbe088", "business_category": "Data Integrity Risk", "risk_tier": "CRITICAL", "exception_type": "MISSING_ITEMS", "financial_exposure": 2345.03, "order_status": "unavailable", "order_total": null, "payment_total": 2345.03, "installments": 1, "diff": 2345.03, "order_approved_at": "2018-07-13", "summary": "R$2,345.03 collected in a single payment, no item records, order status \"unavailable.\"", "possible_cause": "Same missing-items pattern; single installment suggests this wasn't a financed purchase, which may make the missing item record easier to trace.", "recommended_action": "Cross-check against the item system; the single-payment structure may make this the fastest of the missing-items cases to resolve."}, {"order_id": "b465e6231fb8411e534acc602cff4adb", "business_category": "Data Integrity Risk", "risk_tier": "CRITICAL", "exception_type": "MISSING_ITEMS", "financial_exposure": 2125.19, "order_status": "unavailable", "order_total": null, "payment_total": 2125.19, "installments": 10, "diff": 2125.19, "order_approved_at": "2017-06-12", "summary": "R$2,125.19 collected across 10 installments, no item records, order status \"unavailable.\"", "possible_cause": "Consistent with the same recurring data-sync pattern across the missing-items group.", "recommended_action": "Batch this with the other missing-items orders for a single root-cause investigation into why item records are absent for \"unavailable\" status orders."}, {"order_id": "7813842ae95e8c497fc0233232ae815a", "business_category": "Cash Recovery Risk", "risk_tier": "CRITICAL", "exception_type": "CANCELED_WITH_PAYMENT", "financial_exposure": 3184.34, "order_status": "canceled", "order_total": null, "payment_total": 3184.34, "installments": 1, "diff": 3184.34, "order_approved_at": null, "summary": "Order canceled with R$3,184.34 collected; order_total is missing for this record, identical in structure to another case in this batch.", "possible_cause": "Given the data provided, the missing order_total makes it unclear whether this reflects the same data gap seen elsewhere or a distinct issue; cannot confirm from these fields alone.", "recommended_action": "Verify order value from another source before finalizing a refund or write-off amount, same as recommended for the other canceled order with a missing order_total."}], "kpis": {"total_exceptions": 1618, "total_exposure": 271891.01, "match_rate": 98.37, "categories": [{"name": "Cash Recovery Risk", "count": 735, "types": "CANCELED_WITH_PAYMENT + UNDERPAYMENT + OVERPAYMENT"}, {"name": "Data Integrity Risk", "count": 614, "types": "MISSING_ITEMS"}, {"name": "Expected Variance", "count": 255, "types": "INSTALLMENT_INTEREST"}, {"name": "Process Control Gap", "count": 14, "types": "APPROVAL_GAP"}]}};
+const demo = PAYLOAD.demo;
+
+const tierOrder = ["CRITICAL","HIGH","MEDIUM","LOW"];
+const tierSelectEl = document.getElementById('tierSelect');
+const exceptionListEl = document.getElementById('exceptionList');
+const aiPackageWrap = document.getElementById('aiPackageWrap');
+const viewToggleEl = document.getElementById('viewToggle');
+viewToggleEl.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentView = btn.dataset.view;
+    viewToggleEl.querySelectorAll('button').forEach(b => b.classList.remove('active', 'view'));
+    btn.classList.add('active', 'view');
+    const row = demo.find(d => d.order_id === currentOrderId);
+    renderPackage(row || null);
+  });
+});
+
+let currentTier = null;
+let currentOrderId = null;
+let currentView = 'with';
+
+function tierCounts(){
+  const counts = {};
+  tierOrder.forEach(t => counts[t] = 0);
+  demo.forEach(d => { if(counts[d.risk_tier] !== undefined) counts[d.risk_tier]++; });
+  return counts;
+}
+
+function renderTiers(){
+  const counts = tierCounts();
+  tierSelectEl.innerHTML = tierOrder.map(t => {
+    const active = t === currentTier ? `active ${t}` : '';
+    return `<button class="tier-btn ${active}" data-tier="${t}">${t} (${counts[t]})</button>`;
+  }).join('');
+  tierSelectEl.querySelectorAll('.tier-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentTier = btn.dataset.tier;
+      currentOrderId = null;
+      renderTiers();
+      renderExceptions();
+      renderPackage(null);
+    });
+  });
+}
+
+function fmtMoney(v){
+  if(v === null || v === undefined) return 'n/a';
+  return 'R$' + Number(v).toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
+}
+
+function renderExceptions(){
+  if(!currentTier){
+    exceptionListEl.innerHTML = '<div class="empty-hint">Pick a risk tier above to see its exceptions.</div>';
+    return;
+  }
+  const filtered = demo.filter(d => d.risk_tier === currentTier);
+  if(filtered.length === 0){
+    exceptionListEl.innerHTML = '<div class="empty-hint">No sampled exceptions in this tier.</div>';
+    return;
+  }
+  exceptionListEl.innerHTML = filtered.map(d => {
+    const sel = d.order_id === currentOrderId ? 'selected' : '';
+    return `<div class="exc-item ${sel}" data-id="${d.order_id}">
+      <span class="exc-item-id">${d.order_id.slice(0,12)}...</span>
+      <span class="exc-item-meta">${d.business_category} &middot; ${fmtMoney(d.financial_exposure)}</span>
+    </div>`;
+  }).join('');
+  exceptionListEl.querySelectorAll('.exc-item').forEach(item => {
+    item.addEventListener('click', () => {
+      currentOrderId = item.dataset.id;
+      renderExceptions();
+      const row = demo.find(d => d.order_id === currentOrderId);
+      renderPackage(row);
+    });
+  });
+}
+
+function renderPackage(row){
+  if(!row){
+    aiPackageWrap.innerHTML = '<div class="empty-hint">Select an exception above to see its review package.</div>';
+    return;
+  }
+  if(currentView === 'without'){
+    aiPackageWrap.innerHTML = `
+      <div class="ai-package" style="border-color:var(--border);">
+        <div class="ai-package-header" style="color:var(--muted);">Raw fields \u2014 what an analyst opens today, no ordering or drafting applied</div>
+        <div class="ai-field"><div class="ai-field-label">order_id</div><div class="ai-field-body" style="font-family:'JetBrains Mono',monospace;font-size:12px;">${row.order_id}</div></div>
+        <div class="ai-field"><div class="ai-field-label">exception_type</div><div class="ai-field-body">${row.exception_type}</div></div>
+        <div class="ai-field"><div class="ai-field-label">order_status</div><div class="ai-field-body">${row.order_status}</div></div>
+        <div class="ai-field"><div class="ai-field-label">order_total / payment_total / installments / diff</div><div class="ai-field-body" style="font-family:'JetBrains Mono',monospace;font-size:11.5px;">${row.order_total === null ? 'n/a' : fmtMoney(row.order_total)} / ${fmtMoney(row.payment_total)} / ${row.installments} / ${fmtMoney(row.diff)}</div></div>
+        <div class="ai-field"><div class="ai-field-label">Analyst still has to do</div><div class="ai-field-body">Read all 8 fields above, infer what likely happened, decide priority relative to the rest of the queue, and write up a summary and next action from scratch.</div></div>
+      </div>
+    `;
+    return;
+  }
+  aiPackageWrap.innerHTML = `
+    <div class="ai-package">
+      <div class="ai-package-header">AI-drafted &mdash; requires human validation</div>
+      <div class="ai-field"><div class="ai-field-label">Order</div><div class="ai-field-body">${row.order_id} &middot; ${row.business_category} &middot; ${row.risk_tier} &middot; ${row.exception_type}</div></div>
+      <div class="ai-field"><div class="ai-field-label">Summary</div><div class="ai-field-body">${row.summary}</div></div>
+      <div class="ai-field"><div class="ai-field-label">Possible cause</div><div class="ai-field-body">${row.possible_cause}</div></div>
+      <div class="ai-field"><div class="ai-field-label">Recommended action</div><div class="ai-field-body">${row.recommended_action}</div></div>
+      <div class="ai-field"><div class="ai-field-label">Underlying data</div><div class="ai-field-body" style="font-family:'JetBrains Mono',monospace;font-size:11.5px;">exposure ${fmtMoney(row.financial_exposure)} &middot; order_total ${row.order_total === null ? 'n/a' : fmtMoney(row.order_total)} &middot; payment_total ${fmtMoney(row.payment_total)} &middot; installments ${row.installments} &middot; status ${row.order_status}</div></div>
+      <div class="validation-row">
+        <button class="val-btn approve" data-action="Approved">Approve</button>
+        <button class="val-btn modify" data-action="Modified">Modify</button>
+        <button class="val-btn reject" data-action="Rejected">Reject</button>
+        <button class="val-btn escalate" data-action="Escalated">Escalate</button>
+      </div>
+      <div class="decision-log" id="decisionLog"></div>
+    </div>
+  `;
+  aiPackageWrap.querySelectorAll('.val-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const log = document.getElementById('decisionLog');
+      const ts = new Date().toLocaleString();
+      log.innerHTML = `<strong>Step 5 &mdash; Human Validation logged:</strong> ${btn.dataset.action} by reviewer &middot; ${ts}<br><span style="color:var(--muted);">(demo only &mdash; in production this write goes to Step 6, Audit Trail Logging, not to this page)</span>`;
+      log.classList.add('show');
+    });
+  });
+}
+
+currentTier = "CRITICAL";
+currentOrderId = demo.find(d => d.risk_tier === "CRITICAL").order_id;
+renderTiers();
+renderExceptions();
+renderPackage(demo.find(d => d.order_id === currentOrderId));
+</script>
+</body>
+</html>
