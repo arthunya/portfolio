@@ -174,10 +174,10 @@ pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);l
   <div class="layer-nav fin" style="animation-delay:.1s">
     <a href="l0-discovery.html" class="lnav-pip done"><div class="lnav-pip-id">L0</div><div class="lnav-pip-name">Discovery</div></a>
     <a href="l1-process-mapping.html" class="lnav-pip done"><div class="lnav-pip-id">L1</div><div class="lnav-pip-name">Process map</div></a>
-    <div class="lnav-pip done"><div class="lnav-pip-id">L2</div><div class="lnav-pip-name">Data + SQL</div></div>
+    <div class="lnav-pip active"><div class="lnav-pip-id">L2</div><div class="lnav-pip-name">Data + SQL</div></div>
     <a href="l3-dashboard.html" class="lnav-pip done"><div class="lnav-pip-id">L3</div><div class="lnav-pip-name">Dashboard</div></a>
-    <div class="lnav-pip active"><div class="lnav-pip-id">L4</div><div class="lnav-pip-name">AI use cases</div></div>
-    <div class="lnav-pip pending"><div class="lnav-pip-id">L5</div><div class="lnav-pip-name">ROI + controls</div></div>
+    <a href="l4-ai-exception-review.html" class="lnav-pip done"><div class="lnav-pip-id">L4</div><div class="lnav-pip-name">AI use cases</div></a>
+    <a href="l5-roi-controls.html" class="lnav-pip done"><div class="lnav-pip-id">L5</div><div class="lnav-pip-name">Business case</div></a>
     <div class="lnav-pip pending"><div class="lnav-pip-id">L6</div><div class="lnav-pip-name">UAT + closure</div></div>
   </div>
 
@@ -338,7 +338,7 @@ payment_value <span class="keyword">AS</span> (
         <tr><td><span class="badge hi">HIGH</span></td><td>Canceled with payment</td><td>622</td><td>R$143,255.60</td></tr>
         <tr><td><span class="badge med">MED</span></td><td>Missing items</td><td>614</td><td>R$125,254.08</td></tr>
         <tr><td><span class="badge med">MED</span></td><td>Underpayment</td><td>83</td><td>R$199.52</td></tr>
-        <tr><td><span class="badge med">MED</span></td><td>Approval gap Q1 2017</td><td>14</td><td>audit risk</td></tr>
+        <tr><td><span class="badge med">MED</span></td><td>Approval gap (all 14 cluster in Jan–Feb 2017, no date filter in query)</td><td>14</td><td>audit risk</td></tr>
         <tr><td><span class="badge lo">LOW</span></td><td>Overpayment (rounding)</td><td>30</td><td>R$150.05</td></tr>
         <tr><td><span class="badge ok">EXP</span></td><td>Installment interest</td><td>255</td><td>R$3,031.76 (expected)</td></tr>
       </tbody>
@@ -376,10 +376,10 @@ payment_value <span class="keyword">AS</span> (
       </div>
     </div>
     <div class="summary-grid">
-      <div class="sum-chip"><strong>98.37%</strong> match rate<div class="meta">Target ≥95% · 97,823 / 99,441 orders</div></div>
+      <div class="sum-chip"><strong>98.37%</strong> exception-free rate<div class="meta">Target ≥95% · 97,823 / 99,441 orders with zero exceptions (distinct from Step 1's 98.85% amount match rate — 476 orders match on amount but still fail a business rule)</div></div>
       <div class="sum-chip"><strong>3 tables</strong> chained in DuckDB<div class="meta">l2_auto_match → l2_exception_classified → l2_exception_summary</div></div>
       <div class="sum-chip"><strong>2 bugs</strong> found and fixed<div class="meta">CASE WHEN branch order · column reuse across questions</div></div>
-      <div class="sum-chip"><strong>R$272,891</strong> total exception exposure<div class="meta">Excludes expected installment interest</div></div>
+      <div class="sum-chip"><strong>R$271,891.01</strong> total exception exposure<div class="meta">Includes expected installment interest (R$3,031.76) alongside true anomalies</div></div>
     </div>
     <div class="prose">L3 connects <code>l2_exception_summary</code> and <code>l2_exception_classified</code> to Power BI for a severity-tiered dashboard with order-level drill-down.</div>
   </div>

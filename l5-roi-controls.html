@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L5 — Business Case & Enterprise Readiness · O2C Reconciliation · Arthunya</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#06060A; --panel:#0E0E18; --card:#141420; --hover:#1A1A2E;
+  --border:rgba(255,255,255,0.06); --border-hi:rgba(37,99,235,0.3);
+  --text:#F0F2F8; --sub:#A8B0C8; --muted:#6B7290;
+  --blue:#3B82F6; --cyan:#22D3EE; --green:#10B981;
+  --amber:#F59E0B; --red:#F43F5E; --purple:#8B5CF6;
+}
+.lm {
+  --bg:#F8F9FC; --panel:#FFFFFF; --card:#F1F3F9; --hover:#E8EBF4;
+  --border:rgba(15,23,42,0.08); --border-hi:rgba(37,99,235,0.2);
+  --text:#0F172A; --sub:#475569; --muted:#94A3B8;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;transition:background .4s,color .4s;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+code{font-family:'JetBrains Mono',monospace;font-size:.88em;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.12);border-radius:5px;padding:2px 6px;color:var(--cyan);}
+pre{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;overflow-x:auto;margin:14px 0;}
+pre code{background:none;border:none;padding:0;font-size:13px;color:var(--sub);line-height:1.8;}
+.keyword{color:#7DD3FC;}
+.fn{color:#86EFAC;}
+.str{color:#FDE68A;}
+.cmt{color:#6B7290;font-style:italic;}
+.num{color:#F9A8D4;}
+
+.shell{max-width:860px;margin:0 auto;padding:20px 20px 60px;}
+
+.topnav{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:24px;position:relative;overflow:hidden;}
+.topnav::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--green));opacity:.5;}
+.back-link{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--sub);transition:color .2s;}
+.back-link:hover{color:var(--blue);text-decoration:none;}
+.theme-btn{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:999px;border:1px solid var(--border);background:var(--card);color:var(--muted);cursor:pointer;transition:all .2s;}
+.theme-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);}
+
+.hero{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:28px 28px 24px;margin-bottom:24px;}
+.layer-badge{display:inline-flex;align-items:center;gap:7px;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--amber);background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:999px;padding:4px 14px;margin-bottom:14px;}
+.layer-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--amber);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.85)}}
+.hero-title{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px;background:linear-gradient(135deg,var(--text),var(--sub));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:13.5px;color:var(--sub);margin-bottom:18px;line-height:1.6;}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;}
+.meta-chip{font-family:'JetBrains Mono',monospace;font-size:10px;padding:4px 10px;border-radius:6px;background:rgba(59,130,246,.06);color:var(--blue);border:1px solid rgba(59,130,246,.1);}
+
+.layer-nav{display:flex;gap:5px;margin-bottom:24px;}
+.lnav-pip{flex:1;border-radius:8px;padding:8px 4px;text-align:center;border:1px solid var(--border);background:var(--panel);font-family:'JetBrains Mono',monospace;transition:all .2s;cursor:default;text-decoration:none;display:block;}
+.lnav-pip.done{background:rgba(16,185,129,.08);border-color:rgba(16,185,129,.28);}
+.lnav-pip.active{background:rgba(245,158,11,.08);border-color:rgba(245,158,11,.35);}
+.lnav-pip-id{font-size:10px;font-weight:700;margin-bottom:2px;}
+.lnav-pip.done .lnav-pip-id{color:var(--green);}
+.lnav-pip.active .lnav-pip-id{color:var(--amber);}
+.lnav-pip.pending .lnav-pip-id{color:var(--muted);}
+.lnav-pip-name{font-size:9px;color:var(--muted);}
+.lnav-pip.active .lnav-pip-name{color:var(--amber);}
+
+.toc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-bottom:28px;}
+.toc-title{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.toc-title::before{content:'';width:14px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:1px;}
+.toc-list{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.toc-list li a{font-size:13px;color:var(--sub);display:flex;align-items:center;gap:8px;transition:color .2s;}
+.toc-list li a:hover{color:var(--blue);text-decoration:none;}
+.toc-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);min-width:24px;}
+.toc-status{font-family:'JetBrains Mono',monospace;font-size:9px;padding:2px 7px;border-radius:4px;margin-left:auto;}
+.toc-status.done{background:rgba(16,185,129,.08);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.toc-status.find{background:rgba(245,158,11,.08);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+
+.step{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px;transition:border-color .3s;}
+.step:hover{border-color:var(--border-hi);}
+.step-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--blue);background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);border-radius:8px;padding:4px 10px;flex-shrink:0;margin-top:2px;}
+.step-info{}
+.step-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.step-why{font-size:12px;color:var(--muted);font-style:italic;}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin:14px 0 8px;display:flex;align-items:center;gap:6px;}
+.section-label::before{content:'';width:10px;height:1.5px;background:var(--blue);border-radius:1px;opacity:.5;}
+.prose{font-size:13.5px;color:var(--sub);line-height:1.8;margin-bottom:10px;}
+.prose strong{color:var(--text);font-weight:600;}
+.prose em{color:var(--blue);font-style:normal;}
+
+.finding{border-radius:10px;padding:14px 16px;margin:12px 0;border-left:3px solid;}
+.finding.info{background:rgba(59,130,246,.06);border-color:var(--blue);}
+.finding.warn{background:rgba(245,158,11,.06);border-color:var(--amber);}
+.finding.danger{background:rgba(244,63,94,.06);border-color:var(--red);}
+.finding.success{background:rgba(16,185,129,.06);border-color:var(--green);}
+.finding.bug{background:rgba(139,92,246,.06);border-color:var(--purple);}
+.finding-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.finding.info .finding-label{color:var(--blue);}
+.finding.warn .finding-label{color:var(--amber);}
+.finding.danger .finding-label{color:var(--red);}
+.finding.success .finding-label{color:var(--green);}
+.finding.bug .finding-label{color:var(--purple);}
+.finding-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.finding-text strong{color:var(--text);}
+
+.result-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:12px 0;}
+.result-table th{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);}
+.result-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:var(--sub);}
+.result-table tr:last-child td{border-bottom:none;}
+.result-table td:first-child{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--cyan);}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:5px;font-weight:600;}
+.badge.hi{background:rgba(244,63,94,.1);color:var(--red);border:1px solid rgba(244,63,94,.2);}
+.badge.med{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+.badge.lo{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.2);}
+.badge.ok{background:rgba(107,114,144,.1);color:var(--muted);border:1px solid rgba(107,114,144,.2);}
+
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0;}
+.sum-chip{background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(6,182,212,.03));border:1px solid rgba(59,130,246,.1);border-radius:10px;padding:14px;font-size:12px;color:var(--sub);}
+.sum-chip strong{color:var(--text);font-weight:700;font-size:13.5px;display:block;margin-bottom:3px;}
+.sum-chip .meta{font-size:10px;color:var(--muted);margin-top:5px;font-family:'JetBrains Mono',monospace;}
+
+.lesson{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:12px 0;display:flex;gap:12px;align-items:flex-start;}
+.lesson-icon{font-size:16px;flex-shrink:0;margin-top:1px;}
+.lesson-text{font-size:13px;color:var(--sub);line-height:1.7;}
+.lesson-text strong{color:var(--text);}
+
+.footer{text-align:center;padding:28px 0 0;border-top:1px solid var(--border);margin-top:32px;}
+.footer-text{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.footer-nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;}
+.fnav-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:8px;font-size:12.5px;font-weight:500;border:1px solid var(--border);background:var(--card);color:var(--sub);text-decoration:none;transition:all .2s;}
+.fnav-btn:hover{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.04);}
+.fnav-btn.primary{border-color:rgba(59,130,246,.3);color:var(--blue);background:rgba(59,130,246,.06);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.fin{animation:fadeUp .5s cubic-bezier(.4,0,.2,1) forwards;opacity:0;}
+
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:14px 0;}
+.kpi-card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.kpi-label{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:6px;}
+.kpi-value{font-size:22px;font-weight:800;color:var(--text);}
+.kpi-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+
+.flow-row{display:flex;align-items:stretch;gap:6px;margin:16px 0;flex-wrap:wrap;}
+.flow-step{flex:1;min-width:130px;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 10px;text-align:center;position:relative;}
+.flow-step.ai{border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.05);}
+.flow-step-num{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:4px;}
+.flow-step.ai .flow-step-num{color:var(--amber);}
+.flow-step-name{font-size:11.5px;font-weight:600;color:var(--text);line-height:1.3;}
+.flow-arrow{display:flex;align-items:center;color:var(--muted);font-size:14px;padding:0 2px;}
+.before-after{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0;}
+.ba-col{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;}
+.ba-col.before{border-color:rgba(244,63,94,.2);}
+.ba-col.after{border-color:rgba(16,185,129,.2);}
+.ba-label{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;}
+.ba-col.before .ba-label{color:var(--red);}
+.ba-col.after .ba-label{color:var(--green);}
+.ba-item{font-size:12.5px;color:var(--sub);padding:6px 0;border-bottom:1px solid var(--border);}
+.ba-item:last-child{border-bottom:none;}
+
+.demo-panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;}
+.tier-select{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;}
+.tier-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--card);color:var(--sub);cursor:pointer;transition:all .15s;}
+.tier-btn:hover{border-color:var(--border-hi);}
+.tier-btn.active.CRITICAL{background:rgba(244,63,94,.12);border-color:var(--red);color:var(--red);}
+.tier-btn.active.view{background:rgba(59,130,246,.12);border-color:var(--blue);color:var(--blue);}
+.tier-btn.active.HIGH{background:rgba(245,158,11,.12);border-color:var(--amber);color:var(--amber);}
+.tier-btn.active.MEDIUM{background:rgba(234,179,8,.12);border-color:#EAB308;color:#EAB308;}
+.tier-btn.active.LOW{background:rgba(107,114,144,.12);border-color:var(--muted);color:var(--muted);}
+.exception-list{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;max-height:220px;overflow-y:auto;}
+.exc-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:8px;border:1px solid var(--border);background:var(--card);cursor:pointer;transition:all .15s;}
+.exc-item:hover{border-color:var(--border-hi);}
+.exc-item.selected{border-color:var(--blue);background:rgba(59,130,246,.08);}
+.exc-item-id{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text);}
+.exc-item-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);}
+.ai-package{background:var(--card);border:1px solid rgba(245,158,11,.25);border-radius:10px;padding:16px 18px;margin-top:4px;}
+.ai-package-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:.06em;}
+.ai-field{margin-bottom:10px;}
+.ai-field:last-child{margin-bottom:0;}
+.ai-field-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:3px;}
+.ai-field-body{font-size:13px;color:var(--sub);line-height:1.6;}
+.validation-row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.val-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:8px 14px;border-radius:7px;border:1px solid var(--border);background:var(--panel);color:var(--sub);cursor:pointer;transition:all .15s;}
+.val-btn:hover{border-color:var(--border-hi);}
+.val-btn.approve:hover{border-color:var(--green);color:var(--green);}
+.val-btn.modify:hover{border-color:var(--blue);color:var(--blue);}
+.val-btn.reject:hover{border-color:var(--red);color:var(--red);}
+.val-btn.escalate:hover{border-color:var(--purple);color:var(--purple);}
+.decision-log{margin-top:14px;padding:10px 14px;border-radius:8px;background:var(--panel);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);display:none;}
+.decision-log.show{display:block;}
+.decision-log strong{color:var(--text);}
+.empty-hint{font-size:12.5px;color:var(--muted);text-align:center;padding:24px 0;font-style:italic;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="topnav fin">
+    <a href="index.html" class="back-link" style="text-decoration:none;">
+      &larr; Back to portfolio
+    </a>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">O2C Reconciliation Modernization</span>
+      <button class="theme-btn" onclick="document.body.classList.toggle('lm');this.textContent=document.body.classList.contains('lm')?'🌙 dark':'☀️ light'">☀️ light</button>
+    </div>
+  </div>
+
+  <div class="hero fin" style="animation-delay:.05s">
+    <div class="layer-badge"><span class="dot"></span> L5 &mdash; Business Case &amp; Enterprise Readiness</div>
+    <div class="hero-title">What Would It Take to Use This in a Real Organization?</div>
+    <div class="hero-sub">L4 established where AI belongs in the workflow and where it deliberately doesn't. L5 answers what a hiring manager or budget approver actually asks next: what does this cost and return, who's accountable for each decision, what could go wrong, and what's still missing between this prototype and a production system.</div>
+    <div class="hero-meta">
+      <span class="meta-chip">Source: L2/L4 verified figures + labeled assumptions</span>
+      <span class="meta-chip">No production system &mdash; case study on public data</span>
+      <span class="meta-chip">Built: Jul 2026</span>
+    </div>
+  </div>
+
+  <div class="finding info fin" style="animation-delay:.07s;">
+    <div class="finding-text" style="font-size:14px;"><strong>This is not intended to demonstrate that AI should replace financial analysts.</strong> It demonstrates how a Business Analyst redesigns a financial review workflow so AI handles repetitive preparation while humans retain accountability for every business decision &mdash; and what it would take to run that redesign for real.</div>
+  </div>
+
+  <div class="layer-nav fin" style="animation-delay:.1s">
+    <a href="l0-discovery.html" class="lnav-pip done"><div class="lnav-pip-id">L0</div><div class="lnav-pip-name">Discovery</div></a>
+    <a href="l1-process-mapping.html" class="lnav-pip done"><div class="lnav-pip-id">L1</div><div class="lnav-pip-name">Process map</div></a>
+    <a href="l2-data-sql.html" class="lnav-pip done"><div class="lnav-pip-id">L2</div><div class="lnav-pip-name">Data + SQL</div></a>
+    <a href="l3-dashboard.html" class="lnav-pip done"><div class="lnav-pip-id">L3</div><div class="lnav-pip-name">Dashboard</div></a>
+    <a href="l4-ai-exception-review.html" class="lnav-pip done"><div class="lnav-pip-id">L4</div><div class="lnav-pip-name">AI review</div></a>
+    <div class="lnav-pip active"><div class="lnav-pip-id">L5</div><div class="lnav-pip-name">Business case</div></div>
+    <div class="lnav-pip pending"><div class="lnav-pip-id">L6</div><div class="lnav-pip-name">UAT + closure</div></div>
+  </div>
+
+  <div class="toc fin" style="animation-delay:.12s">
+    <div class="toc-title">Contents</div>
+    <ul class="toc-list">
+      <li><a href="#s1"><span class="toc-num">01</span>Executive business case<span class="toc-status done">done</span></a></li>
+      <li><a href="#s2"><span class="toc-num">02</span>AI governance &amp; controls<span class="toc-status done">done</span></a></li>
+      <li><a href="#s3"><span class="toc-num">03</span>Business analyst readiness questions<span class="toc-status done">done</span></a></li>
+      <li><a href="#s4"><span class="toc-num">04</span>Enterprise deployment roadmap<span class="toc-status done">done</span></a></li>
+      <li><a href="#s5"><span class="toc-num">05</span>Executive conclusion</a></li>
+    </ul>
+  </div>
+
+  <div class="step fin" id="s1" style="animation-delay:.14s">
+    <div class="step-header">
+      <div class="step-num">01</div>
+      <div class="step-info">
+        <div class="step-title">Executive business case</div>
+        <div class="step-why">Actual figures from L2/L4, kept separate from labeled assumptions</div>
+      </div>
+    </div>
+    <div class="prose">There's no production system here to benchmark against, so this section is built two ways on purpose: numbers that are <strong>Actual</strong> (verified against L2's SQL output) and numbers that are <strong>Assumption</strong> (a labeled, sourced estimate standing in for a measurement that doesn't exist yet). Presenting both honestly &mdash; instead of one blended "ROI" figure &mdash; is the point of this section, not a hedge.</div>
+
+    <div class="section-label">What's actually recoverable vs. what's actually exposed</div>
+    <div class="kpi-row">
+      <div class="kpi-card"><div class="kpi-label">Recoverable cash</div><div class="kpi-value">R$199.52</div><div class="kpi-sub">Actual &mdash; UNDERPAYMENT only (83 orders), the one category that's genuinely money owed back</div></div>
+      <div class="kpi-card"><div class="kpi-label">Risk-managed exposure</div><div class="kpi-value">R$268,659.73</div><div class="kpi-sub">Actual &mdash; CANCELED_WITH_PAYMENT + MISSING_ITEMS + OVERPAYMENT (refund liability &amp; data-integrity risk, not new cash in)</div></div>
+      <div class="kpi-card"><div class="kpi-label">Total exception exposure</div><div class="kpi-value">R$271,891.01</div><div class="kpi-sub">Actual &mdash; verified vs. L2/L3/L4, includes expected installment interest</div></div>
+      <div class="kpi-card"><div class="kpi-label">Exceptions in scope</div><div class="kpi-value">1,618</div><div class="kpi-sub">Actual &mdash; verified vs. L2/L3/L4</div></div>
+    </div>
+    <div class="finding warn">
+      <div class="finding-label">The honest headline number</div>
+      <div class="finding-text">Recoverable cash is <strong>R$199.52</strong> &mdash; not R$271,891.01. Most of the exposure is a refund liability (CANCELED_WITH_PAYMENT) or a data-integrity gap (MISSING_ITEMS), not cash walking in the door. The real business case for this workflow is <strong>faster, more consistent resolution of that exposure</strong> &mdash; not cash recovery.</div>
+    </div>
+
+    <div class="section-label">Labor savings &mdash; assumption, sourced from L4's own stated baseline</div>
+    <div class="prose">L4 Step 02 already states its manual-review baseline as <strong>10&ndash;15 min/case, "industry-typical estimate &mdash; not measured on this dataset."</strong> This section reuses that exact range (midpoint 12.5 min) rather than introducing a new number, and assumes 4 min/case for the AI-assisted review (reading a drafted package and validating it, vs. building one from scratch).</div>
+    <table class="result-table">
+      <thead><tr><th>input</th><th>value</th><th>source</th></tr></thead>
+      <tbody>
+        <tr><td>Manual review time</td><td>12.5 min/case</td><td>Assumption &mdash; midpoint of L4's stated 10&ndash;15 min range</td></tr>
+        <tr><td>AI-assisted review time</td><td>4 min/case</td><td>Assumption &mdash; validate a drafted package vs. build from scratch</td></tr>
+        <tr><td>US loaded hourly rate</td><td>$58.50/hr</td><td>Assumption &mdash; entry BA/Data Analyst, SF Bay Area (ZipRecruiter, Salary.com) &times;1.3 benefits/overhead</td></tr>
+        <tr><td>Brazil loaded hourly rate</td><td>R$67.60/hr</td><td>Assumption &mdash; entry Financial Analyst, Brazil (ERI SalaryExpert) &times;1.3 benefits/overhead</td></tr>
+      </tbody>
+    </table>
+    <div class="summary-grid">
+      <div class="sum-chip"><strong>229.2 hours saved</strong> clearing the full 1,618-case backlog once<div class="meta">Assumption &mdash; 8.5 min saved &times; 1,618 cases</div></div>
+      <div class="sum-chip"><strong>$13,409 / R$15,495</strong> labor value of that one-time saving<div class="meta">Assumption &mdash; hours saved &times; loaded rate, both currencies</div></div>
+    </div>
+
+    <div class="section-label">Build cost &mdash; scenario estimate, not actual hours spent</div>
+    <div class="prose">This project's real build hours weren't tracked cleanly enough to report as a verified figure &mdash; commit and session timestamps could confirm some sessions but not others, and inventing precision there would fail the same no-fabrication bar as inventing a dollar figure. Instead, build cost below models a different, clearly-labeled question: <em>if an organization hired an analyst to build this from scratch</em>, how long would it reasonably take? One input has a direct external citation; the rest are scope-based estimates.</div>
+    <table class="result-table">
+      <thead><tr><th>layer</th><th>hours</th><th>basis</th></tr></thead>
+      <tbody>
+        <tr><td>L0 &mdash; Discovery</td><td>14</td><td>Scope estimate &mdash; requirements/data-profiling norm (~1&ndash;2 days) extended for SQL exploration</td></tr>
+        <tr><td>L1 &mdash; Process mapping</td><td>6</td><td>Scope estimate &mdash; two BPMN diagrams + documentation</td></tr>
+        <tr><td>L2 &mdash; SQL classification</td><td>20</td><td>Scope estimate &mdash; 6 exception types, validated against two known bug classes</td></tr>
+        <tr><td>L3 &mdash; Dashboard</td><td>12</td><td><strong>Cited</strong> &mdash; 8&ndash;15 hrs for a moderately complex dashboard on clean data (Elevated Signal), midpoint</td></tr>
+        <tr><td>L4 &mdash; AI workflow design</td><td>20</td><td>Scope estimate &mdash; two-axis priority framework + interactive demo build</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>72</strong></td><td>~9 working days</td></tr>
+      </tbody>
+    </table>
+    <div class="summary-grid">
+      <div class="sum-chip"><strong>$4,212 / R$4,867</strong> scenario build cost (72 hrs &times; loaded rate)<div class="meta">Assumption &mdash; both currencies, see rate basis above</div></div>
+      <div class="sum-chip"><strong>0.31 cycles</strong> to break even on labor savings alone<div class="meta">Assumption &mdash; build cost &divide; one-time backlog labor savings, same in both currencies</div></div>
+    </div>
+    <div class="finding danger">
+      <div class="finding-label">Why 0.31 isn't the number to lead with in an interview</div>
+      <div class="finding-text">The 1,618 exceptions are a <strong>multi-year historical backlog</strong> (2016&ndash;2018 order data), not a monthly volume. "0.31 cycles to break even" describes clearing that backlog once &mdash; it says nothing about ongoing monthly ROI, which would need an actual monthly exception volume to compute honestly. Presented without this caveat, the number overstates the case; presented with it, it's a defensible one-time efficiency gain plus an open question for further analysis.</div>
+    </div>
+  </div>
+
+  <div class="step fin" id="s2" style="animation-delay:.16s">
+    <div class="step-header">
+      <div class="step-num">02</div>
+      <div class="step-info">
+        <div class="step-title">AI governance &amp; controls</div>
+        <div class="step-why">Who decides what, how the design prevents the AI from acting on its own, and what's still risky</div>
+      </div>
+    </div>
+    <div class="prose">These three tables answer three different questions on purpose: <strong>who</strong> is accountable for each decision, <strong>how</strong> the workflow physically prevents AI from acting unsupervised, and <strong>what</strong> could still go wrong even with those controls in place. All three describe the actual L4 design &mdash; none of this is aspirational.</div>
+
+    <div class="section-label">Decision-rights matrix</div>
+    <table class="result-table">
+      <thead><tr><th>decision</th><th>ai</th><th>human</th></tr></thead>
+      <tbody>
+        <tr><td>Detect &amp; classify exception <span style="color:var(--muted);">(SQL rules)</span></td><td></td><td>&#10003;</td></tr>
+        <tr><td>Assign risk tier / priority</td><td></td><td>&#10003; <span style="color:var(--muted);">(SQL, not AI)</span></td></tr>
+        <tr><td>Draft summary, cause, action</td><td>&#10003; Step 4</td><td></td></tr>
+        <tr><td>Approve / modify / reject the draft</td><td></td><td>&#10003; Step 5</td></tr>
+        <tr><td>Escalate a case</td><td></td><td>&#10003; Step 5</td></tr>
+        <tr><td>Write to the ledger / system of record</td><td></td><td>&#10003; (manually, outside this tool)</td></tr>
+        <tr><td>Log what happened</td><td></td><td>&#10003; Step 6, independent of AI's draft</td></tr>
+      </tbody>
+    </table>
+    <div class="finding info">
+      <div class="finding-text">Reading the table above literally: AI participates in exactly <strong>1 of 6</strong> workflow steps, and that step produces a draft, not a decision. Every other row is either a fixed SQL rule or a human action.</div>
+    </div>
+
+    <div class="section-label">Control chain</div>
+    <div class="flow-row">
+      <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-name">Row count verified vs. L2/L3 (1,618)</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-name">SQL business rules only, no ML training</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step ai"><div class="flow-step-num">3 &middot; AI</div><div class="flow-step-name">Fixed prompt, grounded strictly in SQL fields</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-name">Human validation (Approve/Modify/Reject/Escalate)</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-name">Decision logged to audit trail</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">6</div><div class="flow-step-name">No automatic write-back to ledger</div></div>
+    </div>
+    <div class="prose">The last link is a design constraint, not a policy note: this workflow has no code path that writes to a system of record. L4's demo literally cannot do it &mdash; the validation buttons log a decision string and stop there.</div>
+
+    <div class="section-label">Risk register</div>
+    <table class="result-table">
+      <thead><tr><th>risk</th><th>mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>AI hallucinates a cause or amount not in the data</td><td>Human validation required on every case (Step 5); prompt grounded only in SQL-computed fields, no external facts</td></tr>
+        <tr><td>Wrong dataset / schema silently used</td><td>Row-count verification against L2/L3 (1,618) before any AI step runs</td></tr>
+        <tr><td>Missing or null fields break classification</td><td>CASE WHEN business-status flags evaluated before amount-based flags; COALESCE handles missing joins (see L2)</td></tr>
+        <tr><td>Prompt injection via order/customer text fields</td><td>Fixed prompt template; inputs are structured numeric/categorical SQL fields, not free-text customer input</td></tr>
+        <tr><td>Reviewer over-trusts the AI draft ("automation bias")</td><td>Four explicit decision options (not just Approve) &mdash; Modify and Reject are first-class actions, not friction</td></tr>
+        <tr><td>Sensitive/PII data exposure</td><td>Dataset is public/synthetic (Olist); no real customer PII was ever in scope</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="step fin" id="s3" style="animation-delay:.18s">
+    <div class="step-header">
+      <div class="step-num">03</div>
+      <div class="step-info">
+        <div class="step-title">Business analyst readiness questions</div>
+        <div class="step-why">What I'd need answered before recommending this be built for a real organization &mdash; not built yet, deliberately</div>
+      </div>
+    </div>
+    <div class="prose">This section is explicitly hypothetical: a checklist of what a BA should ask <em>before</em> scoping this for a real company, not a claim that these questions were asked or answered here. The point is the instinct to ask business questions before technical ones &mdash; not the specific answers, which don't exist for a synthetic case study.</div>
+    <div class="finding bug">
+      <div class="finding-label">Questions I'd ask before scoping this for real</div>
+      <div class="finding-text">
+        Which ERP or order-management system is the source of truth today, and does it expose an API?<br>
+        Who currently has approval authority over a refund or write-off, and at what dollar threshold does that authority change?<br>
+        Is there an existing SLA for exception resolution, and what does "resolved" mean today?<br>
+        Which exception types legally or contractually require escalation beyond finance (e.g. to legal, or to the customer directly)?<br>
+        Where do audit logs live today, and who has access to them?<br>
+        Which KPIs does finance leadership actually review weekly &mdash; exposure dollars, case age, or resolution rate?<br>
+        What regulatory regime applies (SOX, LGPD given this is Brazilian data, PCI if payment data is involved)?<br>
+        What's the organization's acceptable AI risk tolerance &mdash; is a drafting-only AI acceptable, or is even that too much for this workflow?
+      </div>
+    </div>
+  </div>
+
+  <div class="step fin" id="s4" style="animation-delay:.2s">
+    <div class="step-header">
+      <div class="step-num">04</div>
+      <div class="step-info">
+        <div class="step-title">Enterprise deployment roadmap</div>
+        <div class="step-why">The honest gap between this prototype and a production system</div>
+      </div>
+    </div>
+    <div class="before-after">
+      <div class="ba-col before">
+        <div class="ba-label">Today &mdash; this portfolio</div>
+        <div class="ba-item">Static CSV dataset (Olist, public/synthetic)</div>
+        <div class="ba-item">DuckDB, run locally, no persistence layer</div>
+        <div class="ba-item">20 AI packages generated once, embedded as static JSON</div>
+        <div class="ba-item">No authentication &mdash; page is public</div>
+        <div class="ba-item">Validation decisions logged to the browser only, not a database</div>
+      </div>
+      <div class="ba-col after">
+        <div class="ba-label">Production &mdash; what it would take</div>
+        <div class="ba-item">Live connection to the ERP / order-management system</div>
+        <div class="ba-item">Scheduled or event-driven pipeline (not a manual DuckDB run)</div>
+        <div class="ba-item">Live API calls per case, with rate limiting and cost monitoring</div>
+        <div class="ba-item">Authentication + role-based access (who can Approve vs. who can only view)</div>
+        <div class="ba-item">Decisions written to a real audit-trail database, queryable for compliance</div>
+      </div>
+    </div>
+    <div class="section-label">Path from here to there</div>
+    <div class="flow-row">
+      <div class="flow-step"><div class="flow-step-num">1</div><div class="flow-step-name">CSV / static demo (today)</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">2</div><div class="flow-step-name">Persistent database (Postgres/Snowflake)</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">3</div><div class="flow-step-name">ERP / API integration</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">4</div><div class="flow-step-name">Authentication + role-based access</div></div>
+      <div class="flow-arrow">&rarr;</div>
+      <div class="flow-step"><div class="flow-step-num">5</div><div class="flow-step-name">Audit database + monitoring/alerting</div></div>
+    </div>
+    <div class="finding warn">
+      <div class="finding-label">Scope honesty</div>
+      <div class="finding-text">This portfolio demonstrates the concept and the design reasoning behind it &mdash; not a production-ready system. Every item in the "Production" column above is real, scoped engineering work that hasn't been built.</div>
+    </div>
+  </div>
+
+  <div class="step fin" id="s5" style="animation-delay:.22s">
+    <div class="step-header">
+      <div class="step-num">05</div>
+      <div class="step-info">
+        <div class="step-title">Executive conclusion</div>
+        <div class="step-why">What L0&ndash;L5 together are meant to prove</div>
+      </div>
+    </div>
+    <table class="result-table">
+      <thead><tr><th>layer</th><th>what it demonstrates</th></tr></thead>
+      <tbody>
+        <tr><td>L0</td><td>Understanding the business problem before touching a tool</td></tr>
+        <tr><td>L1</td><td>Analyzing and designing a process, not just describing it</td></tr>
+        <tr><td>L2</td><td>Turning business rules into verified, defensible SQL</td></tr>
+        <tr><td>L3</td><td>Communicating findings through a dashboard a non-technical stakeholder can read</td></tr>
+        <tr><td>L4</td><td>Deciding where AI belongs in a process, and designing human-in-the-loop control around it</td></tr>
+        <tr><td>L5</td><td>Thinking like an enterprise: governance, controls, risk, and what's still missing before this is real</td></tr>
+      </tbody>
+    </table>
+    <div class="finding success">
+      <div class="finding-text" style="font-size:14px;">This portfolio is not intended to demonstrate that AI should replace financial analysts. It demonstrates how a Business Analyst can redesign a financial review workflow so AI handles repetitive preparation while humans retain accountability for business decisions.</div>
+    </div>
+    <div class="lesson"><div class="lesson-icon">&#9733;</div><div class="lesson-text"><strong>Lesson:</strong> A business case that's honest about which numbers are measured and which are assumptions is more defensible in an interview than a bigger number that isn't. The R$199.52 recoverable-cash figure looks unimpressive next to R$271,891.01 &mdash; and stating that difference plainly is what makes the rest of this section trustworthy.</div></div>
+  </div>
+
+  <div class="footer fin" style="animation-delay:.24s">
+    <div class="footer-text">O2C Reconciliation Modernization &middot; Self-directed case study &middot; Public/synthetic data only &middot; Arthunya Kanoklertwongse</div>
+    <div class="footer-nav">
+      <a href="l4-ai-exception-review.html" class="fnav-btn">&larr; L4 &mdash; AI review</a>
+      <a href="index.html" class="fnav-btn">Back to portfolio</a>
+      <a href="#" class="fnav-btn primary">L6 &mdash; UAT + closure &rarr;</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
