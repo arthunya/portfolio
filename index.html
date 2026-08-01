@@ -225,8 +225,40 @@ body.light-mode .tagline-block {
 }
 @keyframes blink { 50% { opacity: 0; } }
 
+/* FEATURED PROJECT BANNER (O2C) */
+.featured-banner {
+  background: linear-gradient(135deg, rgba(16,185,129,0.07), rgba(59,130,246,0.05));
+  border: 1px solid rgba(16,185,129,0.18);
+  border-radius: 14px;
+  padding: 16px 22px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  position: relative; overflow: hidden;
+}
+.featured-banner::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+  background: linear-gradient(180deg, var(--accent-green), var(--accent-blue));
+}
+.featured-banner-badge {
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700;
+  color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 5px; display: block;
+}
+.featured-banner-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.5; transition: color 0.5s ease; }
+.featured-banner-text strong { color: var(--text-primary); font-weight: 600; }
+.featured-banner-btn {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
+  padding: 10px 18px; border-radius: 9px; font-size: 12.5px; font-weight: 600;
+  background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(59,130,246,0.14));
+  border: 1px solid rgba(16,185,129,0.3); color: var(--accent-green);
+  cursor: pointer; text-decoration: none; transition: all 0.25s ease; white-space: nowrap;
+}
+.featured-banner-btn:hover { box-shadow: 0 4px 16px rgba(16,185,129,0.18); transform: translateY(-1px); }
+
 /* KPI TILES */
-.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+@media (max-width: 720px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
 .kpi-tile {
   background: var(--bg-card); border: 1px solid var(--border-subtle);
   border-radius: 14px; padding: 18px 16px; cursor: pointer;
@@ -240,12 +272,22 @@ body.light-mode .kpi-tile:hover { box-shadow: 0 12px 28px rgba(37,99,235,0.1); }
 .kpi-icon.blue { background: rgba(59,130,246,0.1); }
 .kpi-icon.green { background: rgba(16,185,129,0.1); }
 .kpi-icon.amber { background: rgba(245,158,11,0.1); }
+.kpi-icon.o2c { background: linear-gradient(135deg, rgba(16,185,129,0.14), rgba(59,130,246,0.08)); }
 .kpi-value { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
 .kpi-value.blue { color: var(--accent-blue); }
 .kpi-value.green { color: var(--accent-green); }
 .kpi-value.amber { color: var(--accent-amber); }
+.kpi-value.o2c { color: var(--accent-green); }
 .kpi-label { font-size: 11.5px; color: var(--text-secondary); line-height: 1.45; font-weight: 500; transition: color 0.5s ease; }
 .kpi-meta { font-size: 10px; color: var(--text-muted); margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-subtle); font-family: 'JetBrains Mono', monospace; transition: color 0.5s ease, border-color 0.5s ease; }
+
+/* FEATURED KPI TILE (O2C — stands out from plain stat tiles) */
+.kpi-tile.featured {
+  background: linear-gradient(135deg, rgba(16,185,129,0.09), rgba(59,130,246,0.05));
+  border: 1px solid rgba(16,185,129,0.32);
+}
+.kpi-tile.featured::after { background: linear-gradient(90deg, var(--accent-green), var(--accent-blue)); transform: scaleX(1); }
+.kpi-tile.featured:hover { border-color: rgba(16,185,129,0.55); box-shadow: 0 12px 28px rgba(16,185,129,0.2); }
 
 /* SPARKLINE */
 .sparkline-container { display: flex; align-items: flex-end; gap: 3px; height: 36px; margin-top: 14px; }
@@ -356,10 +398,13 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
 .case-icon.ace { background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(139,92,246,0.08)); }
 .case-icon.vet { background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(59,130,246,0.08)); }
 .case-icon.ml { background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(244,63,94,0.08)); }
+.case-icon.o2c { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(59,130,246,0.08)); }
 .case-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; color: var(--text-primary); transition: color 0.5s ease; }
 .case-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.4; transition: color 0.5s ease; }
 .case-tags { display: flex; gap: 6px; flex-wrap: wrap; }
 .case-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 6px; background: rgba(59,130,246,0.06); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.1); }
+.case-tag.cat-ba { background: rgba(16,185,129,0.12); color: var(--accent-green); border-color: rgba(16,185,129,0.28); font-weight: 700; }
+.case-tag.cat-ai { background: rgba(139,92,246,0.1); color: var(--accent-purple); border-color: rgba(139,92,246,0.22); font-weight: 700; }
 .case-arrow {
   margin-left: auto;
   color: var(--text-muted);
@@ -622,6 +667,19 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
         </div>
       </div>
 
+      <!-- FEATURED PROJECT BANNER (O2C) -->
+      <div class="col-12">
+        <div class="featured-banner animate-in" style="animation-delay:0.12s">
+          <div>
+            <span class="featured-banner-badge">🎯 Most Relevant to Business Systems Analyst / BI Analyst Roles</span>
+            <div class="featured-banner-text">
+              <strong>Order-to-Cash Reconciliation Modernization</strong> — 99K+ orders, SQL exception detection, Power BI dashboard, AI-augmented review workflow.
+            </div>
+          </div>
+          <a class="featured-banner-btn" href="#" onclick="goToO2C(event)">View O2C Case Study →</a>
+        </div>
+      </div>
+
       <!-- KPI ROW -->
       <div class="col-12">
         <div class="kpi-grid animate-in" style="animation-delay:0.14s">
@@ -642,6 +700,12 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
             <div class="kpi-value amber">2</div>
             <div class="kpi-label">Published AI Frameworks</div>
             <div class="kpi-meta">A.C.E. · V.E.T. · DOI-linked</div>
+          </div>
+          <div class="kpi-tile featured" onclick="goToO2C(event)">
+            <div class="kpi-icon o2c">🔄</div>
+            <div class="kpi-value o2c">98.37%</div>
+            <div class="kpi-label">O2C Reconciliation Match Rate</div>
+            <div class="kpi-meta">SQL · Power BI · 1,618 Exceptions Resolved</div>
           </div>
         </div>
       </div>
@@ -755,15 +819,28 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="panel-header">
             <div class="panel-title">🧪 Featured Case Studies</div>
           </div>
+          <div class="case-card" onclick="goToO2C(event)">
+            <div class="case-icon o2c">🔄</div>
+            <div style="flex:1;">
+              <div class="case-title">Order-to-Cash Reconciliation Modernization</div>
+              <div class="case-sub">99K+ orders · SQL exception detection · Power BI · AI-augmented review</div>
+              <div class="case-tags">
+                <span class="case-tag cat-ba">🎯 BA Project</span>
+                <span class="case-tag">SQL</span>
+                <span class="case-tag">Power BI</span>
+              </div>
+            </div>
+            <div class="case-arrow">→</div>
+          </div>
           <div class="case-card" onclick="switchTabFromCard('cases')">
             <div class="case-icon ace">🍽️</div>
             <div style="flex:1;">
               <div class="case-title">A.C.E. — AI Concierge Engine</div>
               <div class="case-sub">SME restaurant financial intelligence framework</div>
               <div class="case-tags">
+                <span class="case-tag cat-ai">🔬 AI Research</span>
                 <span class="case-tag">Published</span>
                 <span class="case-tag">DOI</span>
-                <span class="case-tag">Human-in-the-Loop</span>
               </div>
             </div>
             <div class="case-arrow">→</div>
@@ -774,6 +851,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
               <div class="case-title">V.E.T. — Vendor Entity Threat</div>
               <div class="case-sub">Supply chain risk detection with SEC XBRL validation</div>
               <div class="case-tags">
+                <span class="case-tag cat-ai">🔬 AI Research</span>
                 <span class="case-tag">Live-Validated</span>
                 <span class="case-tag">Reproducible</span>
               </div>
@@ -806,154 +884,8 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
     <div class="grid-12">
       <div class="col-12">
 
-        <!-- A.C.E. -->
-        <div class="cs-card animate-in">
-          <div class="cs-header">
-            <div class="cs-icon ace">🍽️</div>
-            <div>
-              <div class="cs-title">A.C.E. — AI Concierge Engine for SME Restaurants</div>
-              <div class="cs-sub">An AI-driven financial intelligence framework designed to address "financial blindness" for non-technical restaurant owners.</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:10px;">
-            <span class="case-tag">🏆 Published Framework</span>
-            <span class="case-tag">ResearchGate/SSRN</span>
-            <span class="case-tag">DOI: 10.13140/RG.2.2.33391.60326</span>
-          </div>
-          <div class="star-flow">
-            <div class="star-step" onclick="toggleStoryStep(this,'ace-s')">
-              <div class="star-step-icon">📍</div>
-              <div class="star-step-label">Situation</div>
-              <div class="star-step-hint">The lag between cost data and pricing decisions</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ace-t')">
-              <div class="star-step-icon">🎯</div>
-              <div class="star-step-label">Task</div>
-              <div class="star-step-hint">End-to-end AI framework for non-technical owners</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ace-a')">
-              <div class="star-step-icon">⚡</div>
-              <div class="star-step-label">Action</div>
-              <div class="star-step-hint">Multi-modal pipeline + ML + LLM interface</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ace-r')">
-              <div class="star-step-icon">📈</div>
-              <div class="star-step-label">Result</div>
-              <div class="star-step-hint">Published research framework</div>
-            </div>
-          </div>
-          <div class="story-detail-panel" id="ace-s"><div class="story-detail-text">SME restaurant operators often lack real-time financial intelligence to catch cost overruns and pricing gaps early — a pattern this framework refers to as "financial blindness," the lag between raw cost data and pricing decisions.</div></div>
-          <div class="story-detail-panel" id="ace-t"><div class="story-detail-text">Design an AI-driven financial intelligence framework for SME restaurant operators — addressing invoice processing, menu pricing, and labor scheduling — with human accountability built into every financially consequential decision.</div></div>
-          <div class="story-detail-panel" id="ace-a"><div class="story-detail-text"><ul><li>Authored the framework\'s three core components: AI-OCR invoice ingestion, dynamic menu pricing recommendations, and predictive labor scheduling</li><li>Grounded the design in independent research into SME restaurant technology adoption — POS vendor evaluation (Toast, Square, MarketMan), inventory/recipe-costing methodology, and payment-processing cost benchmarking</li><li>Designed human-in-the-loop governance at every financially consequential decision point — no fully automated financial actions</li></ul></div></div>
-          <div class="story-detail-panel" id="ace-r"><div class="story-detail-text">Published as a preprint on ResearchGate/SSRN. Currently a concept and framework-design stage publication — implementation and measurable results are the next phase.</div></div>
-          <div class="results-grid">
-            <div class="result-chip"><strong>Published</strong> research framework with DOI<div class="result-meta">Actual · ResearchGate/SSRN · 10.13140/RG.2.2.33391.60326</div></div>
-            <div class="result-chip"><strong>Human-in-the-loop</strong> governance at every financial decision point<div class="result-meta">Actual · Core design principle of the framework</div></div>
-          </div>
-          <div class="cs-actions">
-            <a class="cs-btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6774983" target="_blank" rel="noopener">📄 Read on SSRN →</a>
-            <a class="cs-btn" href="https://www.researchgate.net/publication/403792836_ACE_-_AI_Concierge_Engine_An_AI-Driven_Financial_Intelligence_Framework_for_US_SME_Restaurant_Resilience" target="_blank" rel="noopener">📄 Read on ResearchGate →</a>
-          </div>
-        </div>
-
-        <!-- V.E.T. -->
-        <div class="cs-card animate-in" style="animation-delay:0.1s">
-          <div class="cs-header">
-            <div class="cs-icon vet">🛡️</div>
-            <div>
-              <div class="cs-title">V.E.T. — Vendor Entity Threat Detection</div>
-              <div class="cs-sub">AI-Powered Multi-Domain Data Fusion for Procurement Supply Chain Risk — detecting adversarial entities before they enter your vendor pool.</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:10px;">
-            <span class="case-tag">🏆 Published Framework</span>
-            <span class="case-tag">ResearchGate/SSRN</span>
-            <span class="case-tag">DOI: 10.13140/RG.2.2.33961.76641</span>
-          </div>
-          <div class="star-flow">
-            <div class="star-step" onclick="toggleStoryStep(this,'vet-s')">
-              <div class="star-step-icon">📍</div>
-              <div class="star-step-label">Situation</div>
-              <div class="star-step-hint">Shell companies & sanctioned vendors evading due diligence</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'vet-t')">
-              <div class="star-step-icon">🎯</div>
-              <div class="star-step-label">Task</div>
-              <div class="star-step-hint">Unified real-time risk signal across all data domains</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'vet-a')">
-              <div class="star-step-icon">⚡</div>
-              <div class="star-step-label">Action</div>
-              <div class="star-step-hint">XBRL parser + anomaly detection + fusion architecture</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'vet-r')">
-              <div class="star-step-icon">📈</div>
-              <div class="star-step-label">Result</div>
-              <div class="star-step-hint">Live-validated · independently reproducible</div>
-            </div>
-          </div>
-          <div class="story-detail-panel" id="vet-s"><div class="story-detail-text">Global supply chains are increasingly vulnerable to adversarial entities — shell companies, sanctioned vendors, and financially distressed suppliers that evade traditional due diligence. Procurement teams at enterprises lack a unified, real-time risk signal that fuses financial health, geopolitical exposure, and entity relationship data.</div></div>
-          <div class="story-detail-panel" id="vet-t"><div class="story-detail-text">Build an AI-powered multi-domain data fusion framework capable of detecting adversarial entities in procurement supply chains, with a live-validated, independently reproducible financial health signal module using SEC EDGAR XBRL data.</div></div>
-          <div class="story-detail-panel" id="vet-a"><div class="story-detail-text"><ul><li>Designed a four-layer ML architecture cross-referencing six data domains: corporate registries, beneficial ownership records, sanctions lists, financial transaction patterns, logistics data, and OSINT feeds</li><li>Extended the framework with a SEC EDGAR XBRL financial health signal module</li><li>Built the module to be independently reproducible and publicly documented</li></ul></div></div>
-          <div class="story-detail-panel" id="vet-r"><div class="story-detail-text">Published as a preprint on ResearchGate/SSRN. The SEC EDGAR XBRL financial health module is live-validated and independently reproducible — extending the original framework with active, ongoing technical development.</div></div>
-          <div class="results-grid">
-            <div class="result-chip"><strong>Published</strong> research framework with DOI<div class="result-meta">Actual · ResearchGate/SSRN · 10.13140/RG.2.2.33961.76641</div></div>
-            <div class="result-chip"><strong>Live-validated</strong> SEC EDGAR XBRL financial health module<div class="result-meta">Actual · Independently reproducible and publicly documented</div></div>
-          </div>
-          <div class="cs-actions">
-            <a class="cs-btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6667278" target="_blank" rel="noopener">📄 Read on SSRN →</a>
-            <a class="cs-btn" href="https://www.researchgate.net/publication/403672457_VET_-_Vendor_Entity_Threat_Detection_An_AI-Powered_Data_Fusion_Framework_for_Supply_Chain_Security" target="_blank" rel="noopener">📄 Read on ResearchGate →</a>
-          </div>
-        </div>
-
-        <!-- ML RISK -->
-        <div class="cs-card animate-in" style="animation-delay:0.2s">
-          <div class="cs-header">
-            <div class="cs-icon ml">📊</div>
-            <div>
-              <div class="cs-title">ML Risk Prediction System</div>
-              <div class="cs-sub">Dual-Model Corporate Financial Distress & Supply Chain Disruption Prediction — leading a 4-person team to deliver production-grade intelligence in 8 weeks.</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:10px;">
-            <span class="case-tag">🎓 Graduate Team Lead</span>
-            <span class="case-tag">Westcliff University · 2026</span>
-            <span class="case-tag">⏳ In Progress</span>
-          </div>
-          <div class="star-flow">
-            <div class="star-step" onclick="toggleStoryStep(this,'ml-s')">
-              <div class="star-step-icon">📍</div>
-              <div class="star-step-label">Situation</div>
-              <div class="star-step-hint">Siloed, expensive solutions lacking macroeconomic context</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ml-t')">
-              <div class="star-step-icon">🎯</div>
-              <div class="star-step-label">Task</div>
-              <div class="star-step-hint">Deliver production-grade ML system in 8 weeks as Team Lead</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ml-a')">
-              <div class="star-step-icon">⚡</div>
-              <div class="star-step-label">Action</div>
-              <div class="star-step-hint">180K+ records · NY Fed GSCPI · Cross-functional workstreams</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ml-r')">
-              <div class="star-step-icon">📈</div>
-              <div class="star-step-label">Result</div>
-              <div class="star-step-hint">In progress · designed to extend to credit risk & vendor scoring</div>
-            </div>
-          </div>
-          <div class="story-detail-panel" id="ml-s"><div class="story-detail-text">Enterprises need early warning systems that predict both internal financial distress and external supply chain shocks. Existing solutions are siloed, expensive, and lack macroeconomic context. A 4-person graduate team needed to deliver a production-grade ML system in 8 weeks.</div></div>
-          <div class="story-detail-panel" id="ml-t"><div class="story-detail-text">As Team Lead, scope and deliver a dual-model risk prediction system on 180K+ records with macroeconomic enrichment (NY Fed GSCPI), managing an 8-week sprint with cross-functional workstreams.</div></div>
-          <div class="story-detail-panel" id="ml-a"><div class="story-detail-text"><ul><li>Selected project scope and authored the 8-week delivery plan</li><li>Assigned workstreams across the 4-person team</li><li>Own financial feature engineering for the corporate distress model</li><li>Quality-reviewing all deliverables across the team</li></ul></div></div>
-          <div class="story-detail-panel" id="ml-r"><div class="story-detail-text">In progress — graduate coursework project at Westcliff University. Framework is designed to be extensible to credit risk, vendor scoring, and procurement intelligence use cases.</div></div>
-          <div class="results-grid">
-            <div class="result-chip"><strong>180K+</strong> records combining a bankruptcy-prediction dataset and a supply-chain delivery-risk dataset<div class="result-meta">Actual · Enriched with NY Fed Global Supply Chain Pressure Index</div></div>
-            <div class="result-chip"><strong>4-person</strong> team led through an 8-week delivery plan<div class="result-meta">Actual · Workstreams assigned, deliverables quality-reviewed</div></div>
-          </div>
-        </div>
-
         <!-- O2C RECONCILIATION -->
-        <div class="cs-card animate-in" style="animation-delay:0.3s">
+        <div class="cs-card animate-in" id="cs-o2c">
           <div class="cs-header">
             <div class="cs-icon o2c">🔄</div>
             <div>
@@ -962,6 +894,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
             </div>
           </div>
           <div class="case-tags" style="margin-bottom:12px;">
+            <span class="case-tag cat-ba">🎯 Business Analyst Project</span>
             <span class="case-tag">📊 Self-Directed Case Study</span>
             <span class="case-tag">Olist · Public Dataset · 99K+ orders</span>
             <span class="case-tag">✓ L0–L6 Complete</span>
@@ -1052,6 +985,155 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="results-grid">
             <div class="result-chip"><strong>R$143,255</strong> revenue exposure from 625 canceled orders retaining payment records<div class="result-meta">Actual · SQL analysis · Olist public dataset</div></div>
             <div class="result-chip"><strong>5 exception types</strong> classified by severity — data integrity gaps to systemic approval failures<div class="result-meta">Actual · DuckDB reconciliation queries · L0 complete</div></div>
+          </div>
+        </div>
+
+        <!-- A.C.E. -->
+        <div class="cs-card animate-in" style="animation-delay:0.1s">
+          <div class="cs-header">
+            <div class="cs-icon ace">🍽️</div>
+            <div>
+              <div class="cs-title">A.C.E. — AI Concierge Engine for SME Restaurants</div>
+              <div class="cs-sub">An AI-driven financial intelligence framework designed to address "financial blindness" for non-technical restaurant owners.</div>
+            </div>
+          </div>
+          <div class="case-tags" style="margin-bottom:10px;">
+            <span class="case-tag cat-ai">🔬 AI Research Framework</span>
+            <span class="case-tag">🏆 Published Framework</span>
+            <span class="case-tag">ResearchGate/SSRN</span>
+            <span class="case-tag">DOI: 10.13140/RG.2.2.33391.60326</span>
+          </div>
+          <div class="star-flow">
+            <div class="star-step" onclick="toggleStoryStep(this,'ace-s')">
+              <div class="star-step-icon">📍</div>
+              <div class="star-step-label">Situation</div>
+              <div class="star-step-hint">The lag between cost data and pricing decisions</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'ace-t')">
+              <div class="star-step-icon">🎯</div>
+              <div class="star-step-label">Task</div>
+              <div class="star-step-hint">End-to-end AI framework for non-technical owners</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'ace-a')">
+              <div class="star-step-icon">⚡</div>
+              <div class="star-step-label">Action</div>
+              <div class="star-step-hint">Multi-modal pipeline + ML + LLM interface</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'ace-r')">
+              <div class="star-step-icon">📈</div>
+              <div class="star-step-label">Result</div>
+              <div class="star-step-hint">Published research framework</div>
+            </div>
+          </div>
+          <div class="story-detail-panel" id="ace-s"><div class="story-detail-text">SME restaurant operators often lack real-time financial intelligence to catch cost overruns and pricing gaps early — a pattern this framework refers to as "financial blindness," the lag between raw cost data and pricing decisions.</div></div>
+          <div class="story-detail-panel" id="ace-t"><div class="story-detail-text">Design an AI-driven financial intelligence framework for SME restaurant operators — addressing invoice processing, menu pricing, and labor scheduling — with human accountability built into every financially consequential decision.</div></div>
+          <div class="story-detail-panel" id="ace-a"><div class="story-detail-text"><ul><li>Authored the framework\'s three core components: AI-OCR invoice ingestion, dynamic menu pricing recommendations, and predictive labor scheduling</li><li>Grounded the design in independent research into SME restaurant technology adoption — POS vendor evaluation (Toast, Square, MarketMan), inventory/recipe-costing methodology, and payment-processing cost benchmarking</li><li>Designed human-in-the-loop governance at every financially consequential decision point — no fully automated financial actions</li></ul></div></div>
+          <div class="story-detail-panel" id="ace-r"><div class="story-detail-text">Published as a preprint on ResearchGate/SSRN. Currently a concept and framework-design stage publication — implementation and measurable results are the next phase.</div></div>
+          <div class="results-grid">
+            <div class="result-chip"><strong>Published</strong> research framework with DOI<div class="result-meta">Actual · ResearchGate/SSRN · 10.13140/RG.2.2.33391.60326</div></div>
+            <div class="result-chip"><strong>Human-in-the-loop</strong> governance at every financial decision point<div class="result-meta">Actual · Core design principle of the framework</div></div>
+          </div>
+          <div class="cs-actions">
+            <a class="cs-btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6774983" target="_blank" rel="noopener">📄 Read on SSRN →</a>
+            <a class="cs-btn" href="https://www.researchgate.net/publication/403792836_ACE_-_AI_Concierge_Engine_An_AI-Driven_Financial_Intelligence_Framework_for_US_SME_Restaurant_Resilience" target="_blank" rel="noopener">📄 Read on ResearchGate →</a>
+          </div>
+        </div>
+
+        <!-- V.E.T. -->
+        <div class="cs-card animate-in" style="animation-delay:0.2s">
+          <div class="cs-header">
+            <div class="cs-icon vet">🛡️</div>
+            <div>
+              <div class="cs-title">V.E.T. — Vendor Entity Threat Detection</div>
+              <div class="cs-sub">AI-Powered Multi-Domain Data Fusion for Procurement Supply Chain Risk — detecting adversarial entities before they enter your vendor pool.</div>
+            </div>
+          </div>
+          <div class="case-tags" style="margin-bottom:10px;">
+            <span class="case-tag cat-ai">🔬 AI Research Framework</span>
+            <span class="case-tag">🏆 Published Framework</span>
+            <span class="case-tag">ResearchGate/SSRN</span>
+            <span class="case-tag">DOI: 10.13140/RG.2.2.33961.76641</span>
+          </div>
+          <div class="star-flow">
+            <div class="star-step" onclick="toggleStoryStep(this,'vet-s')">
+              <div class="star-step-icon">📍</div>
+              <div class="star-step-label">Situation</div>
+              <div class="star-step-hint">Shell companies & sanctioned vendors evading due diligence</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'vet-t')">
+              <div class="star-step-icon">🎯</div>
+              <div class="star-step-label">Task</div>
+              <div class="star-step-hint">Unified real-time risk signal across all data domains</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'vet-a')">
+              <div class="star-step-icon">⚡</div>
+              <div class="star-step-label">Action</div>
+              <div class="star-step-hint">XBRL parser + anomaly detection + fusion architecture</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'vet-r')">
+              <div class="star-step-icon">📈</div>
+              <div class="star-step-label">Result</div>
+              <div class="star-step-hint">Live-validated · independently reproducible</div>
+            </div>
+          </div>
+          <div class="story-detail-panel" id="vet-s"><div class="story-detail-text">Global supply chains are increasingly vulnerable to adversarial entities — shell companies, sanctioned vendors, and financially distressed suppliers that evade traditional due diligence. Procurement teams at enterprises lack a unified, real-time risk signal that fuses financial health, geopolitical exposure, and entity relationship data.</div></div>
+          <div class="story-detail-panel" id="vet-t"><div class="story-detail-text">Build an AI-powered multi-domain data fusion framework capable of detecting adversarial entities in procurement supply chains, with a live-validated, independently reproducible financial health signal module using SEC EDGAR XBRL data.</div></div>
+          <div class="story-detail-panel" id="vet-a"><div class="story-detail-text"><ul><li>Designed a four-layer ML architecture cross-referencing six data domains: corporate registries, beneficial ownership records, sanctions lists, financial transaction patterns, logistics data, and OSINT feeds</li><li>Extended the framework with a SEC EDGAR XBRL financial health signal module</li><li>Built the module to be independently reproducible and publicly documented</li></ul></div></div>
+          <div class="story-detail-panel" id="vet-r"><div class="story-detail-text">Published as a preprint on ResearchGate/SSRN. The SEC EDGAR XBRL financial health module is live-validated and independently reproducible — extending the original framework with active, ongoing technical development.</div></div>
+          <div class="results-grid">
+            <div class="result-chip"><strong>Published</strong> research framework with DOI<div class="result-meta">Actual · ResearchGate/SSRN · 10.13140/RG.2.2.33961.76641</div></div>
+            <div class="result-chip"><strong>Live-validated</strong> SEC EDGAR XBRL financial health module<div class="result-meta">Actual · Independently reproducible and publicly documented</div></div>
+          </div>
+          <div class="cs-actions">
+            <a class="cs-btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6667278" target="_blank" rel="noopener">📄 Read on SSRN →</a>
+            <a class="cs-btn" href="https://www.researchgate.net/publication/403672457_VET_-_Vendor_Entity_Threat_Detection_An_AI-Powered_Data_Fusion_Framework_for_Supply_Chain_Security" target="_blank" rel="noopener">📄 Read on ResearchGate →</a>
+          </div>
+        </div>
+
+        <!-- ML RISK -->
+        <div class="cs-card animate-in" style="animation-delay:0.3s">
+          <div class="cs-header">
+            <div class="cs-icon ml">📊</div>
+            <div>
+              <div class="cs-title">ML Risk Prediction System</div>
+              <div class="cs-sub">Dual-Model Corporate Financial Distress & Supply Chain Disruption Prediction — leading a 4-person team to deliver production-grade intelligence in 8 weeks.</div>
+            </div>
+          </div>
+          <div class="case-tags" style="margin-bottom:10px;">
+            <span class="case-tag cat-ai">🤖 AI/ML Project</span>
+            <span class="case-tag">🎓 Graduate Team Lead</span>
+            <span class="case-tag">Westcliff University · 2026</span>
+            <span class="case-tag">⏳ In Progress</span>
+          </div>
+          <div class="star-flow">
+            <div class="star-step" onclick="toggleStoryStep(this,'ml-s')">
+              <div class="star-step-icon">📍</div>
+              <div class="star-step-label">Situation</div>
+              <div class="star-step-hint">Siloed, expensive solutions lacking macroeconomic context</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'ml-t')">
+              <div class="star-step-icon">🎯</div>
+              <div class="star-step-label">Task</div>
+              <div class="star-step-hint">Deliver production-grade ML system in 8 weeks as Team Lead</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'ml-a')">
+              <div class="star-step-icon">⚡</div>
+              <div class="star-step-label">Action</div>
+              <div class="star-step-hint">180K+ records · NY Fed GSCPI · Cross-functional workstreams</div>
+            </div>
+            <div class="star-step" onclick="toggleStoryStep(this,'ml-r')">
+              <div class="star-step-icon">📈</div>
+              <div class="star-step-label">Result</div>
+              <div class="star-step-hint">In progress · designed to extend to credit risk & vendor scoring</div>
+            </div>
+          </div>
+          <div class="story-detail-panel" id="ml-s"><div class="story-detail-text">Enterprises need early warning systems that predict both internal financial distress and external supply chain shocks. Existing solutions are siloed, expensive, and lack macroeconomic context. A 4-person graduate team needed to deliver a production-grade ML system in 8 weeks.</div></div>
+          <div class="story-detail-panel" id="ml-t"><div class="story-detail-text">As Team Lead, scope and deliver a dual-model risk prediction system on 180K+ records with macroeconomic enrichment (NY Fed GSCPI), managing an 8-week sprint with cross-functional workstreams.</div></div>
+          <div class="story-detail-panel" id="ml-a"><div class="story-detail-text"><ul><li>Selected project scope and authored the 8-week delivery plan</li><li>Assigned workstreams across the 4-person team</li><li>Own financial feature engineering for the corporate distress model</li><li>Quality-reviewing all deliverables across the team</li></ul></div></div>
+          <div class="story-detail-panel" id="ml-r"><div class="story-detail-text">In progress — graduate coursework project at Westcliff University. Framework is designed to be extensible to credit risk, vendor scoring, and procurement intelligence use cases.</div></div>
+          <div class="results-grid">
+            <div class="result-chip"><strong>180K+</strong> records combining a bankruptcy-prediction dataset and a supply-chain delivery-risk dataset<div class="result-meta">Actual · Enriched with NY Fed Global Supply Chain Pressure Index</div></div>
+            <div class="result-chip"><strong>4-person</strong> team led through an 8-week delivery plan<div class="result-meta">Actual · Workstreams assigned, deliverables quality-reviewed</div></div>
           </div>
         </div>
 
@@ -1432,6 +1514,24 @@ function switchTabFromCard(tabId) {
     el.style.animation = '';
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ========== JUMP TO O2C CASE STUDY ==========
+function goToO2C(evt) {
+  if (evt) evt.preventDefault();
+  switchTabFromCard('cases');
+  setTimeout(function() {
+    var target = document.getElementById('cs-o2c');
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    target.style.transition = 'box-shadow 0.4s ease, border-color 0.4s ease';
+    target.style.boxShadow = '0 0 0 2px rgba(16,185,129,0.4), 0 12px 32px rgba(16,185,129,0.15)';
+    target.style.borderColor = 'rgba(16,185,129,0.35)';
+    setTimeout(function() {
+      target.style.boxShadow = '';
+      target.style.borderColor = '';
+    }, 2200);
+  }, 120);
 }
 
 // ========== INTERACTIONS ==========
