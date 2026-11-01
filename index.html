@@ -264,7 +264,7 @@ body.light-mode .tagline-block {
 .featured-banner-btn:hover { box-shadow: 0 4px 16px rgba(16,185,129,0.18); transform: translateY(-1px); }
 
 /* KPI TILES */
-.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .kpi-tile {
   background: var(--bg-card); border: 1px solid var(--border-subtle);
   border-radius: 14px; padding: 18px 16px; cursor: pointer;
@@ -598,7 +598,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-cyan); o
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .col-3, .col-4, .col-6, .col-8 { grid-column: span 6; }
-  .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .comp-grid { grid-template-columns: 1fr; }
   .star-flow { grid-template-columns: repeat(2, 1fr); }
   .results-grid { grid-template-columns: 1fr; }
@@ -696,12 +696,6 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-cyan); o
             <div class="kpi-value blue">3</div>
             <div class="kpi-label">Global Operating Regions</div>
             <div class="kpi-meta">&#x1f1fa;&#x1f1f8; US · &#x1f1ec;&#x1f1e7; UK · 🌏 APAC</div>
-          </div>
-          <div class="kpi-tile" onclick="pulseTile(this)">
-            <div class="kpi-icon green">⚙️</div>
-            <div class="kpi-value green">~80%</div>
-            <div class="kpi-label">Reporting Time Reduced</div>
-            <div class="kpi-meta">VBA · 2–3hr → 30min</div>
           </div>
           <div class="kpi-tile" onclick="pulseTile(this)">
             <div class="kpi-icon amber">🤖</div>
@@ -882,14 +876,28 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-cyan); o
             <div class="case-icon crew">📈</div>
             <div style="flex:1;">
               <div class="case-title">Crew People Ops KPI Dashboard</div>
-              <div class="case-sub">SQL KPI layer, data-quality checks and insights behind a fictional 42-person People Ops dashboard.</div>
+              <div class="case-sub">SQL-backed people-ops KPI dashboard on a synthetic 42-person team: headcount, open roles, 12-month retention, payroll run, and time to offer. 10 data-quality checks and a pandas cross-check.</div>
               <div class="case-tags">
                 <span class="case-tag cat-syn">Exploration · synthetic data</span>
                 <span class="case-tag">SQL</span>
               </div>
               <div class="case-links">
-                <a class="case-link primary" href="https://arthunya.github.io/portfolio/Crew-People-Ops-KPI-Dashboard/">View dashboard →</a>
+                <a class="case-link primary" href="Crew-People-Ops-KPI-Dashboard/index.html">View dashboard →</a>
                 <a class="case-link" href="https://github.com/arthunya/portfolio/blob/main/Crew-People-Ops-KPI-Dashboard/README.md" target="_blank" rel="noopener">README on GitHub</a>
+              </div>
+            </div>
+          </div>
+          <div class="case-card" style="cursor:default;">
+            <div class="case-icon crew">🧮</div>
+            <div style="flex:1;">
+              <div class="case-title">Token Analytics — AI Cost Governance</div>
+              <div class="case-sub">Priced 540K LLM calls across 4 teams (synthetic data); cost per ticket resolved from $0.03 (Support) to $0.62 (Engineering); caught a $2.4K overspend in July (Engineering at 268% of cap).</div>
+              <div class="case-tags">
+                <span class="case-tag cat-syn">Exploration · synthetic data</span>
+                <span class="case-tag">DuckDB · SQL · Power BI</span>
+              </div>
+              <div class="case-links">
+                <a class="case-link primary" href="Token-Analytics/index.html">View case study →</a>
               </div>
             </div>
           </div>
@@ -998,7 +1006,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-cyan); o
           </div>
 
           <div class="story-detail-panel" id="o2c-s">
-            <div class="story-detail-text">Olist marketplace processes 99,441 orders across multiple payment types over a 2-year period (2016–2018). Manual reconciliation between order records and payment settlements cannot detect exceptions at scale — resulting in R$143,255 of collected payments with no refund or write-off record on 622 canceled orders, 614 orders with missing item records, and 14 delivered orders with no approval event.</div>
+            <div class="story-detail-text">Olist marketplace processes 99,441 orders across multiple payment types over a 2-year period (2016–2018). Manual reconciliation between order records and payment settlements cannot detect exceptions at scale — resulting in R$143,255.60 in payments on 622 canceled orders (canceled with payment recorded), 614 orders with missing item records, and 14 delivered orders with no approval event.</div>
           </div>
           <div class="story-detail-panel" id="o2c-t">
             <div class="story-detail-text">Design and document a complete O2C reconciliation modernization — from business discovery and stakeholder analysis through process mapping, SQL exception detection, Power BI dashboard, AI-assisted matching, ROI measurement, and UAT closure. Simulating an enterprise BSA engagement on public/synthetic data.</div>
@@ -1192,7 +1200,7 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-cyan); o
             <div class="cs-icon crew">📈</div>
             <div>
               <div class="cs-title">Crew People Ops KPI Dashboard</div>
-              <div class="cs-sub">SQL KPI layer, data-quality checks and insights behind a fictional 42-person People Ops dashboard.</div>
+              <div class="cs-sub">SQL-backed people-ops KPI dashboard on a synthetic 42-person team: headcount, open roles, 12-month retention, payroll run, and time to offer. 10 data-quality checks and a pandas cross-check.</div>
             </div>
           </div>
           <div class="case-tags" style="margin-bottom:10px;">
@@ -1202,8 +1210,26 @@ a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-cyan); o
           </div>
           <div class="cs-body">All data is fictional. The visual layout came from a template; the data layer, SQL for every KPI and data-quality checks were added AI-assisted and reviewed by the author. Not a real result.</div>
           <div class="cs-actions">
-            <a class="cs-btn" href="https://arthunya.github.io/portfolio/Crew-People-Ops-KPI-Dashboard/">View dashboard →</a>
+            <a class="cs-btn" href="Crew-People-Ops-KPI-Dashboard/index.html">View dashboard →</a>
             <a class="cs-btn" href="https://github.com/arthunya/portfolio/blob/main/Crew-People-Ops-KPI-Dashboard/README.md" target="_blank" rel="noopener">💻 README on GitHub →</a>
+          </div>
+        </div>
+
+        <!-- TOKEN ANALYTICS -->
+        <div class="cs-card animate-in" id="cs-token">
+          <div class="cs-header">
+            <div class="cs-icon crew">🧮</div>
+            <div>
+              <div class="cs-title">Token Analytics — AI Cost Governance</div>
+              <div class="cs-sub">Priced 540K LLM calls across 4 teams (synthetic data); cost per ticket resolved from $0.03 (Support) to $0.62 (Engineering); caught a $2.4K overspend in July (Engineering at 268% of cap).</div>
+            </div>
+          </div>
+          <div class="case-tags" style="margin-bottom:10px;">
+            <span class="case-tag cat-syn">Exploration · synthetic data</span>
+            <span class="case-tag">DuckDB</span><span class="case-tag">SQL</span><span class="case-tag">Power BI</span>
+          </div>
+          <div class="cs-actions">
+            <a class="cs-btn" href="Token-Analytics/index.html">View case study →</a>
           </div>
         </div>
 
