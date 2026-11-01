@@ -1,0 +1,53 @@
+{
+  "reference_date": "2026-10-31",
+  "headcount": 42,
+  "joined": {
+    "week": 0,
+    "month": 1,
+    "quarter": 2
+  },
+  "open_roles": 9,
+  "final_round": 4,
+  "screens_7d": 5,
+  "opened_90d": 10,
+  "retention_pct": 93.02,
+  "retention_prior_pct": 91.89,
+  "retention_delta_pts": 1.13,
+  "retention_cohort": [
+    43,
+    40
+  ],
+  "departures": {
+    "week": 0,
+    "month": 0,
+    "quarter": 1
+  },
+  "payroll_oct": 600953.19,
+  "payroll_sep": 596112.06,
+  "payroll_q2_avg": 607789.22,
+  "next_run": "2026-11-06",
+  "median_time_to_offer_days": 34.0,
+  "offers_in_window": 11,
+  "pipeline": {
+    "Applied": 18,
+    "Hired": 2,
+    "Interview": 6,
+    "Offer": 3,
+    "Screen": 9
+  },
+  "active_candidates": 36,
+  "starts_in_november": 2,
+  "payroll_dept_k": {
+    "eng": 188,
+    "prod": 91,
+    "des": 88,
+    "sales": 88,
+    "ops": 85,
+    "fin": 61
+  },
+  "split_pct": [
+    77.2,
+    17.4,
+    5.4
+  ]
+}

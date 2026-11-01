@@ -1,0 +1,49 @@
+employee_id,name,role,dept_id,level,location,manager_id,hire_date,term_date,annual_base_salary,pto_total_days,pto_left_days
+1,Maya Chen,Chief Executive Officer,ops,5,San Francisco,,2020-08-18,,176000,25.0,18.0
+2,Jordan Ellis,VP Engineering,eng,5,Seattle,1.0,2021-09-24,,226000,25.0,15.0
+3,Priya Nair,Engineering Manager,eng,4,San Francisco,2.0,2022-07-13,,168000,25.0,12.0
+4,Tomás Rivera,Staff Software Engineer,eng,4,Austin,3.0,2023-01-12,,174000,25.0,9.0
+5,Sofia Petrova,Senior Software Engineer,eng,3,Denver,3.0,2023-12-07,,126000,25.0,14.0
+6,Marcus Webb,Software Engineer,eng,2,San Francisco,3.0,2025-03-26,,97000,20.0,11.0
+7,Aisha Khan,Software Engineer,eng,2,New York,3.0,2025-08-19,,101000,20.0,16.0
+8,Leo Fischer,QA Lead,eng,3,Chicago,2.0,2023-09-25,,132000,25.0,10.0
+9,Nina Kowalski,DevOps Engineer,eng,3,Remote · PL,2.0,2024-06-06,,135000,25.0,13.0
+10,Diego Fuentes,Engineering Manager,eng,4,San Francisco,2.0,2021-12-06,,169000,25.0,8.0
+11,Hana Sato,Senior Software Engineer,eng,3,Seattle,10.0,2023-07-14,,134500,25.0,15.0
+12,Omar Haddad,Software Engineer,eng,2,Austin,10.0,2026-08-17,,102500,20.0,18.0
+13,Grace Liu,Data Engineer,eng,3,San Francisco,10.0,2024-08-18,,134500,25.0,12.0
+14,Ben Osei,"Software Engineer, Intern",eng,1,San Jose,3.0,2026-10-05,,58000,10.0,6.0
+15,Elena Rossi,Head of Product,prod,5,San Francisco,1.0,2022-03-26,,209500,25.0,11.0
+16,Sam Whitaker,Senior Product Manager,prod,4,New York,15.0,2023-05-02,,162000,25.0,13.0
+17,Ingrid Larsen,Product Manager,prod,3,Denver,15.0,2024-09-24,,120000,25.0,17.0
+18,Kai Tanaka,Product Analyst,prod,2,Seattle,16.0,2025-06-07,,98000,20.0,14.0
+19,Ruth Adeyemi,Product Manager,prod,3,Chicago,15.0,2024-01-12,,124500,25.0,10.0
+20,Victor Hale,Growth Product Manager,prod,3,Austin,16.0,2024-12-06,,129000,25.0,12.0
+21,Lena Fischer,Design Director,des,5,San Francisco,1.0,2021-06-07,,208000,25.0,14.0
+22,Marco Bianchi,Senior Product Designer,des,4,New York,21.0,2022-12-07,,154500,25.0,9.0
+23,Yuki Mori,Product Designer,des,3,Seattle,21.0,2024-03-25,,115500,25.0,15.0
+24,Tara O'Brien,Brand Designer,des,3,Austin,21.0,2024-10-31,,116000,25.0,11.0
+25,Felix Wagner,Design Engineer,des,3,Denver,22.0,2025-02-17,,124500,25.0,13.0
+26,Amara Diallo,UX Researcher,des,2,San Francisco,21.0,2025-09-24,,94000,20.0,16.0
+27,Chris Novak,VP Sales,sales,5,Chicago,1.0,2022-06-07,,210500,25.0,12.0
+28,Dana Kim,Account Executive,sales,3,San Francisco,27.0,2024-02-18,,124500,25.0,10.0
+29,Rob Callahan,Account Executive,sales,3,Denver,27.0,2023-10-31,,119000,25.0,14.0
+30,Mei Zhang,Sales Development Rep,sales,2,New York,27.0,2025-07-13,,86500,20.0,17.0
+31,Oscar Lindqvist,Solutions Engineer,sales,3,Seattle,27.0,2024-07-13,,117000,25.0,11.0
+32,Farah Aziz,Customer Success Lead,sales,4,San Francisco,27.0,2023-03-26,,153000,25.0,13.0
+33,Julia Brandt,Head of People,ops,4,San Francisco,1.0,2022-09-24,,133000,25.0,12.0
+34,Noah Bergström,Recruiter,ops,3,Austin,33.0,2024-05-01,,106000,25.0,15.0
+35,Emma Sullivan,People Operations Manager,ops,3,Denver,33.0,2023-08-19,,110500,25.0,9.0
+36,Lucas Meyer,Office & IT Manager,ops,2,San Francisco,33.0,2025-01-12,,82500,20.0,14.0
+37,Sara Lindholm,Chief Financial Officer,fin,5,New York,1.0,2021-02-17,,206000,25.0,13.0
+38,David Okafor,Finance Manager,fin,4,San Francisco,37.0,2023-06-07,,145000,25.0,10.0
+39,Anna Weiss,Accountant,fin,2,Chicago,38.0,2025-05-01,,92000,20.0,16.0
+40,Peter Novak,Financial Analyst,fin,3,Seattle,38.0,2023-12-07,,117000,25.0,12.0
+41,Ivy Zhang,Executive Assistant,ops,2,San Francisco,1.0,2024-08-18,,80000,20.0,11.0
+42,Hugo Almeida,Support Lead,ops,3,Austin,33.0,2023-12-07,,105000,25.0,13.0
+43,Rene Dubois,Software Engineer,eng,2,Austin,3.0,2023-02-13,2026-03-20,100500,,
+44,Kyle Brennan,Account Executive,sales,3,Chicago,27.0,2024-04-08,2026-06-12,118500,,
+45,Tessa Moreau,Product Designer,des,3,New York,21.0,2022-09-19,2026-08-28,114000,,
+46,Wes Thornton,Support Specialist,ops,2,Denver,33.0,2023-05-01,2025-03-14,81000,,
+47,Mira Patel,Financial Analyst,fin,3,Seattle,37.0,2022-01-10,2025-07-25,121500,,
+48,Ahmed Rahimi,Software Engineer,eng,2,Remote · PL,10.0,2022-02-07,2025-09-12,100500,,

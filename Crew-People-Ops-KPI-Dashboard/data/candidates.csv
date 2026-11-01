@@ -1,0 +1,63 @@
+candidate_id,name,req_id,applied_date,screen_date,interview_date,offer_date,accepted_date,start_date,stage,final_round
+1,Omar Haddad,R096,2026-05-11,2026-05-18,2026-05-29,2026-06-22,2026-06-29,2026-08-17,Hired,0
+2,Ben Osei,R095,2026-06-22,2026-06-26,2026-07-08,2026-07-24,2026-07-31,2026-10-05,Hired,0
+3,Kate Nguyen,R098,2026-09-08,2026-09-14,2026-09-24,2026-10-12,2026-10-16,2026-11-16,Hired,0
+4,Luis Herrera,R099,2026-09-11,2026-09-17,2026-09-28,2026-10-19,2026-10-23,2026-11-30,Hired,0
+5,Declined Offer 1,R092,2026-01-20,2026-01-27,2026-02-09,2026-03-02,,,Declined,0
+6,Declined Offer 2,R093,2026-03-11,2026-03-17,2026-03-30,2026-04-21,,,Declined,0
+7,Declined Offer 3,R091,2026-02-16,2026-02-24,2026-03-10,2026-04-06,,,Declined,0
+8,Declined Offer 4,R094,2026-04-20,2026-04-24,2026-05-05,2026-05-21,,,Declined,0
+9,Alina Brooks,R101,2026-10-27,2026-10-31,,,,,Screen,0
+10,James Park,R102,2026-10-21,2026-10-28,,,,,Screen,0
+11,Chloe Dubois,R104,2026-10-17,2026-10-23,2026-10-30,,,,Interview,1
+12,Andre Silva,R105,2026-10-16,2026-10-20,2026-10-31,,,,Interview,1
+13,Mina Choi,R103,2026-10-19,2026-10-22,2026-10-28,,,,Interview,0
+14,Samira El-Amin,R106,2026-10-03,2026-10-09,2026-10-14,2026-10-28,,,Offer,0
+15,Jonah Fields,R107,2026-10-01,2026-10-08,2026-10-14,2026-10-24,,,Offer,0
+16,Priti Menon,R108,2026-10-08,2026-10-13,2026-10-16,2026-10-30,,,Offer,0
+17,Applicant A-001,R101,2026-10-20,,,,,,Applied,0
+18,Applicant A-002,R102,2026-10-25,,,,,,Applied,0
+19,Applicant A-003,R103,2026-10-26,,,,,,Applied,0
+20,Applicant A-004,R104,2026-10-27,,,,,,Applied,0
+21,Applicant A-005,R105,2026-10-29,,,,,,Applied,0
+22,Applicant A-006,R106,2026-10-28,,,,,,Applied,0
+23,Applicant A-007,R107,2026-10-19,,,,,,Applied,0
+24,Applicant A-008,R108,2026-10-26,,,,,,Applied,0
+25,Applicant A-009,R109,2026-10-30,,,,,,Applied,0
+26,Applicant A-010,R101,2026-10-30,,,,,,Applied,0
+27,Applicant A-011,R102,2026-10-25,,,,,,Applied,0
+28,Applicant A-012,R103,2026-10-30,,,,,,Applied,0
+29,Applicant A-013,R104,2026-10-26,,,,,,Applied,0
+30,Applicant A-014,R105,2026-10-18,,,,,,Applied,0
+31,Applicant A-015,R106,2026-10-26,,,,,,Applied,0
+32,Applicant A-016,R107,2026-10-22,,,,,,Applied,0
+33,Applicant A-017,R108,2026-10-27,,,,,,Applied,0
+34,Applicant A-018,R109,2026-10-19,,,,,,Applied,0
+35,Applicant A-019,R101,2026-10-21,2026-10-24,,,,,Screen,0
+36,Applicant A-020,R102,2026-10-21,2026-10-25,,,,,Screen,0
+37,Applicant A-021,R103,2026-10-19,2026-10-23,,,,,Screen,0
+38,Applicant A-022,R104,2026-10-15,2026-10-22,,,,,Screen,0
+39,Applicant A-023,R105,2026-10-14,2026-10-22,,,,,Screen,0
+40,Applicant A-024,R106,2026-10-24,2026-10-30,,,,,Screen,0
+41,Applicant A-025,R107,2026-10-25,2026-10-28,,,,,Screen,0
+42,Applicant A-026,R108,2026-10-15,2026-10-22,2026-10-28,,,,Interview,1
+43,Applicant A-027,R109,2026-10-15,2026-10-18,2026-10-28,,,,Interview,1
+44,Applicant A-028,R101,2026-10-09,2026-10-19,2026-10-29,,,,Interview,0
+45,Rejected R101-1,R101,2026-09-15,2026-09-23,,,,,Rejected,0
+46,Rejected R101-2,R101,2026-09-21,2026-09-25,,,,,Rejected,0
+47,Rejected R102-1,R102,2026-08-29,2026-09-03,2026-09-15,,,,Rejected,0
+48,Rejected R102-2,R102,2026-09-05,2026-09-11,,,,,Rejected,0
+49,Rejected R103-1,R103,2026-09-28,2026-10-01,,,,,Rejected,0
+50,Rejected R103-2,R103,2026-09-28,2026-10-06,2026-10-17,,,,Rejected,0
+51,Rejected R104-1,R104,2026-09-26,2026-10-04,,,,,Rejected,0
+52,Rejected R104-2,R104,2026-09-29,2026-10-09,2026-10-16,,,,Rejected,0
+53,Rejected R105-1,R105,2026-09-05,2026-09-12,,,,,Rejected,0
+54,Rejected R105-2,R105,2026-09-08,2026-09-16,,,,,Rejected,0
+55,Rejected R106-1,R106,2026-07-31,2026-08-10,,,,,Rejected,0
+56,Rejected R106-2,R106,2026-07-30,2026-08-04,,,,,Rejected,0
+57,Rejected R107-1,R107,2026-10-06,2026-10-10,2026-10-21,,,,Rejected,0
+58,Rejected R107-2,R107,2026-10-07,2026-10-14,,,,,Rejected,0
+59,Rejected R108-1,R108,2026-10-08,2026-10-15,2026-10-25,,,,Rejected,0
+60,Rejected R108-2,R108,2026-10-13,2026-10-18,2026-10-30,,,,Rejected,0
+61,Rejected R109-1,R109,2026-10-25,,,,,,Rejected,0
+62,Rejected R109-2,R109,2026-10-15,2026-10-22,2026-10-30,,,,Rejected,0
