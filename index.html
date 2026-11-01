@@ -1,1688 +1,664 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Arthunya (June) Kanoklertwongse | Business Systems Analyst · Operations · Strategy · Bay Area</title>
-<meta name="description" content="Business systems and process modernization professional combining finance, operations, analytics, and AI across US, UK, and APAC. MSCS-AI · MSc FinTech · 2 AI Framework Preprints.">
-<meta property="og:title" content="Arthunya (June) Kanoklertwongse | Business Systems Analyst · Bay Area">
-<meta property="og:description" content="Interactive dashboard portfolio — turning business complexity into measurable systems improvement.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://arthunya.github.io/portfolio/">
-<meta property="og:image" content="https://arthunya.github.io/portfolio/Crew-People-Ops-KPI-Dashboard/docs/dashboard-hero.png">
-<meta property="og:image:alt" content="Dashboard preview from the Crew People Ops KPI Dashboard project">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Arthunya (June) Kanoklertwongse | Business Systems Analyst · Bay Area">
-<meta name="twitter:description" content="Interactive dashboard portfolio — turning business complexity into measurable systems improvement.">
-<meta name="twitter:image" content="https://arthunya.github.io/portfolio/Crew-People-Ops-KPI-Dashboard/docs/dashboard-hero.png">
-<link rel="icon" href="data:,">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark light" />
+<link rel="icon" href="data:," />
+<title>Token Analytics — Animated Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
 <style>
-:root {
-  --bg-deep: #06060A;
-  --bg-panel: #0E0E18;
-  --bg-card: #141420;
-  --bg-hover: #1A1A2E;
-  --border-subtle: rgba(255,255,255,0.06);
-  --border-active: rgba(37,99,235,0.35);
-  --text-primary: #F0F2F8;
-  --text-secondary: #A8B0C8;
-  --text-muted: #6B7290;
-  --accent-blue: #3B82F6;
-  --accent-cyan: #22D3EE;
-  --accent-green: #10B981;
-  --accent-amber: #F59E0B;
-  --accent-purple: #8B5CF6;
-  --accent-rose: #F43F5E;
-  --glow-blue: rgba(59,130,246,0.12);
-  --creative-serif: 'Playfair Display', Georgia, serif;
-}
-body.light-mode {
-  --bg-deep: #F8F9FC;
-  --bg-panel: #FFFFFF;
-  --bg-card: #F1F3F9;
-  --bg-hover: #E8EBF4;
-  --border-subtle: rgba(15,23,42,0.08);
-  --border-active: rgba(37,99,235,0.25);
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-muted: #94A3B8;
-  --glow-blue: rgba(37,99,235,0.06);
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  background: var(--bg-deep);
-  color: var(--text-primary);
-  line-height: 1.55;
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  transition: background 0.5s ease, color 0.5s ease;
-}
-.dashboard-shell { max-width: 1140px; margin: 0 auto; padding: 20px 20px 40px; }
+  :root{
+    color-scheme: dark;
+    --bg:#0d1117; --bg2:#11161d; --panel:#151b23; --panel2:#1a212b;
+    --line:#26303d; --line-soft:#1e2732;
+    --ink:#eef3f7; --ink2:#aeb9c4; --ink3:#7c8a98;
+    --teal:#2dd4bf; --teal-dim:rgba(45,212,191,.14);
+    --amber:#f5b84c; --amber-dim:rgba(245,184,76,.13);
+    --red:#fb5e5e; --red-dim:rgba(251,94,94,.13);
+    --blue:#5ea8fb;
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      color-scheme: light;
+      --bg:#f2f4f6; --bg2:#e9edf0; --panel:#ffffff; --panel2:#f7f9fa;
+      --line:#d8dfe6; --line-soft:#e4e9ee;
+      --ink:#16202a; --ink2:#43536a; --ink3:#71808f;
+      --teal:#0d9488; --teal-dim:rgba(13,148,136,.12);
+      --amber:#b97d10; --amber-dim:rgba(185,125,16,.12);
+      --red:#dc2626; --red-dim:rgba(220,38,38,.10);
+      --blue:#2563eb;
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:"Manrope",system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:var(--bg); color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace}
+  .wrap{max-width:1180px;margin:0 auto;padding:28px 20px 56px}
 
-/* TOP BAR */
-.top-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 20px; background: var(--bg-panel);
-  border: 1px solid var(--border-subtle); border-radius: 16px;
-  margin-bottom: 16px; position: relative; overflow: hidden;
-  flex-wrap: wrap; gap: 12px;
-  transition: background 0.5s ease, border-color 0.5s ease;
-}
-.top-bar::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-purple));
-  opacity: 0.5;
-}
-.brand-lockup { display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
-.brand-avatar {
-  width: 40px; height: 40px; border-radius: 10px;
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 14px; color: white;
-  box-shadow: 0 0 20px var(--glow-blue); flex-shrink: 0;
-}
-.brand-text { display: flex; flex-direction: column; }
-.brand-name { font-weight: 700; font-size: 15px; letter-spacing: -0.01em; color: var(--text-primary); transition: color 0.5s ease; }
-.brand-role { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-secondary); margin-top: 1px; transition: color 0.5s ease; }
-.status-pill {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 14px; background: rgba(16,185,129,0.08);
-  border: 1px solid rgba(16,185,129,0.18); border-radius: 999px;
-  font-size: 12px; font-weight: 500; color: var(--accent-green);
-  position: relative; z-index: 1; white-space: nowrap;
-}
-.status-dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green);
-  box-shadow: 0 0 8px var(--accent-green); animation: pulse-dot 2.2s infinite;
-}
-@keyframes pulse-dot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.85); } }
+  /* ---------- header ---------- */
+  header.top{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;justify-content:space-between;margin-bottom:6px}
+  .title-block h1{font-size:clamp(26px,4.5vw,40px);line-height:1.05;margin:0;font-weight:800;letter-spacing:-.02em}
+  .title-block h1 .accent{color:var(--teal)}
+  .title-block p{margin:8px 0 0;color:var(--ink2);font-size:15px;max-width:560px;line-height:1.55}
+  .meta-badges{display:flex;gap:8px;flex-wrap:wrap}
+  .badge{font-size:12px;font-weight:700;letter-spacing:.02em;padding:7px 11px;border:1px solid var(--line);border-radius:999px;color:var(--ink2);background:var(--panel)}
+  .badge b{color:var(--ink)}
+  .story-line{
+    margin:18px 0 22px;padding:14px 16px;border-radius:var(--radius);
+    background:var(--red-dim);border:1px solid color-mix(in srgb, var(--red) 35%, transparent);
+    font-size:14.5px;line-height:1.6;color:var(--ink);
+  }
+  .story-line b{color:var(--red)}
+  .story-line .mono{font-weight:600}
 
-.theme-toggle {
-  width: 36px; height: 36px; border-radius: 50%;
-  border: 1px solid var(--border-subtle); background: var(--bg-card);
-  color: var(--text-secondary); cursor: pointer; display: flex;
-  align-items: center; justify-content: center; font-size: 16px;
-  transition: all 0.3s ease; position: relative; z-index: 1;
-}
-.theme-toggle:hover { border-color: var(--accent-blue); color: var(--accent-blue); transform: scale(1.08); }
+  /* ---------- KPI cards ---------- */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
+  .kpi{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:16px 16px 14px;position:relative;overflow:hidden}
+  .kpi::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--teal)}
+  .kpi.warn::before{background:var(--amber)} .kpi.bad::before{background:var(--red)}
+  .kpi .label{font-size:11.5px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3)}
+  .kpi .value{font-size:clamp(24px,3.4vw,32px);font-weight:600;margin-top:6px;letter-spacing:-.01em}
+  .kpi .sub{font-size:12.5px;color:var(--ink2);margin-top:4px;line-height:1.45}
+  .kpi .sub b{color:var(--ink)}
 
-/* NAV TABS */
-.nav-tabs {
-  display: flex; gap: 4px; padding: 4px; background: var(--bg-panel);
-  border: 1px solid var(--border-subtle); border-radius: 12px;
-  margin-bottom: 20px; overflow-x: auto; position: sticky; top: 12px; z-index: 50;
-  backdrop-filter: blur(12px);
-  transition: background 0.5s ease, border-color 0.5s ease;
-}
-.nav-tab {
-  padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 500;
-  color: var(--text-secondary); cursor: pointer; transition: all 0.25s ease;
-  border: none; background: transparent; white-space: nowrap; font-family: inherit; position: relative;
-}
-.nav-tab:hover { color: var(--text-primary); background: var(--bg-hover); }
-.nav-tab.active {
-  background: linear-gradient(135deg, rgba(59,130,246,0.14), rgba(6,182,212,0.08));
-  color: var(--accent-blue); box-shadow: 0 0 0 1px rgba(59,130,246,0.2);
-}
+  /* ---------- panels ---------- */
+  .panel{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:18px}
+  .panel-head{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-start;justify-content:space-between;margin-bottom:10px}
+  .panel h2{font-size:16.5px;margin:0;font-weight:800;letter-spacing:-.01em}
+  .panel .hint{font-size:12.5px;color:var(--ink3);margin-top:3px;line-height:1.5;max-width:520px}
+  .grid-2{display:grid;grid-template-columns:1.55fr 1fr;gap:12px;margin-top:12px}
+  .grid-2b{display:grid;grid-template-columns:1fr 1.25fr;gap:12px;margin-top:12px}
 
-/* GRID */
-.grid-12 { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
-.col-3 { grid-column: span 3; } .col-4 { grid-column: span 4; }
-.col-6 { grid-column: span 6; } .col-8 { grid-column: span 8; }
-.col-12 { grid-column: span 12; }
+  /* ---------- controls ---------- */
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  button.play{
+    appearance:none;border:0;cursor:pointer;border-radius:999px;
+    background:var(--teal);color:#06231f;font-weight:800;font-size:13.5px;
+    padding:10px 18px;display:inline-flex;align-items:center;gap:8px;
+  }
+  @media (prefers-color-scheme: light){ button.play{color:#fff} }
+  button.play:focus-visible, .chip:focus-visible, input[type=range]:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{
+    appearance:none;cursor:pointer;border:1px solid var(--line);background:var(--panel2);
+    color:var(--ink2);font-family:inherit;font-weight:700;font-size:12.5px;
+    padding:8px 13px;border-radius:999px;
+  }
+  .chip[aria-pressed="true"]{background:var(--teal-dim);border-color:var(--teal);color:var(--ink)}
+  .scrub{display:flex;align-items:center;gap:12px;margin-top:12px}
+  .scrub .date{font-size:13px;font-weight:600;min-width:118px}
+  .scrub .month{font-size:12px;color:var(--ink3);min-width:86px;text-align:right}
+  input[type=range]{flex:1;accent-color:var(--teal);height:28px;cursor:pointer}
 
-/* PANELS */
-.panel {
-  background: var(--bg-panel); border: 1px solid var(--border-subtle);
-  border-radius: 16px; padding: 20px; transition: all 0.35s ease;
-  position: relative; overflow: hidden; height: 100%;
-}
-.panel:hover { border-color: var(--border-active); box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(59,130,246,0.08); }
-body.light-mode .panel:hover { box-shadow: 0 8px 32px rgba(37,99,235,0.08), 0 0 0 1px rgba(59,130,246,0.06); }
-.panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
-.panel-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.07em; display: flex; align-items: center; gap: 8px; transition: color 0.5s ease; }
-.panel-badge { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 6px; background: rgba(59,130,246,0.08); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.15); }
+  /* ---------- chart ---------- */
+  .chart-wrap{position:relative}
+  svg.chart{width:100%;height:auto;display:block}
+  .tooltip{
+    position:absolute;pointer-events:none;opacity:0;transition:opacity .12s;
+    background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    padding:8px 11px;font-size:12.5px;line-height:1.5;white-space:nowrap;z-index:5;
+    box-shadow:0 8px 24px rgba(0,0,0,.28);
+  }
+  .tooltip .d{color:var(--ink3);font-size:11.5px}
+  .tooltip .v{font-weight:600;font-size:14px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin-top:8px}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .swatch{width:14px;height:3px;border-radius:2px;background:var(--teal);display:inline-block}
+  .swatch.red{background:var(--red)} .swatch.band{background:var(--red);opacity:.35;height:10px;border-radius:3px}
 
-/* HERO NAME */
-.hero-name-section { padding: 32px 0 8px; }
-.hero-name {
-  font-size: 42px;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--text-primary);
-  line-height: 1.15;
-  margin-bottom: 6px;
-  transition: color 0.5s ease;
-}
-.hero-name .creative-accent {
-  font-family: var(--creative-serif);
-  font-style: italic;
-  font-weight: 500;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.hero-name-sub {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  color: var(--text-secondary);
-  margin-bottom: 20px;
-  transition: color 0.5s ease;
-}
+  /* ---------- bars ---------- */
+  .bar-row{margin-bottom:15px}
+  .bar-row:last-child{margin-bottom:2px}
+  .bar-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13.5px;margin-bottom:6px}
+  .bar-top .team{font-weight:700}
+  .bar-top .nums{color:var(--ink2);font-size:12.5px}
+  .bar-top .nums b{color:var(--ink)}
+  .bar-track{height:12px;border-radius:6px;background:var(--bg2);border:1px solid var(--line-soft);overflow:hidden;position:relative}
+  .bar-fill{height:100%;border-radius:6px;background:var(--teal);width:0%;transition:width .8s cubic-bezier(.22,.8,.3,1)}
+  .bar-fill.amber{background:var(--amber)} .bar-fill.red{background:var(--red)} .bar-fill.blue{background:var(--blue)}
+  .cap-note{font-size:12px;color:var(--ink3);margin-top:10px;line-height:1.55}
+  .cap-note b{color:var(--red)}
+  .over-tag{font-size:10.5px;font-weight:800;letter-spacing:.06em;color:var(--red);border:1px solid var(--red);border-radius:5px;padding:1px 5px;margin-left:6px;vertical-align:1px}
 
-/* TAGLINE */
-.tagline-block {
-  background: linear-gradient(135deg, rgba(59,130,246,0.06), rgba(6,182,212,0.04));
-  border: 1px solid rgba(59,130,246,0.12);
-  border-radius: 14px;
-  padding: 18px 24px;
-  margin-bottom: 20px;
-  position: relative;
-  overflow: hidden;
-}
-body.light-mode .tagline-block {
-  background: linear-gradient(135deg, rgba(59,130,246,0.04), rgba(6,182,212,0.03));
-  border: 1px solid rgba(59,130,246,0.1);
-}
-.tagline-block::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 100%;
-  background: linear-gradient(180deg, var(--accent-blue), var(--accent-cyan));
-}
-.tagline-text {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-primary);
-  line-height: 1.5;
-  letter-spacing: -0.01em;
-  transition: color 0.5s ease;
-}
-.tagline-text .gradient-text {
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.tagline-meta {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-muted);
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.tagline-meta .cursor-blink {
-  display: inline-block;
-  width: 8px; height: 16px;
-  background: var(--accent-cyan);
-  animation: blink 1s step-end infinite;
-  border-radius: 1px;
-}
-@keyframes blink { 50% { opacity: 0; } }
+  /* ---------- donut ---------- */
+  .donut-flex{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .donut-legend{flex:1;min-width:170px;display:grid;gap:9px}
+  .dl-row{display:flex;align-items:center;gap:9px;font-size:13px}
+  .dl-dot{width:10px;height:10px;border-radius:3px;flex:none}
+  .dl-row .nm{color:var(--ink2)} .dl-row .pc{margin-left:auto;font-weight:600}
 
-/* FEATURED PROJECT BANNER (O2C) */
-.featured-banner {
-  background: linear-gradient(135deg, rgba(16,185,129,0.07), rgba(59,130,246,0.05));
-  border: 1px solid rgba(16,185,129,0.18);
-  border-radius: 14px;
-  padding: 16px 22px;
-  margin-bottom: 16px;
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 16px; flex-wrap: wrap;
-  position: relative; overflow: hidden;
-}
-.featured-banner::before {
-  content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%;
-  background: linear-gradient(180deg, var(--accent-green), var(--accent-blue));
-}
-.featured-banner-badge {
-  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700;
-  color: var(--accent-green); text-transform: uppercase; letter-spacing: 0.06em;
-  margin-bottom: 5px; display: block;
-}
-.featured-banner-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.5; transition: color 0.5s ease; }
-.featured-banner-text strong { color: var(--text-primary); font-weight: 600; }
-.featured-banner-btn {
-  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px;
-  padding: 10px 18px; border-radius: 9px; font-size: 12.5px; font-weight: 600;
-  background: linear-gradient(135deg, rgba(16,185,129,0.18), rgba(59,130,246,0.14));
-  border: 1px solid rgba(16,185,129,0.3); color: var(--accent-green);
-  cursor: pointer; text-decoration: none; transition: all 0.25s ease; white-space: nowrap;
-}
-.featured-banner-btn:hover { box-shadow: 0 4px 16px rgba(16,185,129,0.18); transform: translateY(-1px); }
+  /* ---------- findings ---------- */
+  .findings{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+  .finding{background:var(--panel);border:1px solid var(--line-soft);border-radius:var(--radius);padding:17px}
+  .finding .n{font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--ink3)}
+  .finding h3{font-size:15.5px;margin:7px 0 8px;line-height:1.4}
+  .finding h3 .hl-r{color:var(--red)} .finding h3 .hl-a{color:var(--amber)} .finding h3 .hl-t{color:var(--teal)}
+  .finding p{font-size:13px;color:var(--ink2);line-height:1.6;margin:0}
+  footer{margin-top:22px;font-size:12px;color:var(--ink3);line-height:1.65}
+  footer b{color:var(--ink2)}
 
-/* KPI TILES */
-.kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-.kpi-tile {
-  background: var(--bg-card); border: 1px solid var(--border-subtle);
-  border-radius: 14px; padding: 18px 16px; cursor: pointer;
-  transition: all 0.3s ease; position: relative;
-}
-.kpi-tile::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2.5px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); transform: scaleX(0); transition: transform 0.35s ease; border-radius: 0 0 14px 14px; transform-origin: left; }
-.kpi-tile:hover::after { transform: scaleX(1); }
-.kpi-tile:hover { transform: translateY(-3px); border-color: rgba(59,130,246,0.18); box-shadow: 0 12px 28px rgba(0,0,0,0.2); }
-body.light-mode .kpi-tile:hover { box-shadow: 0 12px 28px rgba(37,99,235,0.1); }
-.kpi-icon { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; margin-bottom: 10px; }
-.kpi-icon.blue { background: rgba(59,130,246,0.1); }
-.kpi-icon.green { background: rgba(16,185,129,0.1); }
-.kpi-icon.amber { background: rgba(245,158,11,0.1); }
-.kpi-value { font-family: 'JetBrains Mono', monospace; font-size: 26px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
-.kpi-value.blue { color: var(--accent-blue); }
-.kpi-value.green { color: var(--accent-green); }
-.kpi-value.amber { color: var(--accent-amber); }
-.kpi-label { font-size: 11.5px; color: var(--text-secondary); line-height: 1.45; font-weight: 500; transition: color 0.5s ease; }
-.kpi-meta { font-size: 10px; color: var(--text-muted); margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border-subtle); font-family: 'JetBrains Mono', monospace; transition: color 0.5s ease, border-color 0.5s ease; }
-
-/* SPARKLINE */
-.sparkline-container { display: flex; align-items: flex-end; gap: 3px; height: 36px; margin-top: 14px; }
-.spark-bar { flex: 1; border-radius: 1px; background: linear-gradient(180deg, var(--accent-blue), var(--accent-cyan)); opacity: 0.5; transition: opacity 0.3s, transform 0.3s; min-height: 3px; }
-.spark-bar:hover { opacity: 1; transform: scaleY(1.15); }
-
-/* COMPETENCY CARDS */
-.comp-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; }
-.comp-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 14px;
-  padding: 18px 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-.comp-card:hover {
-  border-color: var(--border-active);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-}
-body.light-mode .comp-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); }
-.comp-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2.5px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); transform: scaleX(0); transition: transform 0.35s ease; transform-origin: left; }
-.comp-card:hover::after { transform: scaleX(1); }
-.comp-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 3px; height: 100%;
-  border-radius: 14px 0 0 14px;
-}
-.comp-card.blue::before { background: linear-gradient(180deg, var(--accent-blue), var(--accent-cyan)); }
-.comp-card.cyan::before { background: linear-gradient(180deg, var(--accent-cyan), var(--accent-green)); }
-.comp-card.green::before { background: linear-gradient(180deg, var(--accent-green), var(--accent-amber)); }
-.comp-card.amber::before { background: linear-gradient(180deg, var(--accent-amber), var(--accent-rose)); }
-.comp-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-.comp-name {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--text-primary);
-  transition: color 0.5s ease;
-}
-.comp-name.blue { color: var(--accent-blue); }
-.comp-name.cyan { color: var(--accent-cyan); }
-.comp-name.green { color: var(--accent-green); }
-.comp-name.amber { color: var(--accent-amber); }
-.comp-tools {
-  font-size: 11px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 12px;
-  transition: color 0.5s ease;
-}
-.comp-bar-track {
-  height: 4px;
-  background: var(--border-subtle);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.comp-bar-fill {
-  height: 100%;
-  border-radius: 2px;
-  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
-  width: 0;
-}
-.comp-bar-fill.blue { background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); }
-.comp-bar-fill.cyan { background: linear-gradient(90deg, var(--accent-cyan), var(--accent-green)); }
-.comp-bar-fill.green { background: linear-gradient(90deg, var(--accent-green), var(--accent-amber)); }
-.comp-bar-fill.amber { background: linear-gradient(90deg, var(--accent-amber), var(--accent-rose)); }
-
-/* TAG CLOUD */
-.tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; }
-.tag { padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500; border: 1px solid var(--border-subtle); background: var(--bg-card); color: var(--text-secondary); cursor: default; transition: all 0.2s ease; }
-.tag:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.3); color: var(--accent-blue); transform: translateY(-1px); }
-.tag.active { background: linear-gradient(135deg, rgba(59,130,246,0.14), rgba(6,182,212,0.08)); border-color: rgba(59,130,246,0.25); color: var(--accent-blue); }
-
-/* ACTIVITY FEED */
-.activity-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border-subtle); transition: border-color 0.5s ease; }
-.activity-item:last-child { border-bottom: none; padding-bottom: 0; }
-.activity-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 4px; flex-shrink: 0; }
-.activity-dot.blue { background: var(--accent-blue); box-shadow: 0 0 6px var(--accent-blue); }
-.activity-dot.green { background: var(--accent-green); box-shadow: 0 0 6px var(--accent-green); }
-.activity-dot.amber { background: var(--accent-amber); box-shadow: 0 0 6px var(--accent-amber); }
-.activity-text { color: var(--text-secondary); line-height: 1.55; font-size: 12.5px; transition: color 0.5s ease; }
-.activity-text strong { color: var(--text-primary); font-weight: 500; transition: color 0.5s ease; }
-.activity-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 3px; transition: color 0.5s ease; }
-
-/* CASE STUDY CARDS */
-.case-card {
-  background: var(--bg-card); border: 1px solid var(--border-subtle);
-  border-radius: 14px; padding: 16px; margin-bottom: 10px;
-  cursor: pointer; transition: all 0.3s ease;
-  display: flex; align-items: flex-start; gap: 14px;
-  text-decoration: none;
-  color: inherit;
-}
-.case-card:last-child { margin-bottom: 0; }
-.case-card:hover { border-color: rgba(59,130,246,0.2); background: var(--bg-hover); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
-body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); }
-.case-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-.case-icon.ace { background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(139,92,246,0.08)); }
-.case-icon.vet { background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(59,130,246,0.08)); }
-.case-icon.ml { background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(244,63,94,0.08)); }
-.case-icon.o2c { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(59,130,246,0.08)); }
-.case-title { font-size: 14px; font-weight: 600; margin-bottom: 3px; color: var(--text-primary); transition: color 0.5s ease; }
-.case-sub { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; line-height: 1.4; transition: color 0.5s ease; }
-.case-tags { display: flex; gap: 6px; flex-wrap: wrap; }
-.case-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 6px; background: rgba(59,130,246,0.06); color: var(--accent-blue); border: 1px solid rgba(59,130,246,0.1); }
-.case-tag.cat-ba { background: rgba(16,185,129,0.12); color: var(--accent-green); border-color: rgba(16,185,129,0.28); font-weight: 700; }
-.case-tag.cat-ai { background: rgba(139,92,246,0.1); color: var(--accent-purple); border-color: rgba(139,92,246,0.22); font-weight: 700; }
-.case-arrow {
-  margin-left: auto;
-  color: var(--text-muted);
-  font-size: 14px;
-  transition: all 0.3s ease;
-  align-self: center;
-}
-.case-card:hover .case-arrow { color: var(--accent-blue); transform: translateX(4px); }
-
-/* CASE STUDY DETAIL CARDS */
-.cs-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 22px; margin-bottom: 16px; transition: all 0.3s ease; }
-.cs-card:hover { border-color: rgba(59,130,246,0.15); }
-.cs-card:last-child { margin-bottom: 0; }
-.cs-header { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-.cs-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-.cs-icon.ace { background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(139,92,246,0.08)); }
-.cs-icon.vet { background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(59,130,246,0.08)); }
-.cs-icon.ml { background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(244,63,94,0.08)); }
-.cs-title { font-size: 16px; font-weight: 700; margin-bottom: 3px; color: var(--text-primary); transition: color 0.5s ease; }
-.cs-sub { font-size: 13px; color: var(--text-secondary); transition: color 0.5s ease; }
-.cs-body { font-size: 13px; color: var(--text-secondary); line-height: 1.75; margin: 14px 0; transition: color 0.5s ease; }
-.cs-body strong { color: var(--text-primary); font-weight: 600; transition: color 0.5s ease; }
-.cs-body ul { list-style: none; margin: 8px 0; }
-.cs-body li { padding-left: 18px; position: relative; margin-bottom: 5px; }
-.cs-body li::before { content: '*'; position: absolute; left: 4px; color: var(--accent-blue); font-weight: 700; }
-.cs-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
-.cs-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; border-radius: 8px; font-size: 12.5px; font-weight: 500; border: 1px solid var(--border-subtle); background: var(--bg-panel); color: var(--text-secondary); text-decoration: none; transition: all 0.2s; cursor: pointer; }
-.cs-btn:hover { border-color: rgba(59,130,246,0.3); color: var(--accent-blue); background: rgba(59,130,246,0.05); }
-
-/* STAR FLOW */
-.star-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 16px 0; }
-.star-step { background: var(--bg-panel); border: 1.5px solid transparent; border-radius: 12px; padding: 14px 10px; cursor: pointer; transition: all 0.3s ease; text-align: center; }
-.star-step:hover { border-color: rgba(59,130,246,0.25); background: rgba(59,130,246,0.04); transform: translateY(-2px); }
-.star-step.active { border-color: rgba(59,130,246,0.35); background: rgba(59,130,246,0.06); }
-.star-step-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; margin: 0 auto 8px; background: rgba(59,130,246,0.1); }
-.star-step-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 3px; }
-.star-step-hint { font-size: 11px; color: var(--text-muted); line-height: 1.4; transition: color 0.5s ease; }
-.story-detail-panel { background: linear-gradient(135deg, rgba(59,130,246,0.04), rgba(6,182,212,0.03)); border-radius: 12px; padding: 0 18px; max-height: 0; overflow: hidden; transition: all 0.45s cubic-bezier(0.4,0,0.2,1); margin-bottom: 0; border: 1px solid transparent; }
-.story-detail-panel.open { padding: 16px 18px; max-height: 420px; margin-bottom: 14px; border-color: rgba(59,130,246,0.1); }
-.story-detail-text { font-size: 13px; line-height: 1.8; color: var(--text-secondary); transition: color 0.5s ease; }
-.story-detail-text strong { color: var(--accent-blue); font-weight: 600; }
-.results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 14px 0; }
-.result-chip { background: linear-gradient(135deg, rgba(59,130,246,0.05), rgba(6,182,212,0.03)); border: 1px solid rgba(59,130,246,0.1); border-radius: 10px; padding: 14px; font-size: 12px; line-height: 1.55; color: var(--text-secondary); transition: color 0.5s ease; }
-.result-chip strong { color: var(--text-primary); font-weight: 700; font-size: 13.5px; display: block; margin-bottom: 3px; transition: color 0.5s ease; }
-.result-chip .result-meta { font-size: 10px; color: var(--text-muted); margin-top: 5px; font-style: italic; font-family: 'JetBrains Mono', monospace; transition: color 0.5s ease; }
-
-/* SECTION LABELS */
-.section-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; transition: color 0.5s ease; }
-.section-label::before { content: ''; width: 16px; height: 2px; background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan)); border-radius: 1px; }
-
-/* TIMELINE (EXPERIENCE) */
-.timeline-list { position: relative; padding-left: 24px; }
-.timeline-list::before { content: ''; position: absolute; left: 6px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(180deg, var(--accent-blue), var(--accent-cyan), transparent); opacity: 0.25; border-radius: 1px; }
-.timeline-item { position: relative; padding-bottom: 20px; }
-.timeline-item:last-child { padding-bottom: 0; }
-.timeline-dot { position: absolute; left: -22px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-blue); box-shadow: 0 0 0 3px rgba(59,130,246,0.12); }
-.timeline-role { font-size: 13.5px; font-weight: 600; color: var(--text-primary); margin-bottom: 2px; transition: color 0.5s ease; }
-.timeline-company { font-size: 12px; color: var(--accent-cyan); font-weight: 500; margin-bottom: 4px; }
-.timeline-date { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-muted); margin-bottom: 6px; transition: color 0.5s ease; }
-.timeline-desc { font-size: 12.5px; color: var(--text-secondary); line-height: 1.65; transition: color 0.5s ease; }
-.timeline-desc ul { list-style: none; margin-top: 6px; }
-.timeline-desc li { padding-left: 16px; position: relative; margin-bottom: 5px; }
-.timeline-desc li::before { content: '->'; position: absolute; left: 0; color: var(--accent-blue); font-weight: 700; font-size: 11px; }
-
-/* CONTACT */
-.contact-bar { display: flex; gap: 10px; flex-wrap: wrap; }
-.contact-chip {
-  display: flex; align-items: center; gap: 8px;
-  padding: 11px 20px; background: var(--bg-card);
-  border: 1px solid var(--border-subtle); border-radius: 10px;
-  font-size: 13px; font-weight: 500; color: var(--text-secondary);
-  cursor: pointer; transition: all 0.25s ease; text-decoration: none;
-}
-.contact-chip:hover { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.22); color: var(--text-primary); transform: translateY(-2px); }
-.contact-chip.primary { background: linear-gradient(135deg, rgba(59,130,246,0.18), rgba(6,182,212,0.1)); border-color: rgba(59,130,246,0.3); color: var(--accent-blue); }
-.contact-chip.primary:hover { box-shadow: 0 4px 16px rgba(59,130,246,0.15); }
-
-/* ABOUT TAB */
-.about-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.about-stat-card { background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(6,182,212,0.06)); border-radius: 12px; padding: 18px 14px; text-align: center; border: 1px solid rgba(59,130,246,0.1); }
-.about-stat-value { font-family: 'JetBrains Mono', monospace; font-size: 28px; font-weight: 700; color: var(--text-primary); margin-bottom: 4px; transition: color 0.5s ease; }
-.about-stat-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; transition: color 0.5s ease; }
-.about-lead { font-size: 18px; font-weight: 700; line-height: 1.4; color: var(--text-primary); margin-bottom: 14px; letter-spacing: -0.01em; transition: color 0.5s ease; }
-.about-lead span { background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-.about-text { font-size: 13.5px; color: var(--text-secondary); line-height: 1.8; margin-bottom: 12px; transition: color 0.5s ease; }
-.about-text em { color: var(--text-primary); font-style: italic; transition: color 0.5s ease; }
-.trait-cloud { display: flex; flex-wrap: wrap; gap: 7px; margin: 14px 0 18px; }
-.trait-chip { padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 500; border: 1px solid var(--border-subtle); color: var(--text-secondary); transition: all 0.25s ease; cursor: default; background: var(--bg-card); }
-.trait-chip:hover { background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.25); color: var(--accent-blue); transform: translateY(-1px) rotate(-0.5deg); }
-.edu-timeline { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--border-subtle); transition: border-color 0.5s ease; }
-.edu-item { display: flex; gap: 12px; margin-bottom: 14px; position: relative; }
-.edu-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent-blue); margin-top: 4px; flex-shrink: 0; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
-.edu-degree { font-weight: 600; font-size: 13px; color: var(--text-primary); margin-bottom: 2px; transition: color 0.5s ease; }
-.edu-school { font-size: 12px; color: var(--text-secondary); line-height: 1.5; transition: color 0.5s ease; }
-
-/* CERTS IN ABOUT TAB */
-.cert-section-title {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.cert-section-title::before {
-  content: '';
-  width: 16px; height: 2px;
-  background: linear-gradient(90deg, var(--accent-amber), var(--accent-rose));
-  border-radius: 1px;
-}
-.cert-list { display: flex; flex-direction: column; gap: 10px; }
-.cert-list-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-.cert-list-item:hover {
-  transform: translateX(4px);
-  border-color: rgba(59,130,246,0.2);
-  background: var(--bg-hover);
-}
-.cert-list-icon {
-  width: 36px; height: 36px;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  flex-shrink: 0;
-}
-.cert-list-icon.google { background: rgba(234,67,53,0.08); color: #EA4335; }
-.cert-list-icon.cloud { background: rgba(66,133,244,0.08); color: #4285F4; }
-.cert-list-icon.anthropic { background: rgba(209,87,51,0.08); color: #D15733; }
-.cert-list-icon.cfi { background: rgba(16,185,129,0.08); color: #10B981; }
-.cert-list-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; color: var(--text-primary); transition: color 0.5s ease; }
-.cert-list-meta { font-size: 11px; color: var(--text-secondary); line-height: 1.5; transition: color 0.5s ease; }
-
-/* EXP TAGS */
-.exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-.exp-tag { font-size: 11px; padding: 4px 10px; border-radius: 999px; background: rgba(59,130,246,0.06); color: var(--accent-blue); font-weight: 500; }
-
-/* ANIMATIONS */
-@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-.animate-in { animation: fadeUp 0.55s cubic-bezier(0.4,0,0.2,1) forwards; opacity: 0; }
-
-/* SCROLLBAR */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-deep); transition: background 0.5s ease; }
-::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
-
-/* O2C LAYER PROGRESS TRACK */
-.layer-track { display: flex; gap: 5px; margin: 14px 0 16px; flex-wrap: wrap; }
-.layer-pip {
-  flex: 1; min-width: 60px; border-radius: 8px; padding: 8px 4px;
-  text-align: center; border: 1px solid var(--border-subtle);
-  background: var(--bg-panel); transition: all 0.3s ease;
-  cursor: default; text-decoration: none; color: inherit; display: block;
-}
-.layer-pip.done { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.25); }
-.layer-pip.active { background: rgba(59,130,246,0.08); border-color: rgba(59,130,246,0.32); }
-.layer-pip.done:hover { border-color: rgba(16,185,129,0.45); transform: translateY(-1px); }
-.layer-pip-id { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; margin-bottom: 2px; }
-.layer-pip.done .layer-pip-id { color: var(--accent-green); }
-.layer-pip.active .layer-pip-id { color: var(--accent-blue); }
-.layer-pip.pending .layer-pip-id { color: var(--text-muted); }
-.layer-pip-label { font-size: 9px; color: var(--text-muted); line-height: 1.3; margin-bottom: 2px; }
-.layer-pip-status { font-family: 'JetBrains Mono', monospace; font-size: 9px; }
-.layer-pip.done .layer-pip-status { color: var(--accent-green); }
-.layer-pip.active .layer-pip-status { color: var(--accent-blue); }
-.layer-pip.pending .layer-pip-status { color: var(--text-muted); }
-.cs-icon.o2c { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(59,130,246,0.08)); }
-
-.case-tag.cat-syn { background: rgba(245,158,11,0.12); color: var(--accent-amber); border-color: rgba(245,158,11,0.28); font-weight: 700; }
-.case-tag.status { background: rgba(255,255,255,0.04); color: var(--text-secondary); border-color: var(--border-subtle); font-weight: 600; }
-.case-icon.crew { background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(6,182,212,0.08)); }
-.cs-icon.crew { background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(6,182,212,0.08)); }
-.case-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-.case-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 8px; font-size: 12.5px; font-weight: 600; text-decoration: none; border: 1px solid var(--border-subtle); background: var(--bg-panel); color: var(--text-secondary); transition: all 0.2s; }
-.case-link.primary { color: var(--accent-blue); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.08); }
-.case-link:hover { border-color: rgba(59,130,246,0.4); color: var(--accent-blue); }
-a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 2px; }
-.expertise-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
-@media (max-width: 640px) { .expertise-grid { grid-template-columns: 1fr; } }
-
-/* RESPONSIVE */
-@media (max-width: 900px) {
-  .col-3, .col-4, .col-6, .col-8 { grid-column: span 6; }
-  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-  .comp-grid { grid-template-columns: 1fr; }
-  .star-flow { grid-template-columns: repeat(2, 1fr); }
-  .results-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 640px) {
-  .col-3, .col-4, .col-6, .col-8 { grid-column: span 12; }
-  .kpi-grid { grid-template-columns: 1fr; }
-  .comp-grid { grid-template-columns: 1fr; }
-  .star-flow { grid-template-columns: 1fr; }
-  .top-bar { flex-direction: column; align-items: flex-start; }
-  .nav-tab { padding: 9px 14px; font-size: 12px; }
-  .dashboard-shell { padding: 12px 12px 32px; }
-  .contact-bar { justify-content: center; }
-  .cs-header { flex-direction: column; align-items: flex-start; }
-  .about-stat-grid { grid-template-columns: 1fr; }
-  .hero-name { font-size: 28px; }
-}
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .bar-fill{transition:none}
+  }
+  @media (max-width:900px){
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    .grid-2,.grid-2b{grid-template-columns:1fr}
+    .findings{grid-template-columns:1fr}
+  }
+  @media (max-width:460px){
+    .kpis{grid-template-columns:1fr 1fr;gap:9px}
+    .kpi{padding:13px}
+    .wrap{padding:20px 13px 44px}
+    .scrub .date{min-width:100px;font-size:12px}
+    .scrub .month{display:none}
+  }
 </style>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Token Analytics — AI Cost Governance">
+<meta property="og:description" content="AI cost-governance analytics on synthetic data: cost per ticket resolved by team, spike detection, and budget burn for LLM spend.">
+<meta property="og:url" content="https://arthunya.github.io/portfolio/Token-Analytics/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Token Analytics — AI Cost Governance">
+<meta name="twitter:description" content="AI cost-governance analytics on synthetic data.">
 </head>
 <body>
+<a href="../index.html" style="display:inline-block;margin:14px 0 0 16px;padding:10px 4px;font-size:13px;font-weight:600;color:var(--teal);text-decoration:none">← Back to portfolio</a>
+<div class="wrap">
 
-<div class="dashboard-shell">
+  <header class="top">
+    <div class="title-block">
+      <h1>Token Analytics<span class="accent">.</span></h1>
+      <p>AI spend, governed like a budget line — 540,431 LLM calls across 4 teams, priced at published model rates. One page, one story: <b>where the money went, and the one week it went wrong.</b></p>
+    </div>
+    <div class="meta-badges">
+      <span class="badge">Period <b>Apr – Sep 2026</b></span>
+      <span class="badge">Source <b>DuckDB · SQL models</b></span>
+      <span class="badge">Dataset <b>Synthetic demo</b></span>
+    </div>
+  </header>
 
-  <!-- TOP BAR -->
-  <div class="top-bar animate-in" style="animation-delay:0.04s">
-    <div class="brand-lockup">
-      <div class="brand-avatar">JK</div>
-      <div class="brand-text">
-        <div class="brand-name">Arthunya (June) Kanoklertwongse</div>
-        <div class="brand-role">Business Systems Analyst · Operations · Strategy · Bay Area</div>
-      </div>
-    </div>
-    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
-      <div class="status-pill"><span class="status-dot"></span>Open to Opportunities</div>
-      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" title="Toggle light/dark mode">
-        <span id="theme-icon">☀️</span>
-      </button>
-      <a href="Arthunya_Kanoklertwongse_Resume.pdf" download class="contact-chip primary" style="padding:8px 16px; font-size:12px;">📄 Resume</a>
-    </div>
+  <div class="story-line reveal">
+    <b>The story:</b> spend is calm for three months — then Engineering runs an agent experiment on the most expensive model and burns
+    <span class="mono">$2,384</span> above its Apr–Jun monthly average (July total: $3,219) before anyone notices. Press <b>▶ Play</b> and watch it happen.
   </div>
 
-  <!-- NAV TABS -->
-  <div class="nav-tabs animate-in" style="animation-delay:0.08s">
-    <button class="nav-tab active" onclick="switchTab(this,'overview')">📊 Overview</button>
-    <button class="nav-tab" onclick="switchTab(this,'cases')">🧪 Case Studies</button>
-    <button class="nav-tab" onclick="switchTab(this,'skills')">⚡ Skills Matrix</button>
-    <button class="nav-tab" onclick="switchTab(this,'experience')">💼 Experience</button>
-    <button class="nav-tab" onclick="switchTab(this,'about')">📖 About Me</button>
-    <button class="nav-tab" onclick="switchTab(this,'connect')">📡 Connect</button>
-  </div>
-
-  <!-- ==================== TAB: OVERVIEW ==================== -->
-  <div id="tab-overview" class="tab-content">
-    <div class="grid-12">
-
-      <!-- HERO NAME + TAGLINE -->
-      <div class="col-12">
-        <div class="hero-name-section animate-in" style="animation-delay:0.1s">
-          <div class="hero-name" id="hero-name">
-            Arthunya <span class="creative-accent">(June)</span> Kanoklertwongse
-          </div>
-          <div class="hero-name-sub">Business Systems Analyst · Business Operations · Strategy · San Jose, CA</div>
-
-          <div class="tagline-block">
-            <div class="tagline-text">
-              Turning Business Complexity Into<br>
-              <span class="gradient-text">Measurable Systems Improvement</span>
-            </div>
-            <div class="tagline-meta">
-              <span class="cursor-blink"></span>
-              MSCS-AI · MSc FinTech · 2 AI Framework Preprints · Bay Area
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- FEATURED PROJECT BANNER (O2C) -->
-      <div class="col-12">
-        <div class="featured-banner animate-in" style="animation-delay:0.12s">
-          <div>
-            <span class="featured-banner-badge">🎯 Most Relevant to Business Systems Analyst / BI Analyst Roles</span>
-            <div class="featured-banner-text">
-              <strong>Order-to-Cash Reconciliation Modernization</strong> — SQL · Power BI · 98.37% Match Rate
-            </div>
-          </div>
-          <a class="featured-banner-btn" href="l0-discovery.html">View O2C Case Study →</a>
-        </div>
-      </div>
-
-      <!-- KPI ROW -->
-      <div class="col-12">
-        <div class="kpi-grid animate-in" style="animation-delay:0.14s">
-          <div class="kpi-tile" onclick="pulseTile(this)">
-            <div class="kpi-icon blue">🌍</div>
-            <div class="kpi-value blue">3</div>
-            <div class="kpi-label">Global Operating Regions</div>
-            <div class="kpi-meta">&#x1f1fa;&#x1f1f8; US · &#x1f1ec;&#x1f1e7; UK · 🌏 APAC</div>
-          </div>
-          <div class="kpi-tile" onclick="pulseTile(this)">
-            <div class="kpi-icon amber">🤖</div>
-            <div class="kpi-value amber">2</div>
-            <div class="kpi-label">AI Frameworks (preprints)</div>
-            <div class="kpi-meta">A.C.E. · V.E.T. · SSRN · ResearchGate</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- VALUE PROP + SPARKLINE + TAGS -->
-      <div class="col-8">
-        <div class="panel animate-in" style="animation-delay:0.18s">
-          <div class="panel-header">
-            <div class="panel-title">🎯 Value Proposition</div>
-            <div class="panel-badge">LIVE</div>
-          </div>
-          <div class="hero-value" style="font-size:15px; color:var(--text-secondary); line-height:1.7; margin-bottom:14px;">
-            Business systems and process modernization professional combining <strong style="color:var(--text-primary);">finance, operations, analytics, and AI</strong> across US, UK, and APAC environments. I turn ambiguous business complexity into <strong style="color:var(--text-primary);">measurable systems improvement</strong>.
-          </div>
-          <div class="tag-cloud">
-            <span class="tag active">MSCS-AI</span>
-            <span class="tag active">MSc FinTech</span>
-            <span class="tag">Finance Operations</span>
-            <span class="tag">Process Modernization</span>
-            <span class="tag">AI Strategy</span>
-            <span class="tag">Data Analytics</span>
-          </div>
-          <div class="sparkline-container" id="sparkline"></div>
-        </div>
-      </div>
-
-      <!-- ACTIVITY FEED -->
-      <div class="col-4">
-        <div class="panel animate-in" style="animation-delay:0.22s">
-          <div class="panel-header">
-            <div class="panel-title">🔔 Recent Activity</div>
-            <div class="panel-badge">7d</div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot blue"></div>
-            <div>
-              <div class="activity-text"><strong>CEROP</strong> — Supplier and shipment risk models published with a live demo, deck and project site</div>
-              <div class="activity-time">Completed · Oct 2026 · Westcliff University</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot green"></div>
-            <div>
-              <div class="activity-text"><strong>V.E.T. Framework</strong> — Live-validated SEC EDGAR XBRL module (preprint)</div>
-              <div class="activity-time">Preprint, not peer-reviewed · ResearchGate/SSRN</div>
-            </div>
-          </div>
-          <div class="activity-item">
-            <div class="activity-dot amber"></div>
-            <div>
-              <div class="activity-text"><strong>A.C.E. Framework</strong> — AI Concierge &amp; Engine for SME restaurant resilience</div>
-              <div class="activity-time">Preprint, not peer-reviewed · SSRN · ResearchGate</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CORE COMPETENCIES -->
-      <div class="col-12">
-        <div class="panel animate-in" style="animation-delay:0.26s">
-          <div class="panel-header">
-            <div class="panel-title">📈 Core Competencies</div>
-          </div>
-          <div class="comp-grid">
-            <div class="comp-card blue" onclick="switchTabFromCard('skills')">
-              <div class="comp-header">
-                <div class="comp-name blue">Business Analysis</div>
-              </div>
-              <div class="comp-tools">Gap analysis, requirements gathering, process mapping, stakeholder management, root cause analysis, workflow design</div>
-              <div class="comp-bar-track">
-                <div class="comp-bar-fill blue" data-width="100"></div>
-              </div>
-            </div>
-            
-            <div class="comp-card cyan" onclick="switchTabFromCard('skills')">
-              <div class="comp-header">
-                <div class="comp-name cyan">Data Analytics</div>
-              </div>
-              <div class="comp-tools">Power BI, Tableau, SQL, Python (pandas, AI-assisted), Excel VBA, Power Query, KPI development, dashboard design, data storytelling</div>
-              <div class="comp-bar-track">
-                <div class="comp-bar-fill cyan" data-width="100"></div>
-              </div>
-            </div>
-            
-            <div class="comp-card green" onclick="switchTabFromCard('skills')">
-              <div class="comp-header">
-                <div class="comp-name green">AI / ML Systems</div>
-              </div>
-              <div class="comp-tools">Feature engineering, model evaluation, LLM integration, prompt engineering, human-in-the-loop, SEC EDGAR / XBRL, risk frameworks</div>
-              <div class="comp-bar-track">
-                <div class="comp-bar-fill green" data-width="100"></div>
-              </div>
-            </div>
-            
-            <div class="comp-card amber" onclick="switchTabFromCard('skills')">
-              <div class="comp-header">
-                <div class="comp-name amber">Process Improvement</div>
-              </div>
-              <div class="comp-tools">SOP design, workflow automation, VBA scripting, continuous improvement, change management, vendor evaluation</div>
-              <div class="comp-bar-track">
-                <div class="comp-bar-fill amber" data-width="100"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- FEATURED CASE STUDIES -->
-      <div class="col-6">
-        <div class="panel animate-in" style="animation-delay:0.34s">
-          <div class="panel-header">
-            <div class="panel-title">🧪 Featured Case Studies</div>
-          </div>
-          <div class="case-card" onclick="goToO2C(event)">
-            <div class="case-icon o2c">🔄</div>
-            <div style="flex:1;">
-              <div class="case-title">Order-to-Cash Reconciliation Modernization</div>
-              <div class="case-sub">99K+ orders · SQL exception detection · Power BI · AI-augmented review</div>
-              <div class="case-tags">
-                <span class="case-tag cat-ba">🎯 BA Project</span>
-                <span class="case-tag status">Public-data project</span>
-                <span class="case-tag">SQL</span>
-                <span class="case-tag">Power BI</span>
-              </div>
-            </div>
-            <div class="case-arrow">→</div>
-          </div>
-          <div class="case-card" onclick="goToCerop(event)">
-            <div class="case-icon ml">📊</div>
-            <div style="flex:1;">
-              <div class="case-title">CEROP — Cross-Border Enterprise Risk &amp; Operations Predictor</div>
-              <div class="case-sub">Bankruptcy and late-delivery models with SHAP explanations · live demo</div>
-              <div class="case-tags">
-                <span class="case-tag cat-ai">🤖 ML · Completed</span>
-                <span class="case-tag status">Team academic project</span>
-                <span class="case-tag">XGBoost</span>
-                <span class="case-tag">Random Forest</span>
-                <span class="case-tag">SHAP</span>
-                <span class="case-tag">React</span>
-              </div>
-            </div>
-            <div class="case-arrow">→</div>
-          </div>
-          <div class="case-card" onclick="switchTabFromCard('cases')">
-            <div class="case-icon ace">🍽️</div>
-            <div style="flex:1;">
-              <div class="case-title">A.C.E. — AI Concierge &amp; Engine</div>
-              <div class="case-sub">SME restaurant financial intelligence framework</div>
-              <div class="case-tags">
-                <span class="case-tag cat-ai">🔬 AI Research</span>
-                <span class="case-tag status">Preprint, not peer-reviewed</span>
-                <span class="case-tag">SSRN · ResearchGate</span>
-              </div>
-            </div>
-            <div class="case-arrow">→</div>
-          </div>
-          <div class="case-card" onclick="switchTabFromCard('cases')">
-            <div class="case-icon vet">🛡️</div>
-            <div style="flex:1;">
-              <div class="case-title">V.E.T. — Vendor Entity Threat</div>
-              <div class="case-sub">Supply chain risk detection with SEC XBRL validation</div>
-              <div class="case-tags">
-                <span class="case-tag cat-ai">🔬 AI Research</span>
-                <span class="case-tag status">Preprint, not peer-reviewed</span>
-                <span class="case-tag">Live-Validated</span>
-                <span class="case-tag">Reproducible</span>
-              </div>
-            </div>
-            <div class="case-arrow">→</div>
-          </div>
-          <div class="case-card" style="cursor:default;">
-            <div class="case-icon crew">📈</div>
-            <div style="flex:1;">
-              <div class="case-title">Crew People Ops KPI Dashboard</div>
-              <div class="case-sub">SQL-backed people-ops KPI dashboard on a synthetic 42-person team: headcount, open roles, 12-month retention, payroll run, and time to offer. 10 data-quality checks and a pandas cross-check.</div>
-              <div class="case-tags">
-                <span class="case-tag cat-syn">Exploration · synthetic data</span>
-                <span class="case-tag">SQL</span>
-              </div>
-              <div class="case-links">
-                <a class="case-link primary" href="Crew-People-Ops-KPI-Dashboard/index.html">View dashboard →</a>
-                <a class="case-link" href="https://github.com/arthunya/portfolio/blob/main/Crew-People-Ops-KPI-Dashboard/README.md" target="_blank" rel="noopener">README on GitHub</a>
-              </div>
-            </div>
-          </div>
-          <div class="case-card" style="cursor:default;">
-            <div class="case-icon crew">🧮</div>
-            <div style="flex:1;">
-              <div class="case-title">Token Analytics — AI Cost Governance</div>
-              <div class="case-sub">Priced 540K LLM calls across 4 teams (synthetic data); cost per ticket resolved from $0.03 (Support) to $0.62 (Engineering); caught a $2.4K overspend in July (Engineering at 268% of cap).</div>
-              <div class="case-tags">
-                <span class="case-tag cat-syn">Exploration · synthetic data</span>
-                <span class="case-tag">DuckDB · SQL · Power BI</span>
-              </div>
-              <div class="case-links">
-                <a class="case-link primary" href="Token-Analytics/index.html">View case study →</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- EDUCATION SNAPSHOT (links to About tab) -->
-      <div class="col-6">
-        <div class="panel animate-in" style="animation-delay:0.38s; cursor:pointer" onclick="switchTabFromCard('about')">
-          <div class="panel-header">
-            <div class="panel-title">🎓 Education</div>
-            <div class="panel-badge">Full detail → About tab</div>
-          </div>
-          <div class="tag-cloud">
-            <span class="tag active">🎓 M.S. Computer Science (AI) · Westcliff · GPA 3.89 · Exp. Dec 2027</span>
-            <span class="tag">📊 MSc Financial Technology (Merit) · UWE Bristol · 2021–2022</span>
-            <span class="tag">📋 B.S. Accountancy · Siam University</span>
-          </div>
-        </div>
-      </div>
-
+  <!-- KPI row -->
+  <section class="kpis" aria-label="Key figures">
+    <div class="kpi reveal">
+      <div class="label">Total AI spend · 6 mo</div>
+      <div class="value mono" id="kpiSpend">$0</div>
+      <div class="sub">Across <b>540,431 calls</b> · Apr–Sep 2026</div>
     </div>
-  </div>
+    <div class="kpi reveal">
+      <div class="label">Spend so far (playback)</div>
+      <div class="value mono" id="kpiSoFar">$0</div>
+      <div class="sub" id="kpiSoFarSub">Cumulative to <b>Apr 1, 2026</b></div>
+    </div>
+    <div class="kpi bad reveal">
+      <div class="label">July spike · excess cost</div>
+      <div class="value mono" id="kpiSpike">$0</div>
+      <div class="sub">Engineering hit <b>268% of its $1,200 cap</b> in July</div>
+    </div>
+    <div class="kpi warn reveal">
+      <div class="label">Avoidable premium spend</div>
+      <div class="value mono" id="kpiAvoid">$0</div>
+      <div class="sub"><b>10,500 short calls</b> ran on the top-tier model</div>
+    </div>
+  </section>
 
-  <!-- ==================== TAB: CASE STUDIES ==================== -->
-  <div id="tab-cases" class="tab-content" style="display:none">
-    <div class="grid-12">
-      <div class="col-12">
-
-        <!-- O2C RECONCILIATION -->
-        <div class="cs-card animate-in" id="cs-o2c">
-          <div class="cs-header">
-            <div class="cs-icon o2c">🔄</div>
-            <div>
-              <div class="cs-title">Order-to-Cash Reconciliation Modernization</div>
-              <div class="cs-sub">Self-directed enterprise case study — automating multi-channel O2C reconciliation on 99K+ orders, from data discovery through SQL exception detection, Power BI dashboard, and AI-assisted controls.</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:12px;">
-            <span class="case-tag cat-ba">🎯 Business Analyst Project</span>
-            <span class="case-tag">📊 Self-Directed Case Study</span>
-            <span class="case-tag status">Public-data project</span>
-            <span class="case-tag">Olist · Public Dataset · 99K+ orders</span>
-            <span class="case-tag">✓ L0–L6 Complete</span>
-          </div>
-
-          <div class="layer-track">
-            <a href="l0-discovery.html" target="_blank" class="layer-pip done">
-              <div class="layer-pip-id">L0</div>
-              <div class="layer-pip-label">Discovery</div>
-              <div class="layer-pip-status">✓ done</div>
-            </a>
-            <a href="l1-process-mapping.html" target="_blank" class="layer-pip done">
-              <div class="layer-pip-id">L1</div>
-              <div class="layer-pip-label">Process map</div>
-              <div class="layer-pip-status">✓ done</div>
-            </a>
-            <a href="l2-data-sql.html" target="_blank" class="layer-pip done">
-              <div class="layer-pip-id">L2</div>
-              <div class="layer-pip-label">Data + SQL</div>
-              <div class="layer-pip-status">✓ done</div>
-            </a>
-            <a href="l3-dashboard.html" target="_blank" class="layer-pip done">
-              <div class="layer-pip-id">L3</div>
-              <div class="layer-pip-label">Dashboard</div>
-              <div class="layer-pip-status">✓ done</div>
-            </a>
-            <a href="l4-ai-exception-review.html" target="_blank" class="layer-pip done">
-              <div class="layer-pip-id">L4</div>
-              <div class="layer-pip-label">AI use cases</div>
-              <div class="layer-pip-status">✓ done</div>
-            </a>
-            <a href="l5-roi-controls.html" target="_blank" class="layer-pip done">
-              <div class="layer-pip-id">L5</div>
-              <div class="layer-pip-label">ROI + controls</div>
-              <div class="layer-pip-status">✓ done</div>
-            </a>
-            <a href="l6-uat-closure.html" target="_blank" class="layer-pip done">
-              <div class="layer-pip-id">L6</div>
-              <div class="layer-pip-label">UAT + closure</div>
-              <div class="layer-pip-status">✓ done</div>
-            </a>
-          </div>
-
-          <div class="star-flow">
-            <div class="star-step" onclick="toggleStoryStep(this,'o2c-s')">
-              <div class="star-step-icon">📍</div>
-              <div class="star-step-label">Situation</div>
-              <div class="star-step-hint">Manual reconciliation can't detect exceptions at scale</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'o2c-t')">
-              <div class="star-step-icon">🎯</div>
-              <div class="star-step-label">Task</div>
-              <div class="star-step-hint">Design automated O2C system end-to-end</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'o2c-a')">
-              <div class="star-step-icon">⚡</div>
-              <div class="star-step-label">Action</div>
-              <div class="star-step-hint">SQL · DuckDB · BPMN · Power BI · AI controls</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'o2c-r')">
-              <div class="star-step-icon">📈</div>
-              <div class="star-step-label">Result</div>
-              <div class="star-step-hint">All seven layers (L0–L6) complete: discovery through UAT closure.</div>
-            </div>
-          </div>
-
-          <div class="story-detail-panel" id="o2c-s">
-            <div class="story-detail-text">Olist marketplace processes 99,441 orders across multiple payment types over a 2-year period (2016–2018). Manual reconciliation between order records and payment settlements cannot detect exceptions at scale — resulting in R$143,255.60 in payments on 622 canceled orders (canceled with payment recorded), 614 orders with missing item records, and 14 delivered orders with no approval event.</div>
-          </div>
-          <div class="story-detail-panel" id="o2c-t">
-            <div class="story-detail-text">Design and document a complete O2C reconciliation modernization — from business discovery and stakeholder analysis through process mapping, SQL exception detection, Power BI dashboard, AI-assisted matching, ROI measurement, and UAT closure. Simulating an enterprise BSA engagement on public/synthetic data.</div>
-          </div>
-          <div class="story-detail-panel" id="o2c-a">
-            <div class="story-detail-text"><ul>
-              <li><strong>L0 (done):</strong> Profiled 99K+ records in DuckDB · identified 5 exception categories · wrote problem statement with stakeholder map</li>
-              <li><strong>L1 (done):</strong> As-Is / To-Be process maps — plain-language version on the portfolio, technical BPMN swimlane spec in Lucidchart</li>
-              <li><strong>L2 (done):</strong> Auto-match, auto-classify, and severity-tiered exception summary — 3 chained SQL queries in DuckDB, 98.37% match rate against a ≥95% target</li>
-              <li><strong>L3 (done):</strong> 6 DAX measures in Power BI, verified against L2's SQL output · rebuilt as a live HTML dashboard (KPI cards, exception breakdown, monthly trend, 1,618-row drill-down) for direct portfolio viewing</li>
-              <li><strong>L4 (done):</strong> AI-augmented exception review workflow — SQL-only risk scoring and prioritization (4 business categories × 4 risk tiers), one scoped AI step drafting review context for 20 sampled exceptions, human validation on every decision · interactive demo with a Without AI / With AI comparison</li>
-              <li><strong>L5 (done):</strong> ROI and financial-controls business case — every figure labeled Actual or Assumption, governance/controls matrix, risk register</li>
-              <li><strong>L6 (done):</strong> UAT + closure — 6 test cases re-verifying L2–L4's claims against the code and KPI labels that produced them, 1 defect logged, 4/4 acceptance criteria met, self-certified sign-off</li>
-            </ul></div>
-          </div>
-          <div class="story-detail-panel" id="o2c-r">
-            <div class="story-detail-text">All seven layers (L0–L6) complete: discovery through UAT closure.</div>
-          </div>
-
-          <div class="results-grid">
-            <div class="result-chip"><strong>R$143,255</strong> revenue exposure from 622 canceled orders retaining payment records<div class="result-meta">Actual · SQL analysis · Olist public dataset</div></div>
-            <div class="result-chip"><strong>6 exception types</strong> classified by severity — data integrity gaps to systemic approval failures<div class="result-meta">Actual · DuckDB classification queries · L2 complete</div></div>
-          </div>
+  <!-- Main chart -->
+  <section class="panel" aria-label="Daily cost trend">
+    <div class="panel-head">
+      <div>
+        <h2>Daily AI cost — the calm, then the spike</h2>
+        <div class="hint">Total daily spend, all teams. The shaded band is the flagged window: 11 days (Jul 10–24) where Engineering ran at 5.9–6.7× its trailing 28-day median. Drag the timeline or press play.</div>
+      </div>
+      <div class="controls">
+        <div class="chips" role="group" aria-label="Team filter">
+          <button class="chip" data-team="total" aria-pressed="true">All teams</button>
+          <button class="chip" data-team="Engineering" aria-pressed="false">Engineering</button>
+          <button class="chip" data-team="Data" aria-pressed="false">Data</button>
+          <button class="chip" data-team="Support" aria-pressed="false">Support</button>
+          <button class="chip" data-team="Product" aria-pressed="false">Product</button>
         </div>
-
-        <!-- A.C.E. -->
-        <div class="cs-card animate-in" style="animation-delay:0.1s">
-          <div class="cs-header">
-            <div class="cs-icon ace">🍽️</div>
-            <div>
-              <div class="cs-title">A.C.E. — AI Concierge &amp; Engine for SME Restaurants</div>
-              <div class="cs-sub">An AI-driven financial intelligence framework designed to address "financial blindness" for non-technical restaurant owners.</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:10px;">
-            <span class="case-tag cat-ai">🔬 AI Research Framework</span>
-            <span class="case-tag status">Preprint, not peer-reviewed</span>
-            <span class="case-tag">ResearchGate/SSRN</span>
-            <span class="case-tag">SSRN · ResearchGate</span>
-          </div>
-          <div class="star-flow">
-            <div class="star-step" onclick="toggleStoryStep(this,'ace-s')">
-              <div class="star-step-icon">📍</div>
-              <div class="star-step-label">Situation</div>
-              <div class="star-step-hint">The lag between cost data and pricing decisions</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ace-t')">
-              <div class="star-step-icon">🎯</div>
-              <div class="star-step-label">Task</div>
-              <div class="star-step-hint">End-to-end AI framework for non-technical owners</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ace-a')">
-              <div class="star-step-icon">⚡</div>
-              <div class="star-step-label">Action</div>
-              <div class="star-step-hint">Multi-modal pipeline + ML + LLM interface</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'ace-r')">
-              <div class="star-step-icon">📈</div>
-              <div class="star-step-label">Result</div>
-              <div class="star-step-hint">Preprint research framework</div>
-            </div>
-          </div>
-          <div class="story-detail-panel" id="ace-s"><div class="story-detail-text">SME restaurant operators often lack real-time financial intelligence to catch cost overruns and pricing gaps early — a pattern this framework refers to as "financial blindness," the lag between raw cost data and pricing decisions.</div></div>
-          <div class="story-detail-panel" id="ace-t"><div class="story-detail-text">Design an AI-driven financial intelligence framework for SME restaurant operators — addressing invoice processing, menu pricing, and labor scheduling — with human accountability built into every financially consequential decision.</div></div>
-          <div class="story-detail-panel" id="ace-a"><div class="story-detail-text"><ul><li>Authored the framework\'s three core components: AI-OCR invoice ingestion, dynamic menu pricing recommendations, and predictive labor scheduling</li><li>Grounded the design in independent research into SME restaurant technology adoption — POS vendor evaluation (Toast, Square, MarketMan), inventory/recipe-costing methodology, and payment-processing cost benchmarking</li><li>Designed human-in-the-loop governance at every financially consequential decision point — no fully automated financial actions</li></ul></div></div>
-          <div class="story-detail-panel" id="ace-r"><div class="story-detail-text">Published as a preprint on ResearchGate/SSRN. Currently a concept and framework-design stage publication — implementation and measurable results are the next phase.</div></div>
-          <div class="results-grid">
-            <div class="result-chip"><strong>Preprint</strong> research framework, not peer-reviewed<div class="result-meta">Actual · Live on SSRN and ResearchGate</div></div>
-            <div class="result-chip"><strong>Human-in-the-loop</strong> governance at every financial decision point<div class="result-meta">Actual · Core design principle of the framework</div></div>
-          </div>
-          <div class="cs-actions">
-            <a class="cs-btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6774983" target="_blank" rel="noopener">📄 Read on SSRN →</a>
-            <a class="cs-btn" href="https://www.researchgate.net/publication/403792836_ACE_-_AI_Concierge_Engine_An_AI-Driven_Financial_Intelligence_Framework_for_US_SME_Restaurant_Resilience" target="_blank" rel="noopener">📄 Read on ResearchGate →</a>
-          </div>
-        </div>
-
-        <!-- V.E.T. -->
-        <div class="cs-card animate-in" style="animation-delay:0.2s">
-          <div class="cs-header">
-            <div class="cs-icon vet">🛡️</div>
-            <div>
-              <div class="cs-title">V.E.T. — Vendor Entity Threat Detection</div>
-              <div class="cs-sub">AI-Powered Multi-Domain Data Fusion for Procurement Supply Chain Risk — detecting adversarial entities before they enter your vendor pool.</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:10px;">
-            <span class="case-tag cat-ai">🔬 AI Research Framework</span>
-            <span class="case-tag status">Preprint, not peer-reviewed</span>
-            <span class="case-tag">ResearchGate/SSRN</span>
-            <span class="case-tag">SSRN · ResearchGate</span>
-          </div>
-          <div class="star-flow">
-            <div class="star-step" onclick="toggleStoryStep(this,'vet-s')">
-              <div class="star-step-icon">📍</div>
-              <div class="star-step-label">Situation</div>
-              <div class="star-step-hint">Shell companies & sanctioned vendors evading due diligence</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'vet-t')">
-              <div class="star-step-icon">🎯</div>
-              <div class="star-step-label">Task</div>
-              <div class="star-step-hint">Unified real-time risk signal across all data domains</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'vet-a')">
-              <div class="star-step-icon">⚡</div>
-              <div class="star-step-label">Action</div>
-              <div class="star-step-hint">XBRL parser + anomaly detection + fusion architecture</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'vet-r')">
-              <div class="star-step-icon">📈</div>
-              <div class="star-step-label">Result</div>
-              <div class="star-step-hint">Live-validated · independently reproducible</div>
-            </div>
-          </div>
-          <div class="story-detail-panel" id="vet-s"><div class="story-detail-text">Global supply chains are increasingly vulnerable to adversarial entities — shell companies, sanctioned vendors, and financially distressed suppliers that evade traditional due diligence. Procurement teams at enterprises lack a unified, real-time risk signal that fuses financial health, geopolitical exposure, and entity relationship data.</div></div>
-          <div class="story-detail-panel" id="vet-t"><div class="story-detail-text">Build an AI-powered multi-domain data fusion framework capable of detecting adversarial entities in procurement supply chains, with a live-validated, independently reproducible financial health signal module using SEC EDGAR XBRL data.</div></div>
-          <div class="story-detail-panel" id="vet-a"><div class="story-detail-text"><ul><li>Designed a four-layer ML architecture cross-referencing six data domains: corporate registries, beneficial ownership records, sanctions lists, financial transaction patterns, logistics data, and OSINT feeds</li><li>Extended the framework with a SEC EDGAR XBRL financial health signal module</li><li>Built the module to be independently reproducible and publicly documented</li></ul></div></div>
-          <div class="story-detail-panel" id="vet-r"><div class="story-detail-text">Published as a preprint on ResearchGate/SSRN. The SEC EDGAR XBRL financial health module is live-validated and independently reproducible — extending the original framework with active, ongoing technical development.</div></div>
-          <div class="results-grid">
-            <div class="result-chip"><strong>Preprint</strong> research framework, not peer-reviewed<div class="result-meta">Actual · Live on SSRN and ResearchGate</div></div>
-            <div class="result-chip"><strong>Live-validated</strong> SEC EDGAR XBRL financial health module<div class="result-meta">Actual · Independently reproducible and publicly documented</div></div>
-          </div>
-          <div class="cs-actions">
-            <a class="cs-btn" href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=6667278" target="_blank" rel="noopener">📄 Read on SSRN →</a>
-            <a class="cs-btn" href="https://www.researchgate.net/publication/403672457_VET_-_Vendor_Entity_Threat_Detection_An_AI-Powered_Data_Fusion_Framework_for_Supply_Chain_Security" target="_blank" rel="noopener">📄 Read on ResearchGate →</a>
-          </div>
-        </div>
-
-        <!-- CEROP -->
-        <div class="cs-card animate-in" id="cs-cerop" style="animation-delay:0.3s">
-          <div class="cs-header">
-            <div class="cs-icon ml">📊</div>
-            <div>
-              <div class="cs-title">CEROP — Cross-Border Enterprise Risk &amp; Operations Predictor</div>
-              <div class="cs-sub">Two machine-learning models built side by side: one flags suppliers that may go bankrupt, the other flags shipments likely to arrive late. Each score comes with a readable SHAP explanation.</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:10px;">
-            <span class="case-tag cat-ai">🤖 AI/ML Project</span>
-            <span class="case-tag">✅ Completed</span>
-            <span class="case-tag status">Team academic project</span>
-            <span class="case-tag">Westcliff University · AIT 506 · 2026</span>
-            <span class="case-tag">Machine Learning</span>
-            <span class="case-tag">XGBoost</span>
-            <span class="case-tag">Random Forest</span>
-            <span class="case-tag">SHAP</span>
-            <span class="case-tag">React</span>
-          </div>
-          <div class="star-flow">
-            <div class="star-step" onclick="toggleStoryStep(this,'cerop-s')">
-              <div class="star-step-icon">📍</div>
-              <div class="star-step-label">Situation</div>
-              <div class="star-step-hint">Two cross-border risks owned by two different teams</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'cerop-t')">
-              <div class="star-step-icon">🎯</div>
-              <div class="star-step-label">Task</div>
-              <div class="star-step-hint">Two models, two scores, each with a reason</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'cerop-a')">
-              <div class="star-step-icon">⚡</div>
-              <div class="star-step-label">Action</div>
-              <div class="star-step-hint">Leakage checks · XGBoost &amp; RF · threshold calibration · checked SHAP</div>
-            </div>
-            <div class="star-step" onclick="toggleStoryStep(this,'cerop-r')">
-              <div class="star-step-icon">📈</div>
-              <div class="star-step-label">Result</div>
-              <div class="star-step-hint">Working prototype with a live demo on real test data</div>
-            </div>
-          </div>
-          <div class="story-detail-panel" id="cerop-s"><div class="story-detail-text">Companies buying from abroad carry two separate risks: a supplier failing, which sits with credit and procurement, and goods arriving late, which sits with logistics. Commercial supplier scores exist but are proprietary and rarely explain themselves.</div></div>
-          <div class="story-detail-panel" id="cerop-t"><div class="story-detail-text">With a four-person graduate team, build two independent classifiers on public data (Taiwan bankruptcy, DataCo supply chain, NY Fed GSCPI), judge them on metrics that suit their class balance, and make every score explainable to a non-specialist.</div></div>
-          <div class="story-detail-panel" id="cerop-a"><div class="story-detail-text"><ul><li>Owned the financial layer: sentinel-value tiers, capping rules and cleaning for the bankruptcy data</li><li>Found and verified the Order Status leakage in the operations data, and audited the team's notebooks and numbers</li><li>Built the live demo: model export, scoring, SHAP explanations checked to reconcile with every score, and the Risk Console (React)</li><li>Coordinated weekly deliverables and wrote up the reports; after the course, rebuilt the console and published the project site and deck</li></ul></div></div>
-          <div class="story-detail-panel" id="cerop-r"><div class="story-detail-text">A working prototype, not a production system. XGBoost reached F1 0.529 on a 3.2% positive class. Calibrating the shipment threshold to 0.40 lifted recall to 0.825 and caught 3,705 more late shipments than the default, at the cost of 4,200 more false alarms. Tuning did not beat the default settings on either layer, and the site says so. Team: Ankit Kumar, Divya Gopal, Aswin Shriram Thiagarajan.</div></div>
-          <div class="results-grid">
-            <div class="result-chip"><strong>F1 0.529</strong> on a 3.2% positive class (bankruptcy)<div class="result-meta">Actual · held-out test set, 1,364 firms</div></div>
-            <div class="result-chip"><strong>Recall 0.825</strong> on late shipments after threshold calibration<div class="result-meta">Actual · held-out test set, 34,393 orders</div></div>
-            <div class="result-chip"><strong>+3,705</strong> late shipments caught vs the 0.50 default<div class="result-meta">Actual · with 4,200 more false alarms</div></div>
-          </div>
-          <div class="cs-actions">
-            <a class="cs-btn" href="https://arthunya.github.io/cerop-console/" target="_blank" rel="noopener">🌐 Project site →</a>
-            <a class="cs-btn" href="https://arthunya.github.io/cerop-console/console/" target="_blank" rel="noopener">🧪 Live demo →</a>
-            <a class="cs-btn" href="https://arthunya.github.io/cerop-console/deck/" target="_blank" rel="noopener">🖥️ Deck →</a>
-            <a class="cs-btn" href="https://github.com/arthunya/cerop-console" target="_blank" rel="noopener">💻 GitHub →</a>
-            <a class="cs-btn" href="https://arthunya.github.io/cerop-console/reports/CEROP_Final_Report.pdf" target="_blank" rel="noopener">📄 Final report →</a>
-          </div>
-        </div>
-
-        <!-- CREW PEOPLE OPS KPI DASHBOARD -->
-        <div class="cs-card animate-in" id="cs-crew">
-          <div class="cs-header">
-            <div class="cs-icon crew">📈</div>
-            <div>
-              <div class="cs-title">Crew People Ops KPI Dashboard</div>
-              <div class="cs-sub">SQL-backed people-ops KPI dashboard on a synthetic 42-person team: headcount, open roles, 12-month retention, payroll run, and time to offer. 10 data-quality checks and a pandas cross-check.</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:10px;">
-            <span class="case-tag cat-syn">Exploration · synthetic data</span>
-            <span class="case-tag">SQL</span>
-            <span class="case-tag">Data-quality checks</span>
-          </div>
-          <div class="cs-body">All data is fictional. The visual layout came from a template; the data layer, SQL for every KPI and data-quality checks were added AI-assisted and reviewed by the author. Not a real result.</div>
-          <div class="cs-actions">
-            <a class="cs-btn" href="Crew-People-Ops-KPI-Dashboard/index.html">View dashboard →</a>
-            <a class="cs-btn" href="https://github.com/arthunya/portfolio/blob/main/Crew-People-Ops-KPI-Dashboard/README.md" target="_blank" rel="noopener">💻 README on GitHub →</a>
-          </div>
-        </div>
-
-        <!-- TOKEN ANALYTICS -->
-        <div class="cs-card animate-in" id="cs-token">
-          <div class="cs-header">
-            <div class="cs-icon crew">🧮</div>
-            <div>
-              <div class="cs-title">Token Analytics — AI Cost Governance</div>
-              <div class="cs-sub">Priced 540K LLM calls across 4 teams (synthetic data); cost per ticket resolved from $0.03 (Support) to $0.62 (Engineering); caught a $2.4K overspend in July (Engineering at 268% of cap).</div>
-            </div>
-          </div>
-          <div class="case-tags" style="margin-bottom:10px;">
-            <span class="case-tag cat-syn">Exploration · synthetic data</span>
-            <span class="case-tag">DuckDB</span><span class="case-tag">SQL</span><span class="case-tag">Power BI</span>
-          </div>
-          <div class="cs-actions">
-            <a class="cs-btn" href="Token-Analytics/index.html">View case study →</a>
-          </div>
-        </div>
-
+        <button class="play" id="playBtn" type="button">▶&nbsp; Play Apr → Sep</button>
       </div>
     </div>
-  </div>
 
-  <!-- ==================== TAB: SKILLS ==================== -->
-  <div id="tab-skills" class="tab-content" style="display:none">
-    <div class="grid-12">
-      <div class="col-4">
-        <div class="panel animate-in">
-          <div class="panel-title">📊 Business Strategy & Ops</div>
-          <div class="tag-cloud" style="margin-top:14px">
-            <span class="tag">Requirements Gathering</span>
-            <span class="tag">Gap Analysis</span>
-            <span class="tag">Process Mapping</span>
-            <span class="tag">Root Cause Analysis</span>
-            <span class="tag">SOP Design</span>
-            <span class="tag">Workflow Design</span>
-            <span class="tag">Stakeholder Management</span>
-            <span class="tag">Change Management</span>
-            <span class="tag">Vendor Evaluation</span>
-            <span class="tag">Continuous Improvement</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="panel animate-in" style="animation-delay:0.08s">
-          <div class="panel-title">💻 Analytics & Intelligence</div>
-          <div class="tag-cloud" style="margin-top:14px">
-            <span class="tag">Power BI</span>
-            <span class="tag">Tableau</span>
-            <span class="tag">SQL</span>
-            <span class="tag">Python (pandas, AI-assisted)</span>
-            <span class="tag">Excel VBA</span>
-            <span class="tag">Power Query</span>
-            <span class="tag">KPI Development</span>
-            <span class="tag">Dashboard Design</span>
-            <span class="tag">Data Storytelling</span>
-            <span class="tag">Financial Forecasting</span>
-          </div>
-        </div>
-      </div>
-      <div class="col-4">
-        <div class="panel animate-in" style="animation-delay:0.16s">
-          <div class="panel-title">🤖 AI & Applied Systems</div>
-          <div class="tag-cloud" style="margin-top:14px">
-            <span class="tag">Machine Learning</span>
-            <span class="tag">Feature Engineering</span>
-            <span class="tag">Model Evaluation</span>
-            <span class="tag">LLM Integration</span>
-            <span class="tag">Prompt Engineering</span>
-            <span class="tag">Human-in-the-Loop</span>
-            <span class="tag">SEC EDGAR / XBRL</span>
-            <span class="tag">Risk Frameworks</span>
-            <span class="tag">Applied Research</span>
-            <span class="tag">AI Governance</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-12">
-        <div class="panel animate-in" style="animation-delay:0.2s">
-          <div class="panel-title">🎯 Expertise Impact</div>
-          <div class="expertise-grid">
-            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
-              <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Process Improvement</div>
-              <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Standardized administrative and financial workflows while reducing manual effort and handoff errors. Excel VBA automation cut recurring reporting time by roughly 80%, from 2–3 hours to about 30 minutes, with SOP-enabled adoption.</div>
-            </div>
-            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
-              <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Business Intelligence</div>
-              <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Built customer-operations dashboards analyzing reviews, refunds, complaints, returns, and claims to support data-driven managerial decisions.</div>
-            </div>
-            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
-              <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Financial &amp; Operational Modeling</div>
-              <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Developed forecasting models that improved budget accuracy by 15%. Designed cost-calculation templates extended to affiliate operations.</div>
-            </div>
-            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
-              <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">AI-Assisted Analysis</div>
-              <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Accelerates structured research, analysis, documentation, and data-extraction tasks with human review using Claude, ChatGPT, and Gemini.</div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="chart-wrap" id="chartWrap">
+      <svg class="chart" id="chart" viewBox="0 0 920 340" role="img" aria-label="Line chart of daily AI cost from April to September 2026, with a sharp spike in mid-July"></svg>
+      <div class="tooltip" id="tooltip"><div class="d"></div><div class="v mono"></div></div>
     </div>
-  </div>
+    <div class="legend">
+      <span><i class="swatch"></i> Daily cost</span>
+      <span><i class="swatch band"></i> Spike window · Jul 10–24</span>
+      <span><i class="swatch red"></i> Peak day · Jul 16 — $285 total</span>
+    </div>
 
-  <!-- ==================== TAB: EXPERIENCE ==================== -->
-  <div id="tab-experience" class="tab-content" style="display:none">
-    <div class="grid-12">
-      <div class="col-12">
-        <div class="panel animate-in">
-          <div class="section-label">Professional Timeline</div>
-          <div class="timeline-list" style="margin-top:8px">
+    <div class="scrub">
+      <span class="date mono" id="scrubDate">Apr 1, 2026</span>
+      <input type="range" id="scrubber" min="0" max="182" step="1" value="182" aria-label="Timeline scrubber, day of period" />
+      <span class="month" id="scrubMonth">September 2026</span>
+    </div>
+  </section>
 
-            <div class="timeline-item">
-              <div class="timeline-dot"></div>
-              <div class="timeline-role">Customer Service Advisor — International Markets</div>
-              <div class="timeline-company">The Hut Group (THG) · Northwich, UK</div>
-              <div class="timeline-date">Jul 2022 — Jan 2024</div>
-              <div class="timeline-desc">
-                <ul>
-                  <li>Identified reporting gaps in customer operations and built Power BI dashboards analyzing reviews, refunds, complaints, returns, and claims to support Customer Service Manager decisions</li>
-                  <li>Developed Excel-based operational reports adopted for escalation tracking and team training across UK, EU, and Southeast Asia e-commerce markets</li>
-                  <li>Resolved complex international cases in English and Thai, strengthening cross-functional communication and stakeholder management</li>
-                </ul>
-              </div>
-              <div class="exp-tags">
-                <span class="exp-tag">Power BI</span>
-                <span class="exp-tag">Operational Reporting</span>
-                <span class="exp-tag">Customer Analytics</span>
-                <span class="exp-tag">International Markets</span>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <div class="timeline-dot" style="background:var(--accent-cyan);box-shadow:0 0 0 3px rgba(6,182,212,0.15)"></div>
-              <div class="timeline-role">Administrative Assistant, Finance & Operations (Part-Time)</div>
-              <div class="timeline-company">Intercultural Institute of California · San Francisco, CA</div>
-              <div class="timeline-date">May 2018 — Aug 2019</div>
-              <div class="timeline-desc">
-                <ul>
-                  <li>Analyzed manual administrative and accounting workflows across disconnected records and supported migration to cloud-based document management</li>
-                  <li>Designed workflows and Standard Operating Procedures that standardized administrative execution and reduced onboarding time for new staff</li>
-                  <li>Maintained the general ledger in QuickBooks with data validation before cross-department use</li>
-                </ul>
-              </div>
-              <div class="exp-tags">
-                <span class="exp-tag">Process Mapping</span>
-                <span class="exp-tag">SOP Design</span>
-                <span class="exp-tag">QuickBooks</span>
-                <span class="exp-tag">Data Validation</span>
-              </div>
-            </div>
-
-            <div class="timeline-item">
-              <div class="timeline-dot" style="background:var(--accent-green);box-shadow:0 0 0 3px rgba(16,185,129,0.15)"></div>
-              <div class="timeline-role">Finance Manager — Financial Reporting & Process Improvement</div>
-              <div class="timeline-company">ASUSTeK Computer · Bangkok, Thailand</div>
-              <div class="timeline-date">Feb 2016 — Sep 2017</div>
-              <div class="timeline-desc">
-                <ul>
-                  <li>Built Excel VBA automation for recurring financial reporting, cutting preparation time from 2–3 hours to about 30 minutes, and authored SOPs for team-wide adoption</li>
-                  <li>Designed a standardized cost-calculation template for a new on-site service line, later extended to affiliate operations in other countries</li>
-                  <li>Developed financial forecasting models that improved budget accuracy by 15% and supported resource-allocation decisions</li>
-                  <li>Consolidated multi-department management reports with data validation for Country Manager and Taiwan HQ review</li>
-                </ul>
-              </div>
-              <div class="exp-tags">
-                <span class="exp-tag">Excel VBA</span>
-                <span class="exp-tag">Financial Reporting</span>
-                <span class="exp-tag">Forecasting</span>
-                <span class="exp-tag">Process Improvement</span>
-                <span class="exp-tag">SOP Design</span>
-              </div>
-            </div>
-
-          </div>
+  <div class="grid-2">
+    <!-- Budget burn -->
+    <section class="panel reveal" aria-label="Budget burn by team">
+      <div class="panel-head">
+        <div>
+          <h2>Budget burn by team</h2>
+          <div class="hint" id="burnHint">September 2026 — monthly spend vs cap. Follows the timeline above.</div>
         </div>
       </div>
-    </div>
-  </div>
+      <div id="burnBars"></div>
+      <p class="cap-note" id="burnNote"></p>
+    </section>
 
-  <!-- ==================== TAB: ABOUT ME ==================== -->
-  <div id="tab-about" class="tab-content" style="display:none">
-    <div class="grid-12">
-      <div class="col-12">
-        <div class="panel animate-in">
-          <div class="section-label">About</div>
-          <div class="grid-12" style="margin-top:8px">
-            <!-- LEFT COLUMN: Stats + Certifications -->
-            <div class="col-4">
-              <div class="about-stat-grid">
-                <div class="about-stat-card">
-                  <div class="about-stat-value">3.89</div>
-                  <div class="about-stat-label">GPA · MSCS-AI</div>
-                </div>
-                <div class="about-stat-card">
-                  <div class="about-stat-value">3</div>
-                  <div class="about-stat-label">Global Regions</div>
-                </div>
-                <div class="about-stat-card">
-                  <div class="about-stat-value">2</div>
-                  <div class="about-stat-label">AI Frameworks (preprints)</div>
-                </div>
-              </div>
-
-              <!-- Certifications moved here from Overview -->
-              <div style="margin-top:24px;">
-                <div class="cert-section-title">🏅 Certifications</div>
-                <div class="cert-list">
-                  <div class="cert-list-item" onclick="pulseTile(this)">
-                    <div class="cert-list-icon google">G</div>
-                    <div>
-                      <div class="cert-list-name">Google Advanced Data Analytics</div>
-                      <div class="cert-list-meta">SQL, Python, Tableau, ML fundamentals · 2024</div>
-                    </div>
-                  </div>
-                  <div class="cert-list-item" onclick="pulseTile(this)">
-                    <div class="cert-list-icon cloud">☁️</div>
-                    <div>
-                      <div class="cert-list-name">Google Cloud Digital Leader</div>
-                      <div class="cert-list-meta">Cloud strategy, data migration, cost optimization · 2024</div>
-                    </div>
-                  </div>
-                  <div class="cert-list-item" onclick="pulseTile(this)">
-                    <div class="cert-list-icon anthropic">A</div>
-                    <div>
-                      <div class="cert-list-name">Claude 101 + Cowork + Code</div>
-                      <div class="cert-list-meta">LLM integration, prompt engineering · 2026</div>
-                    </div>
-                  </div>
-                  <div class="cert-list-item" onclick="pulseTile(this)">
-                    <div class="cert-list-icon cfi">T</div>
-                    <div>
-                      <div class="cert-list-name">Business Intelligence & Tableau</div>
-                      <div class="cert-list-meta">Dashboard design, DAX, data storytelling · CFI</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- RIGHT COLUMN: About Me + Educations -->
-            <div class="col-8">
-              <div class="section-label">About Me</div>
-              <div class="about-lead">I did not choose between finance and technology.<br>I <span>built the bridge</span>.</div>
-              <div class="about-text">Business systems and process modernization professional with experience across finance, operations, customer analytics, and reporting. At ASUSTeK, I built Excel VBA automation that cut recurring reporting from 2–3 hours to about 30 minutes and developed cost-calculation templates extended to affiliate operations.</div>
-
-              <div class="about-text">But I kept asking: <em>"What if these insights did not arrive in quarterly reports, but in real time? What if machines could spot the patterns humans miss?"</em></div>
-              <div class="about-text">That question led me to a Master of Science in Computer Science (AI Concentration) at Westcliff University — where I hold a 3.89 GPA and the Founder's Scholarship — and an MSc in Financial Technology from the University of the West of England. Today, I operate at the intersection: translating enterprise financial complexity into AI-driven business intelligence.</div>
-              <div class="about-text">I connect business needs, workflows, data, and technology to make decisions clearer and operations more reliable — from enterprise teams to SMEs.</div>
-
-              <div class="trait-cloud">
-                <span class="trait-chip">🔍 Detail-Obsessed</span>
-                <span class="trait-chip">⚡ Bias for Action</span>
-                <span class="trait-chip">🌉 Cross-Functional Bridge</span>
-                <span class="trait-chip">📊 Data-First Storyteller</span>
-                <span class="trait-chip">🤖 AI-Curious Pragmatist</span>
-                <span class="trait-chip">🎯 Systems Thinker</span>
-                <span class="trait-chip">🧩 Long-Term Problem Solver</span>
-                <span class="trait-chip">🎨 Creative Strategist</span>
-              </div>
-
-              <!-- 🎓 Educations header added -->
-              <div class="section-label" style="margin-top:24px;">🎓 Educations</div>
-              <div class="edu-timeline">
-                <div class="edu-item">
-                  <div class="edu-dot"></div>
-                  <div>
-                    <div class="edu-degree">M.S. Computer Science — AI Concentration</div>
-                    <div class="edu-school">Westcliff University, San Francisco, CA · Expected Dec 2027 · GPA 3.89 · Founder's Scholarship</div>
-                  </div>
-                </div>
-                <div class="edu-item">
-                  <div class="edu-dot" style="background:var(--accent-cyan);box-shadow:0 0 0 3px rgba(6,182,212,0.15)"></div>
-                  <div>
-                    <div class="edu-degree">M.Sc. Financial Technology (Merit)</div>
-                    <div class="edu-school">University of the West of England, Bristol, UK · 2021–2022</div>
-                  </div>
-                </div>
-                <div class="edu-item">
-                  <div class="edu-dot" style="background:var(--accent-green);box-shadow:0 0 0 3px rgba(16,185,129,0.15)"></div>
-                  <div>
-                    <div class="edu-degree">B.S. Accountancy</div>
-                    <div class="edu-school">Siam University, Bangkok, Thailand</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+    <!-- Cost per ticket -->
+    <section class="panel reveal" aria-label="Cost per ticket resolved">
+      <div>
+        <h2>Cost per ticket resolved · Sep 2026</h2>
+        <div class="hint" style="font-size:12.5px;color:var(--ink3);margin-top:3px;line-height:1.5">The headline KPI: each team's monthly AI spend divided by the tickets it resolved.</div>
       </div>
-    </div>
+      <div style="margin-top:14px" id="cptBars"></div>
+      <p class="cap-note">Support resolves a ticket for <b style="color:var(--teal)">$0.028</b> — Engineering costs <b style="color:var(--ink)">22× more</b> per ticket ($0.624). The gap is model mix and context size, not waste — but now it's visible and priced.</p>
+    </section>
   </div>
 
-  <!-- ==================== TAB: CONNECT ==================== -->
-  <div id="tab-connect" class="tab-content" style="display:none">
-    <div class="grid-12">
-      <div class="col-12">
-        <div class="panel animate-in" style="text-align:center; padding:56px 32px;">
-          <div class="section-label" style="justify-content:center">Contact</div>
-          <div style="font-size:28px; font-weight:800; margin:16px 0 12px; letter-spacing:-0.02em;">
-            Let's Build Something <span style="background:linear-gradient(135deg, var(--accent-blue), var(--accent-cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Measurable</span>
-          </div>
-          <div style="color:var(--text-secondary); font-size:15px; max-width:480px; margin:0 auto 28px; line-height:1.6;">
-            Whether you are scaling financial operations at a Fortune 500 or pioneering AI-driven business strategy in the Valley — I would love to connect.
-          </div>
-          <div class="contact-bar" style="justify-content:center;">
-            <a class="contact-chip primary" href="https://calendly.com/arthunya" target="_blank" rel="noopener">📅 Schedule 15-min Intro</a>
-            <a class="contact-chip" href="https://linkedin.com/in/arthunya" target="_blank" rel="noopener">💼 LinkedIn</a>
-            <a class="contact-chip" href="https://github.com/arthunya" target="_blank" rel="noopener">🐙 GitHub</a>
-            <a class="contact-chip" href="https://www.researchgate.net/profile/Arthunya-Kanoklertwongse-2" target="_blank" rel="noopener">📄 ResearchGate</a>
-          </div>
-          <div style="margin-top:28px; padding-top:24px; border-top:1px solid var(--border-subtle); color:var(--text-muted); font-size:12px; line-height:1.6;">
-            San Jose, CA · Open to Bay Area & Remote Opportunities
-          </div>
-        </div>
+  <div class="grid-2b">
+    <!-- Model mix -->
+    <section class="panel reveal" aria-label="Model mix by cost">
+      <h2>Where the money goes · model mix</h2>
+      <div class="hint" style="font-size:12.5px;color:var(--ink3);margin:3px 0 14px;line-height:1.5">Share of the $12,673 total spend, by model (all teams, 6 months).</div>
+      <div class="donut-flex">
+        <svg width="168" height="168" viewBox="0 0 168 168" role="img" aria-label="Donut chart: Claude Opus 4.1 takes 57 percent of spend, Claude Sonnet 4.5 takes 30 percent, Claude Haiku 4.5 takes 9 percent, GPT-4o 4 percent, GPT-4o mini under 1 percent">
+          <g id="donutG" transform="rotate(-90 84 84)"></g>
+          <text x="84" y="80" text-anchor="middle" fill="var(--ink)" font-size="19" font-weight="600" class="mono">$12,673</text>
+          <text x="84" y="99" text-anchor="middle" fill="var(--ink3)" font-size="10.5">total spend</text>
+        </svg>
+        <div class="donut-legend" id="donutLegend"></div>
       </div>
-    </div>
+      <p class="cap-note">One model — the most expensive tier — eats <b style="color:var(--ink)">57¢ of every AI dollar</b>, while doing plenty of short, routine work.</p>
+    </section>
+
+    <!-- Spike detail -->
+    <section class="panel reveal" aria-label="Spike detail">
+      <h2>Inside the spike · Engineering, July 2026</h2>
+      <div class="hint" style="font-size:12.5px;color:var(--ink3);margin:3px 0 14px;line-height:1.5">Daily cost on the 11 flagged days vs a trailing median of ≈ $37/day. Detector rule: daily cost &gt; 3× trailing 28-day median.</div>
+      <div id="spikeBars"></div>
+      <p class="cap-note">An agent experiment at <b style="color:var(--ink)">3.5× normal volume on the priciest model</b>. The fix isn't “stop experimenting” — it's a per-experiment budget key and this alert running daily, not at month-end.</p>
+    </section>
   </div>
 
+  <!-- Findings -->
+  <section class="findings" aria-label="Findings">
+    <article class="finding reveal">
+      <div class="n">FINDING 01</div>
+      <h3>One experiment cost <span class="hl-r">$2,384</span> before anyone noticed</h3>
+      <p>Engineering's July spend hit $3,219 — 268% of cap and ~3.7× a normal month. Eleven flagged days, all one experiment. A daily spike alert would have caught it on day one.</p>
+    </article>
+    <article class="finding reveal">
+      <div class="n">FINDING 02</div>
+      <h3>The premium model is doing routine work: <span class="hl-a">~$812 avoidable</span></h3>
+      <p>10,500 calls under 3,000 input tokens ran on the top-tier model at $1,015; priced at mid-tier they'd cost $203. Routing small calls down a tier saves ~$135/month, no workflow change.</p>
+    </article>
+    <article class="finding reveal">
+      <div class="n">FINDING 03</div>
+      <h3>Support will breach its cap next month — <span class="hl-t">from growth</span></h3>
+      <p>Support closed September at 96.3% of its $340 cap with cost per ticket flat at $0.028. That's healthy adoption hitting a static budget: review the cap, don't freeze the spend. Failed/retried calls also burned $382 over 6 months.</p>
+    </article>
+  </section>
+
+  <footer>
+    <b>About this prototype.</b> Animated web version of the Token Analytics project (DuckDB + SQL, 5 models: cost-per-call ledger, daily cost by team, cost per ticket resolved, spike flags, budget burn). Every number on this page comes from the project's actual output files — 540,431 synthetic LLM calls for a fictional ~74-person company, Apr–Sep 2026, priced at published list rates for 5 models. Allocation assumption, stated plainly: a team's monthly AI spend is allocated across the tickets it resolved that month. Built as a design prototype alongside the planned Power BI one-pager.
+  </footer>
 </div>
 
 <script>
-// ========== THEME TOGGLE ==========
-function toggleTheme() {
-  document.body.classList.toggle('light-mode');
-  var isLight = document.body.classList.contains('light-mode');
-  document.getElementById('theme-icon').textContent = isLight ? '🌙' : '☀️';
-  localStorage.setItem('theme', isLight ? 'light' : 'dark');
-}
+(function(){
+  "use strict";
+  var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// Load saved theme
-(function() {
-  var saved = localStorage.getItem('theme');
-  if (saved === 'light') {
-    document.body.classList.add('light-mode');
-    document.getElementById('theme-icon').textContent = '🌙';
+  /* ================= DATA (from the project's Power BI CSV exports) ================= */
+  var DATES = [];
+  (function(){ var d = new Date(Date.UTC(2026,3,1)); for(var i=0;i<183;i++){ DATES.push(new Date(d)); d.setUTCDate(d.getUTCDate()+1); } })();
+  var MONTHS = ["2026-04","2026-05","2026-06","2026-07","2026-08","2026-09"];
+  var MONTH_NAMES = {"2026-04":"April 2026","2026-05":"May 2026","2026-06":"June 2026","2026-07":"July 2026","2026-08":"August 2026","2026-09":"September 2026"};
+  var MONTH_SHORT = ["Apr","May","Jun","Jul","Aug","Sep"];
+
+  var TOTAL = [73.59,67.95,65.88,9.38,8.71,67.5,70.21,65.43,70.45,63.16,11.03,8.13,69.68,66.72,67.41,67.74,68.43,11.51,9.54,66.64,71.95,67.47,67.68,64.15,11.58,8.99,67.33,69.61,67.15,67.37,70.43,10.08,11.92,68.92,67.52,67.76,72.89,73.21,13.01,10.88,67.47,70.91,69.64,70.43,67.73,12.43,10.1,70.21,67.54,73.46,71.3,70.01,11.08,11.6,65.99,74.79,69.5,75.2,72.31,12.84,11.2,74.86,71.2,76.92,71.78,72.88,10.76,11.88,68.91,74.01,68.54,74.64,73.84,13.01,12.92,77.11,77.72,73.72,72.65,76.28,13.22,11.05,73,69.85,70.42,75.52,76.93,11.72,10.65,75.71,72.48,75.75,77.4,81.19,9.49,13.72,77.53,74.02,74.67,72.07,278.39,41.7,37.05,266.8,254.38,270.75,285.08,269.69,43.27,42.72,274.43,267.03,280.97,277.58,278.65,12.37,9.97,77.43,74.18,73.96,77.77,75.9,11.95,13.07,78.56,78.58,78.67,80.66,73.25,12.24,13.83,78.66,73.52,80.68,78.82,84.28,11.19,10.15,76.87,80.32,83.26,84.9,81.87,12.64,12.71,75.64,79.04,75.6,81.11,84.33,10.91,11.23,76.02,84.71,82.61,76.76,82.31,11.84,11.15,79.45,74.91,77.33,79.8,85.25,13.84,12.39,85.02,84.04,81.77,77.47,80.49,13.83,12.75,80.34,80.12,79.92,81.69,78.96,12.25,12.08,82.31,83.15,85.49];
+  var TEAMS = {
+    "Engineering":[39.56,34.92,36.04,4.5,4.24,36.06,37.37,32.24,37.47,31.83,5.91,3.86,35.1,32.23,32.84,34.53,34.51,6.25,5.39,33.81,37.86,34.21,36.36,31.83,6.5,4.41,33.6,36.41,35.77,33.4,35.82,5.27,6.98,36.77,36.47,33.86,37.99,39.59,7.46,6.42,31.92,37.41,36.16,37.35,34.08,5.91,5.87,36.57,34.32,37.83,36.95,35.57,5.9,5.37,30.61,38.73,34.76,40.55,38.06,7.44,6.75,36.52,38.2,39.02,36.84,35.38,5.86,7.13,32.05,37.54,35.28,37.4,37.58,6.39,7.53,41.93,41.12,38.32,37.79,40.28,6.86,5.14,38.83,34.23,33.22,38.26,39.19,5.68,4.51,37.42,36.85,36.95,40.42,39.69,4.78,7.37,39.77,36.78,38.28,36.42,242.71,35.2,31.54,231.13,219.31,229.88,250.41,231.49,37.54,36.98,233.22,232.06,243.64,238.45,241.42,6.83,5.23,39.48,38.84,36.89,39.78,36.97,6.09,6.52,39.63,41.24,38.79,41.55,36.63,6.31,7.96,42.02,36.26,42.31,39.48,43.74,4.89,5.07,37.45,39.08,42.9,46.58,42.16,5.59,6.58,37.55,40.07,37.23,41.37,46.32,4.46,5.5,37.35,44.28,42.5,36.86,43.32,6.5,6,40.42,37.99,39.59,41.32,42.77,6.83,6.87,44.85,44.23,41.21,40.47,41.96,7.22,6.59,38.88,41.65,39.08,42.3,41.37,6.84,6.3,42.35,43.81,45.15],
+    "Data":[19.75,18.88,16.21,2.88,2.47,16.97,18.21,18.1,17.94,17.27,2.94,2,20.48,19.1,19.8,17.92,20.18,3.36,2.18,17.92,19.45,18.42,17.38,17.83,3.04,2.39,19.77,18.87,16.51,18.97,19.41,2.58,2.77,17.6,16.29,19.3,19.97,18.32,3.39,2.29,21.04,19.03,19.11,19.21,18.84,4.46,1.92,19.14,18.57,20.35,19.32,19.48,3.07,4.12,19.79,19.93,20.23,19.74,20.48,2.97,2.14,22.86,17.88,22.35,18.65,21.04,2.75,2.51,20.98,21.45,17.88,21.46,19.47,4.03,2.92,19.99,20.58,19.84,19.77,20.71,4.15,3.35,19,20.39,20.28,21.39,21.74,3.72,3.7,22.64,19.35,22.18,19.97,24.66,2.13,3.96,22.53,20.84,20.2,20.06,20.29,3.88,2.85,19.46,18.78,24.22,19.36,21.77,3.25,3.27,24.14,19,20.78,22.84,20.6,2.65,2.61,21.64,18.92,20,20.65,23.29,3.54,4.07,22.02,20.35,22.04,21.84,19.26,3.53,3.25,20.2,20.65,21.6,21.68,23.15,3.89,2.79,22.25,24.51,22.29,21.15,23.44,4.56,3.8,21.64,21.89,21.79,22.36,21.74,3.96,3.3,21.63,22.54,22.24,22.79,21.06,2.96,2.59,20.19,19.32,20.59,20.92,24.7,4.38,3.13,22.93,22.19,21.96,19.74,21.41,3.7,3.49,23,20.69,22.19,22.05,20.43,3.21,3.31,22.98,21.12,22.24],
+    "Product":[2.65,2.9,2.5,0.23,0.32,2.73,2.88,3.04,3.13,2.89,0.33,0.49,2.63,3.42,3.11,3.5,2.32,0.29,0.33,2.85,2.81,3.23,2.46,2.51,0.35,0.55,3.11,2.6,3.07,3.45,3.07,0.4,0.46,2.76,2.91,3.07,2.97,2.91,0.27,0.56,2.41,2.84,2.48,2.63,2.53,0.37,0.57,2.61,2.98,2.94,3.6,2.93,0.33,0.2,3.16,4.17,2.77,3.06,2.53,0.57,0.46,3.2,3.25,3.06,3.5,3.62,0.52,0.49,2.97,2.85,3.29,2.8,3.67,0.5,0.53,2.84,3,2.83,2.89,3.13,0.28,0.46,2.7,3.09,3.73,3.48,3.5,0.41,0.66,3.25,3.02,3.6,3.26,3.28,0.51,0.49,3.04,3.63,4.09,3.1,3.06,0.57,0.71,3.2,3.54,3.4,2.85,3.83,0.47,0.52,3.91,3.09,3.45,3.43,3.35,0.83,0.36,3.46,3.51,4.28,4.2,3.31,0.49,0.54,3.42,3.53,3.44,3.04,3.63,0.67,0.65,3.23,3.38,3.44,3.39,3.44,0.47,0.44,3,3.17,4.16,3.46,3.25,0.38,0.36,3.27,3.69,3.28,3.93,3.59,0.35,0.45,3.76,3.53,3.78,3.6,3.62,0.42,0.43,4.05,3.4,3.08,3.81,3.32,0.44,0.42,3.34,3.83,3.95,3.35,3.24,0.63,0.49,4.2,3.64,4.06,3.32,3.21,0.35,0.45,3.76,3.81,3.59],
+    "Support":[11.63,11.25,11.13,1.77,1.68,11.74,11.75,12.05,11.91,11.17,1.85,1.78,11.47,11.97,11.66,11.79,11.42,1.61,1.64,12.06,11.83,11.61,11.48,11.98,1.69,1.64,10.85,11.73,11.8,11.55,12.13,1.83,1.71,11.79,11.85,11.53,11.96,12.39,1.89,1.61,12.1,11.63,11.89,11.24,12.28,1.69,1.74,11.89,11.67,12.34,11.43,12.03,1.78,1.91,12.43,11.96,11.74,11.85,11.24,1.86,1.85,12.28,11.87,12.49,12.79,12.84,1.63,1.75,12.91,12.17,12.09,12.98,13.12,2.09,1.94,12.35,13.02,12.73,12.2,12.16,1.93,2.1,12.47,12.14,13.19,12.39,12.5,1.91,1.78,12.4,13.26,13.02,13.75,13.56,2.07,1.9,12.19,12.77,12.1,12.49,12.33,2.05,1.95,13.01,12.75,13.25,12.46,12.6,2.01,1.95,13.16,12.88,13.1,12.86,13.28,2.06,1.77,12.85,12.91,12.79,13.14,12.33,1.83,1.94,13.49,13.46,14.4,14.23,13.73,1.73,1.97,13.21,13.23,13.33,14.27,13.95,1.94,1.85,14.17,13.56,13.91,13.71,13.02,2.11,1.97,13.18,13.39,13.3,13.45,12.68,2.14,1.98,13.28,14.36,14.09,13.51,14.31,1.96,2.13,14.79,14.2,14.07,13.75,14.46,2.19,1.97,13.9,13.79,14.65,13.91,13.88,2.28,2.18,14.26,14.14,14.59,14.02,13.95,1.85,2.02,13.22,14.41,14.51]
+  };
+  var CUM = []; (function(){ var s=0; for(var i=0;i<TOTAL.length;i++){ s+=TOTAL[i]; CUM.push(s); } })();
+
+  var BURN = {
+    "2026-04":[{team:"Engineering",cost:809.00,cap:1200,pct:67.4},{team:"Data",cost:427.22,cap:600,pct:71.2},{team:"Support",cost:269.48,cap:340,pct:79.3},{team:"Product",cost:66.70,cap:120,pct:55.6}],
+    "2026-05":[{team:"Engineering",cost:824.76,cap:1200,pct:68.7},{team:"Data",cost:434.85,cap:600,pct:72.5},{team:"Support",cost:267.24,cap:340,pct:78.6},{team:"Product",cost:65.53,cap:120,pct:54.6}],
+    "2026-06":[{team:"Engineering",cost:872.34,cap:1200,pct:72.7},{team:"Data",cost:476.83,cap:600,pct:79.5},{team:"Support",cost:291.50,cap:340,pct:85.7},{team:"Product",cost:73.53,cap:120,pct:61.3}],
+    "2026-07":[{team:"Engineering",cost:3219.46,cap:1200,pct:268.3,over:true},{team:"Data",cost:510.78,cap:600,pct:85.1},{team:"Support",cost:311.34,cap:340,pct:91.6},{team:"Product",cost:84.34,cap:120,pct:70.3}],
+    "2026-08":[{team:"Engineering",cost:908.66,cap:1200,pct:75.7},{team:"Data",cost:494.17,cap:600,pct:82.4},{team:"Support",cost:304.39,cap:340,pct:89.5},{team:"Product",cost:77.31,cap:120,pct:64.4}],
+    "2026-09":[{team:"Engineering",cost:969.50,cap:1200,pct:80.8},{team:"Data",cost:504.07,cap:600,pct:84.0},{team:"Support",cost:327.37,cap:340,pct:96.3},{team:"Product",cost:83.14,cap:120,pct:69.3}]
+  };
+  var CPT = [
+    {team:"Support", val:0.028, spend:327, tickets:11682},
+    {team:"Product", val:0.159, spend:83, tickets:522},
+    {team:"Data", val:0.510, spend:504, tickets:988},
+    {team:"Engineering", val:0.624, spend:970, tickets:1553}
+  ];
+  var SPIKE = [
+    {d:"Jul 10", v:242.71, x:6.5},{d:"Jul 13", v:231.13, x:6.2},{d:"Jul 14", v:219.31, x:5.9},
+    {d:"Jul 15", v:229.88, x:6.2},{d:"Jul 16", v:250.41, x:6.7},{d:"Jul 17", v:231.49, x:6.2},
+    {d:"Jul 20", v:233.22, x:6.2},{d:"Jul 21", v:232.06, x:6.2},{d:"Jul 22", v:243.64, x:6.4},
+    {d:"Jul 23", v:238.45, x:6.2},{d:"Jul 24", v:241.42, x:6.2}
+  ];
+  var MODELS = [
+    {name:"Claude Opus 4.1", cost:7194.48, color:"var(--red)"},
+    {name:"Claude Sonnet 4.5", cost:3762.23, color:"var(--teal)"},
+    {name:"Claude Haiku 4.5", cost:1103.66, color:"var(--amber)"},
+    {name:"GPT-4o", cost:524.75, color:"var(--blue)"},
+    {name:"GPT-4o mini", cost:88.40, color:"var(--ink3)"}
+  ];
+  var MODEL_TOTAL = 12673.52;
+
+  /* ================= helpers ================= */
+  function fmt$(n, dec){ return "$" + n.toLocaleString("en-US",{minimumFractionDigits:dec||0, maximumFractionDigits:dec||0}); }
+  function fmtDate(d){ return d.toLocaleDateString("en-US",{month:"short", day:"numeric", year:"numeric", timeZone:"UTC"}); }
+  function monthKeyOf(idx){ var d = DATES[Math.min(idx,182)]; return "2026-" + String(d.getUTCMonth()+1).padStart(2,"0"); }
+  function countUp(el, target, dec, prefix){
+    if(reduceMotion){ el.textContent = (prefix||"") + target.toLocaleString("en-US",{minimumFractionDigits:dec,maximumFractionDigits:dec}); return; }
+    var t0 = null, dur = 850;
+    function step(ts){ if(!t0) t0 = ts; var p = Math.min((ts-t0)/dur, 1); var e = 1-Math.pow(1-p,3);
+      el.textContent = (prefix||"") + (target*e).toLocaleString("en-US",{minimumFractionDigits:dec,maximumFractionDigits:dec});
+      if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
   }
-})();
 
-// ========== TAB SWITCHING ==========
-function switchTab(btn, tabId) {
-  document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
-  btn.classList.add('active');
-  document.querySelectorAll('.tab-content').forEach(function(c) { c.style.display = 'none'; });
-  var tab = document.getElementById('tab-' + tabId);
-  tab.style.display = 'block';
-  // Re-trigger animations
-  var els = tab.querySelectorAll('.animate-in');
-  els.forEach(function(el) {
-    el.style.animation = 'none';
-    void el.offsetHeight;
-    el.style.animation = '';
-  });
-  // Animate competency bars when tab is shown
-  if (tabId === 'overview') {
-    setTimeout(animateCompBars, 300);
-  }
-  // Scroll to top
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
+  /* ================= KPI count-ups ================= */
+  countUp(document.getElementById("kpiSpend"), 12673, 0, "$");
+  countUp(document.getElementById("kpiSpike"), 2384, 0, "$");
+  countUp(document.getElementById("kpiAvoid"), 812, 0, "$");
 
-// Switch tab from card click
-function switchTabFromCard(tabId) {
-  var tabs = document.querySelectorAll('.nav-tab');
-  tabs.forEach(function(t) { t.classList.remove('active'); });
-  for (var i = 0; i < tabs.length; i++) {
-    if (tabs[i].getAttribute('onclick').indexOf("'" + tabId + "'") !== -1) {
-      tabs[i].classList.add('active');
-      break;
+  /* ================= CHART ================= */
+  var W=920, H=340, PL=52, PR=14, PT=16, PB=30;
+  var IW = W-PL-PR, IH = H-PT-PB;
+  var SPIKE_START = 100, SPIKE_END = 114; /* Jul 10 – Jul 24 indices */
+  var svg = document.getElementById("chart");
+  var NS = "http://www.w3.org/2000/svg";
+  function el(tag, attrs){ var e=document.createElementNS(NS,tag); for(var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function x(i){ return PL + (i/182)*IW; }
+  var currentTeam = "total", progress = 182, yMax = 300;
+  var linePath, areaPath, clipRect, headDot, headLine;
+
+  function series(){ return currentTeam === "total" ? TOTAL : TEAMS[currentTeam]; }
+  function y(v){ return PT + IH - (v/yMax)*IH; }
+
+  function buildChart(animate){
+    var data = series();
+    yMax = Math.max.apply(null, data) * 1.18;
+    if(currentTeam === "total") yMax = 320;
+    svg.innerHTML = "";
+    var defs = el("defs",{});
+    var grad = el("linearGradient",{id:"areaGrad", x1:"0", y1:"0", x2:"0", y2:"1"});
+    grad.appendChild(el("stop",{offset:"0%","stop-color":"var(--teal)","stop-opacity":".28"}));
+    grad.appendChild(el("stop",{offset:"100%","stop-color":"var(--teal)","stop-opacity":"0"}));
+    defs.appendChild(grad);
+    var clip = el("clipPath",{id:"progClip"});
+    clipRect = el("rect",{x:PL, y:0, height:H, width: IW * (progress/182)});
+    clip.appendChild(clipRect); defs.appendChild(clip);
+    svg.appendChild(defs);
+
+    /* gridlines + y labels */
+    for(var g=0; g<=4; g++){
+      var gv = yMax*g/4, gy = y(gv);
+      svg.appendChild(el("line",{x1:PL, x2:W-PR, y1:gy, y2:gy, stroke:"var(--line-soft)","stroke-width":1}));
+      var t = el("text",{x:PL-8, y:gy+4, "text-anchor":"end", fill:"var(--ink3)","font-size":11, "class":"mono"});
+      t.textContent = "$" + Math.round(gv); svg.appendChild(t);
+    }
+    /* spike band */
+    svg.appendChild(el("rect",{x:x(SPIKE_START), y:PT, width:x(SPIKE_END)-x(SPIKE_START), height:IH, fill:"var(--red)","fill-opacity":".10", rx:4}));
+    var sl = el("text",{x:(x(SPIKE_START)+x(SPIKE_END))/2, y:PT+14, "text-anchor":"middle", fill:"var(--red)","font-size":10.5,"font-weight":700});
+    sl.textContent = "SPIKE"; svg.appendChild(sl);
+    /* month ticks */
+    var tickIdx = [0,30,61,91,122,153];
+    for(var m=0;m<6;m++){
+      var tx = el("text",{x:x(tickIdx[m])+4, y:H-8, fill:"var(--ink3)","font-size":11.5});
+      tx.textContent = MONTH_SHORT[m] + " 2026"; svg.appendChild(tx);
+      svg.appendChild(el("line",{x1:x(tickIdx[m]), x2:x(tickIdx[m]), y1:PT, y2:PT+IH, stroke:"var(--line-soft)","stroke-width":1,"stroke-dasharray":"2 5", opacity:.6}));
+    }
+    /* paths */
+    var dLine = "", dArea = "";
+    for(var i=0;i<data.length;i++){ dLine += (i? " L":"M") + x(i).toFixed(1) + " " + y(data[i]).toFixed(1); }
+    dArea = dLine + " L" + x(182).toFixed(1) + " " + y(0) + " L" + x(0).toFixed(1) + " " + y(0) + " Z";
+    var gClip = el("g",{"clip-path":"url(#progClip)"});
+    areaPath = el("path",{d:dArea, fill:"url(#areaGrad)", stroke:"none"});
+    linePath = el("path",{d:dLine, fill:"none", stroke:"var(--teal)","stroke-width":2.4,"stroke-linejoin":"round","stroke-linecap":"round"});
+    gClip.appendChild(areaPath); gClip.appendChild(linePath); svg.appendChild(gClip);
+    /* ghost full line (faint, shows what's ahead) */
+    var ghost = el("path",{d:dLine, fill:"none", stroke:"var(--ink3)","stroke-width":1.2, opacity:.28,"stroke-dasharray":"3 4"});
+    svg.insertBefore(ghost, gClip);
+    /* playhead */
+    headLine = el("line",{y1:PT, y2:PT+IH, stroke:"var(--ink2)","stroke-width":1, opacity:.7});
+    headDot = el("circle",{r:5.5, fill:"var(--teal)", stroke:"var(--bg)","stroke-width":2});
+    svg.appendChild(headLine); svg.appendChild(headDot);
+    moveHead(progress);
+    if(animate && !reduceMotion){
+      var len = linePath.getTotalLength();
+      linePath.style.strokeDasharray = len; linePath.style.strokeDashoffset = len;
+      linePath.getBoundingClientRect();
+      linePath.style.transition = "stroke-dashoffset 1.1s ease";
+      linePath.style.strokeDashoffset = "0";
+      setTimeout(function(){ linePath.style.strokeDasharray = "none"; }, 1250);
     }
   }
-  document.querySelectorAll('.tab-content').forEach(function(c) { c.style.display = 'none'; });
-  var tab = document.getElementById('tab-' + tabId);
-  tab.style.display = 'block';
-  var els = tab.querySelectorAll('.animate-in');
-  els.forEach(function(el) {
-    el.style.animation = 'none';
-    void el.offsetHeight;
-    el.style.animation = '';
-  });
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// ========== JUMP TO CEROP CASE STUDY ==========
-function goToCerop(evt) {
-  if (evt) evt.preventDefault();
-  switchTabFromCard('cases');
-  setTimeout(function() {
-    var target = document.getElementById('cs-cerop');
-    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 120);
-}
-
-// ========== JUMP TO O2C CASE STUDY ==========
-function goToO2C(evt) {
-  if (evt) evt.preventDefault();
-  switchTabFromCard('cases');
-  setTimeout(function() {
-    var target = document.getElementById('cs-o2c');
-    if (!target) return;
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    target.style.transition = 'box-shadow 0.4s ease, border-color 0.4s ease';
-    target.style.boxShadow = '0 0 0 2px rgba(16,185,129,0.4), 0 12px 32px rgba(16,185,129,0.15)';
-    target.style.borderColor = 'rgba(16,185,129,0.35)';
-    setTimeout(function() {
-      target.style.boxShadow = '';
-      target.style.borderColor = '';
-    }, 2200);
-  }, 120);
-}
-
-// ========== INTERACTIONS ==========
-function pulseTile(el) {
-  el.style.transform = 'scale(0.96)';
-  setTimeout(function() { el.style.transform = ''; }, 150);
-}
-
-function toggleStoryStep(stepEl, panelId) {
-  var panel = document.getElementById(panelId);
-  var isOpen = panel.classList.contains('open');
-  var card = stepEl.closest('.cs-card') || stepEl.closest('.panel');
-  card.querySelectorAll('.story-detail-panel').forEach(function(p) { p.classList.remove('open'); });
-  card.querySelectorAll('.star-step').forEach(function(s) { s.classList.remove('active'); });
-  if (!isOpen) {
-    panel.classList.add('open');
-    stepEl.classList.add('active');
+  function moveHead(idx){
+    var data = series(), i = Math.max(0, Math.min(182, Math.round(idx)));
+    if(clipRect) clipRect.setAttribute("width", Math.max(0, x(i)-PL));
+    if(headDot){ headDot.setAttribute("cx", x(i)); headDot.setAttribute("cy", y(data[i])); }
+    if(headLine){ headLine.setAttribute("x1", x(i)); headLine.setAttribute("x2", x(i)); }
   }
-}
 
-// ========== COMPETENCY BAR ANIMATION ==========
-function animateCompBars() {
-  var bars = document.querySelectorAll('.comp-bar-fill');
-  bars.forEach(function(bar) {
-    var width = bar.getAttribute('data-width');
-    bar.style.width = width + '%';
+  /* tooltip + hover */
+  var wrap = document.getElementById("chartWrap"), tip = document.getElementById("tooltip");
+  svg.addEventListener("pointermove", function(ev){
+    var r = svg.getBoundingClientRect();
+    var px = (ev.clientX - r.left) / r.width * W;
+    var idx = Math.round(((px - PL) / IW) * 182);
+    if(idx < 0 || idx > 182){ tip.style.opacity = 0; return; }
+    var data = series();
+    tip.querySelector(".d").textContent = fmtDate(DATES[idx]) + (idx>=SPIKE_START && idx<=SPIKE_END ? " · spike window" : "");
+    tip.querySelector(".v").textContent = fmt$(data[idx],2) + (currentTeam==="total" ? " · all teams" : " · " + currentTeam);
+    tip.style.opacity = 1;
+    var tx = (x(idx)/W) * r.width, ty = (y(data[idx])/H) * r.height;
+    tip.style.left = Math.min(Math.max(tx + 12, 4), r.width - 150) + "px";
+    tip.style.top = Math.max(ty - 58, 2) + "px";
+    moveHead(idx);
   });
-}
+  svg.addEventListener("pointerleave", function(){ tip.style.opacity = 0; moveHead(progress); });
 
-// ========== SPARKLINE GENERATION ==========
-(function() {
-  var sparkline = document.getElementById('sparkline');
-  if (sparkline) {
-    for (var i = 0; i < 24; i++) {
-      var bar = document.createElement('div');
-      bar.className = 'spark-bar';
-      bar.style.height = (20 + Math.random() * 80) + '%';
-      sparkline.appendChild(bar);
+  /* ================= playback ================= */
+  var scrubber = document.getElementById("scrubber");
+  var scrubDate = document.getElementById("scrubDate"), scrubMonth = document.getElementById("scrubMonth");
+  var soFarEl = document.getElementById("kpiSoFar"), soFarSub = document.getElementById("kpiSoFarSub");
+  var playing = false, rafId = null, lastMonth = "2026-09";
+  var playBtn = document.getElementById("playBtn");
+
+  function applyProgress(idx, fromScrub){
+    progress = idx;
+    moveHead(idx);
+    var i = Math.round(idx);
+    scrubDate.textContent = fmtDate(DATES[Math.min(i,182)]);
+    var mk = monthKeyOf(i);
+    scrubMonth.textContent = MONTH_NAMES[mk];
+    soFarEl.textContent = fmt$(CUM[Math.min(i,182)]);
+    soFarSub.innerHTML = "Cumulative to <b>" + fmtDate(DATES[Math.min(i,182)]) + "</b>";
+    if(mk !== lastMonth){ lastMonth = mk; renderBurn(mk); }
+    if(!fromScrub) scrubber.value = i;
+  }
+  function stopPlay(){ playing = false; playBtn.innerHTML = "▶&nbsp; Play Apr → Sep"; if(rafId) cancelAnimationFrame(rafId); }
+  playBtn.addEventListener("click", function(){
+    if(playing){ stopPlay(); return; }
+    if(reduceMotion){ applyProgress(182); return; }
+    playing = true; playBtn.innerHTML = "❚❚&nbsp; Pause";
+    var startIdx = (progress >= 182) ? 0 : progress;
+    var t0 = null, dur = 10000, from = startIdx;
+    function frame(ts){
+      if(!playing) return;
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0)/dur, 1);
+      applyProgress(from + (182 - from) * p);
+      if(p < 1) rafId = requestAnimationFrame(frame); else stopPlay();
     }
+    rafId = requestAnimationFrame(frame);
+  });
+  scrubber.addEventListener("input", function(){ stopPlay(); applyProgress(parseFloat(scrubber.value), true); });
+
+  /* team chips */
+  var chips = document.querySelectorAll(".chip");
+  chips.forEach(function(ch){
+    ch.addEventListener("click", function(){
+      chips.forEach(function(c){ c.setAttribute("aria-pressed","false"); });
+      ch.setAttribute("aria-pressed","true");
+      currentTeam = ch.getAttribute("data-team");
+      buildChart(true);
+      moveHead(progress);
+    });
+  });
+
+  /* ================= budget burn ================= */
+  var burnBars = document.getElementById("burnBars"), burnNote = document.getElementById("burnNote"), burnHint = document.getElementById("burnHint");
+  function barColor(pct, over){ if(over || pct >= 100) return "red"; if(pct >= 90) return "amber"; return ""; }
+  function renderBurn(mk){
+    var rows = BURN[mk];
+    burnHint.textContent = MONTH_NAMES[mk] + " — monthly spend vs cap. Follows the timeline above.";
+    burnBars.innerHTML = "";
+    rows.forEach(function(r){
+      var row = document.createElement("div"); row.className = "bar-row";
+      var pctShown = Math.min(r.pct, 100);
+      row.innerHTML =
+        '<div class="bar-top"><span class="team">' + r.team + (r.over ? '<span class="over-tag">OVER CAP</span>' : '') + '</span>' +
+        '<span class="nums mono"><b>' + fmt$(r.cost, r.cost % 1 ? 2 : 0) + '</b> / ' + fmt$(r.cap) + ' · ' + r.pct.toFixed(1) + '%</span></div>' +
+        '<div class="bar-track"><div class="bar-fill ' + barColor(r.pct, r.over) + '" data-w="' + pctShown + '"></div></div>';
+      burnBars.appendChild(row);
+    });
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      burnBars.querySelectorAll(".bar-fill").forEach(function(f){ f.style.width = f.getAttribute("data-w") + "%"; });
+    });});
+    if(mk === "2026-07") burnNote.innerHTML = "July is the incident month: Engineering burned <b>$3,219 against a $1,200 cap (268%)</b> while every other team stayed inside theirs.";
+    else if(mk === "2026-09") burnNote.innerHTML = "No breaches in September — but Support is at <b style='color:var(--amber)'>96.3% of cap</b> and climbing every month. That's the next conversation.";
+    else burnNote.textContent = "All four teams inside their caps this month. The burn to watch is Support, rising steadily toward its $340 ceiling.";
   }
-})();
 
-// ========== COMPETENCY BARS ON LOAD ==========
-window.addEventListener('load', function() {
-  setTimeout(animateCompBars, 500);
-});
+  /* ================= cost per ticket ================= */
+  var cptBars = document.getElementById("cptBars");
+  CPT.forEach(function(r){
+    var row = document.createElement("div"); row.className = "bar-row";
+    var w = (r.val / 0.624) * 100;
+    var cls = r.team === "Engineering" ? "red" : (r.team === "Data" ? "amber" : (r.team === "Product" ? "blue" : ""));
+    row.innerHTML =
+      '<div class="bar-top"><span class="team">' + r.team + '</span>' +
+      '<span class="nums mono"><b>$' + r.val.toFixed(3) + '</b> · ' + r.tickets.toLocaleString("en-US") + ' tickets</span></div>' +
+      '<div class="bar-track"><div class="bar-fill ' + cls + '" data-w="' + w + '"></div></div>';
+    cptBars.appendChild(row);
+  });
 
-// ========== NAME CHARACTER REVEAL ==========
-(function() {
-  var nameEl = document.getElementById('hero-name');
-  if (!nameEl) return;
-  nameEl.style.opacity = '0';
-  nameEl.style.transform = 'translateY(10px)';
-  nameEl.style.transition = 'all 0.8s cubic-bezier(0.4,0,0.2,1)';
-  setTimeout(function() {
-    nameEl.style.opacity = '1';
-    nameEl.style.transform = 'translateY(0)';
-  }, 200);
+  /* ================= spike bars ================= */
+  var spikeBars = document.getElementById("spikeBars");
+  SPIKE.forEach(function(r){
+    var row = document.createElement("div"); row.className = "bar-row"; row.style.marginBottom = "9px";
+    var w = (r.v / 250.41) * 100;
+    row.innerHTML =
+      '<div class="bar-top" style="margin-bottom:4px"><span class="team" style="font-weight:600;font-size:12.5px">' + r.d + '</span>' +
+      '<span class="nums mono"><b>' + fmt$(r.v,2) + '</b> · ' + r.x.toFixed(1) + '× median</span></div>' +
+      '<div class="bar-track" style="height:9px"><div class="bar-fill red" data-w="' + w + '"></div></div>';
+    spikeBars.appendChild(row);
+  });
+
+  /* ================= donut ================= */
+  var donutG = document.getElementById("donutG"), donutLegend = document.getElementById("donutLegend");
+  (function(){
+    var R = 62, C = 2 * Math.PI * R, acc = 0;
+    var cssColors = {"var(--red)":"#fb5e5e","var(--teal)":"#2dd4bf","var(--amber)":"#f5b84c","var(--blue)":"#5ea8fb","var(--ink3)":"#7c8a98"};
+    MODELS.forEach(function(m){
+      var frac = m.cost / MODEL_TOTAL;
+      var seg = el("circle",{cx:84, cy:84, r:R, fill:"none","stroke-width":21,
+        "stroke": cssColors[m.color] || m.color,
+        "stroke-dasharray": "0 " + C, "stroke-dashoffset": -acc * C,
+        "data-seg": (frac * C - 3) + " " + C});
+      donutG.appendChild(seg);
+      acc += frac;
+      var pct = (frac * 100);
+      var lr = document.createElement("div"); lr.className = "dl-row";
+      lr.innerHTML = '<span class="dl-dot" style="background:' + (cssColors[m.color]||m.color) + '"></span>' +
+        '<span class="nm">' + m.name + '</span><span class="pc mono">' + fmt$(m.cost) + ' · ' + pct.toFixed(pct < 1 ? 1 : 0) + '%</span>';
+      donutLegend.appendChild(lr);
+    });
+  })();
+  var donutDone = false;
+  function animateDonut(){
+    if(donutDone) return; donutDone = true;
+    donutG.querySelectorAll("circle").forEach(function(c, i){
+      var target = c.getAttribute("data-seg");
+      if(reduceMotion){ c.setAttribute("stroke-dasharray", target); return; }
+      setTimeout(function(){
+        c.style.transition = "stroke-dasharray 1s cubic-bezier(.22,.8,.3,1)";
+        c.setAttribute("stroke-dasharray", target);
+      }, i * 130);
+    });
+  }
+
+  /* ================= reveal + bar triggers ================= */
+  function fillBars(scope){
+    scope.querySelectorAll(".bar-fill[data-w]").forEach(function(f){ f.style.width = f.getAttribute("data-w") + "%"; });
+  }
+  renderBurn("2026-09");
+  buildChart(false);
+  applyProgress(182);
+
+  if("IntersectionObserver" in window && !reduceMotion){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.classList.add("in");
+          if(en.target.contains(cptBars)) fillBars(cptBars);
+          if(en.target.contains(spikeBars)) fillBars(spikeBars);
+          if(en.target.contains(donutG)) animateDonut();
+          io.unobserve(en.target);
+        }
+      });
+    }, {threshold: .18});
+    document.querySelectorAll(".reveal").forEach(function(elm){ io.observe(elm); });
+    /* entrance draw for the main chart */
+    var io2 = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if(en.isIntersecting){ buildChart(true); io2.disconnect(); } });
+    }, {threshold: .3});
+    io2.observe(svg);
+  } else {
+    document.querySelectorAll(".reveal").forEach(function(elm){ elm.classList.add("in"); });
+    fillBars(cptBars); fillBars(spikeBars); animateDonut();
+  }
+  /* Safety net: nothing stays hidden if the observer never fires
+     (full-page captures, print, very fast scrolls). */
+  setTimeout(function(){
+    document.querySelectorAll(".reveal").forEach(function(elm){ elm.classList.add("in"); });
+    fillBars(cptBars); fillBars(spikeBars); animateDonut();
+  }, 900);
 })();
 </script>
-
 </body>
 </html>
