@@ -4,11 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Arthunya (June) Kanoklertwongse | Business Systems Analyst · Operations · Strategy · Bay Area</title>
-<meta name="description" content="Business systems and process modernization professional combining finance, operations, analytics, and AI across US, UK, and APAC. MSCS-AI · MSc FinTech · 2 Published AI Frameworks.">
+<meta name="description" content="Business systems and process modernization professional combining finance, operations, analytics, and AI across US, UK, and APAC. MSCS-AI · MSc FinTech · 2 AI Framework Preprints.">
 <meta property="og:title" content="Arthunya (June) Kanoklertwongse | Business Systems Analyst · Bay Area">
 <meta property="og:description" content="Interactive dashboard portfolio — turning business complexity into measurable systems improvement.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://arthunya.github.io/portfolio">
+<meta property="og:url" content="https://arthunya.github.io/portfolio/">
+<meta property="og:image" content="https://arthunya.github.io/portfolio/Crew-People-Ops-KPI-Dashboard/docs/dashboard-hero.png">
+<meta property="og:image:alt" content="Dashboard preview from the Crew People Ops KPI Dashboard project">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Arthunya (June) Kanoklertwongse | Business Systems Analyst · Bay Area">
+<meta name="twitter:description" content="Interactive dashboard portfolio — turning business complexity into measurable systems improvement.">
+<meta name="twitter:image" content="https://arthunya.github.io/portfolio/Crew-People-Ops-KPI-Dashboard/docs/dashboard-hero.png">
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -577,6 +583,18 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
 .layer-pip.pending .layer-pip-status { color: var(--text-muted); }
 .cs-icon.o2c { background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(59,130,246,0.08)); }
 
+.case-tag.cat-syn { background: rgba(245,158,11,0.12); color: var(--accent-amber); border-color: rgba(245,158,11,0.28); font-weight: 700; }
+.case-tag.status { background: rgba(255,255,255,0.04); color: var(--text-secondary); border-color: var(--border-subtle); font-weight: 600; }
+.case-icon.crew { background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(6,182,212,0.08)); }
+.cs-icon.crew { background: linear-gradient(135deg, rgba(139,92,246,0.12), rgba(6,182,212,0.08)); }
+.case-links { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+.case-link { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border-radius: 8px; font-size: 12.5px; font-weight: 600; text-decoration: none; border: 1px solid var(--border-subtle); background: var(--bg-panel); color: var(--text-secondary); transition: all 0.2s; }
+.case-link.primary { color: var(--accent-blue); border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.08); }
+.case-link:hover { border-color: rgba(59,130,246,0.4); color: var(--accent-blue); }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 2px; }
+.expertise-grid { margin-top: 14px; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+@media (max-width: 640px) { .expertise-grid { grid-template-columns: 1fr; } }
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .col-3, .col-4, .col-6, .col-8 { grid-column: span 6; }
@@ -651,7 +669,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
             </div>
             <div class="tagline-meta">
               <span class="cursor-blink"></span>
-              MSCS-AI · MSc FinTech · 2 Published AI Frameworks · Bay Area
+              MSCS-AI · MSc FinTech · 2 AI Framework Preprints · Bay Area
             </div>
           </div>
         </div>
@@ -666,7 +684,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
               <strong>Order-to-Cash Reconciliation Modernization</strong> — SQL · Power BI · 98.37% Match Rate
             </div>
           </div>
-          <a class="featured-banner-btn" href="#" onclick="goToO2C(event)">View O2C Case Study →</a>
+          <a class="featured-banner-btn" href="l0-discovery.html">View O2C Case Study →</a>
         </div>
       </div>
 
@@ -688,7 +706,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="kpi-tile" onclick="pulseTile(this)">
             <div class="kpi-icon amber">🤖</div>
             <div class="kpi-value amber">2</div>
-            <div class="kpi-label">Published AI Frameworks</div>
+            <div class="kpi-label">AI Frameworks (preprints)</div>
             <div class="kpi-meta">A.C.E. · V.E.T. · SSRN · ResearchGate</div>
           </div>
         </div>
@@ -733,15 +751,15 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="activity-item">
             <div class="activity-dot green"></div>
             <div>
-              <div class="activity-text"><strong>V.E.T. Framework</strong> — Live-validated SEC EDGAR XBRL module published</div>
-              <div class="activity-time">Published · ResearchGate/SSRN</div>
+              <div class="activity-text"><strong>V.E.T. Framework</strong> — Live-validated SEC EDGAR XBRL module (preprint)</div>
+              <div class="activity-time">Preprint, not peer-reviewed · ResearchGate/SSRN</div>
             </div>
           </div>
           <div class="activity-item">
             <div class="activity-dot amber"></div>
             <div>
               <div class="activity-text"><strong>A.C.E. Framework</strong> — AI Concierge &amp; Engine for SME restaurant resilience</div>
-              <div class="activity-time">Published · SSRN · ResearchGate</div>
+              <div class="activity-time">Preprint, not peer-reviewed · SSRN · ResearchGate</div>
             </div>
           </div>
         </div>
@@ -810,6 +828,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
               <div class="case-sub">99K+ orders · SQL exception detection · Power BI · AI-augmented review</div>
               <div class="case-tags">
                 <span class="case-tag cat-ba">🎯 BA Project</span>
+                <span class="case-tag status">Public-data project</span>
                 <span class="case-tag">SQL</span>
                 <span class="case-tag">Power BI</span>
               </div>
@@ -823,6 +842,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
               <div class="case-sub">Bankruptcy and late-delivery models with SHAP explanations · live demo</div>
               <div class="case-tags">
                 <span class="case-tag cat-ai">🤖 ML · Completed</span>
+                <span class="case-tag status">Team academic project</span>
                 <span class="case-tag">XGBoost</span>
                 <span class="case-tag">Random Forest</span>
                 <span class="case-tag">SHAP</span>
@@ -838,7 +858,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
               <div class="case-sub">SME restaurant financial intelligence framework</div>
               <div class="case-tags">
                 <span class="case-tag cat-ai">🔬 AI Research</span>
-                <span class="case-tag">Published</span>
+                <span class="case-tag status">Preprint, not peer-reviewed</span>
                 <span class="case-tag">SSRN · ResearchGate</span>
               </div>
             </div>
@@ -851,11 +871,27 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
               <div class="case-sub">Supply chain risk detection with SEC XBRL validation</div>
               <div class="case-tags">
                 <span class="case-tag cat-ai">🔬 AI Research</span>
+                <span class="case-tag status">Preprint, not peer-reviewed</span>
                 <span class="case-tag">Live-Validated</span>
                 <span class="case-tag">Reproducible</span>
               </div>
             </div>
             <div class="case-arrow">→</div>
+          </div>
+          <div class="case-card" style="cursor:default;">
+            <div class="case-icon crew">📈</div>
+            <div style="flex:1;">
+              <div class="case-title">Crew People Ops KPI Dashboard</div>
+              <div class="case-sub">SQL KPI layer, data-quality checks and insights behind a fictional 42-person People Ops dashboard.</div>
+              <div class="case-tags">
+                <span class="case-tag cat-syn">Exploration · synthetic data</span>
+                <span class="case-tag">SQL</span>
+              </div>
+              <div class="case-links">
+                <a class="case-link primary" href="https://arthunya.github.io/portfolio/Crew-People-Ops-KPI-Dashboard/">View dashboard →</a>
+                <a class="case-link" href="https://github.com/arthunya/portfolio/blob/main/Crew-People-Ops-KPI-Dashboard/README.md" target="_blank" rel="noopener">README on GitHub</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -895,6 +931,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="case-tags" style="margin-bottom:12px;">
             <span class="case-tag cat-ba">🎯 Business Analyst Project</span>
             <span class="case-tag">📊 Self-Directed Case Study</span>
+            <span class="case-tag status">Public-data project</span>
             <span class="case-tag">Olist · Public Dataset · 99K+ orders</span>
             <span class="case-tag">✓ L0–L6 Complete</span>
           </div>
@@ -956,12 +993,12 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
             <div class="star-step" onclick="toggleStoryStep(this,'o2c-r')">
               <div class="star-step-icon">📈</div>
               <div class="star-step-label">Result</div>
-              <div class="star-step-hint">L0–L6 complete ahead of Gate 1 (31 Aug 2026)</div>
+              <div class="star-step-hint">All seven layers (L0–L6) complete: discovery through UAT closure.</div>
             </div>
           </div>
 
           <div class="story-detail-panel" id="o2c-s">
-            <div class="story-detail-text">Olist marketplace processes 99,441 orders across multiple payment types over a 2-year period (2016–2018). Manual reconciliation between order records and payment settlements cannot detect exceptions at scale — resulting in R$143,255 of uncollected payments on 622 canceled orders, 614 orders with missing item records, and 14 delivered orders with no approval event.</div>
+            <div class="story-detail-text">Olist marketplace processes 99,441 orders across multiple payment types over a 2-year period (2016–2018). Manual reconciliation between order records and payment settlements cannot detect exceptions at scale — resulting in R$143,255 of collected payments with no refund or write-off record on 622 canceled orders, 614 orders with missing item records, and 14 delivered orders with no approval event.</div>
           </div>
           <div class="story-detail-panel" id="o2c-t">
             <div class="story-detail-text">Design and document a complete O2C reconciliation modernization — from business discovery and stakeholder analysis through process mapping, SQL exception detection, Power BI dashboard, AI-assisted matching, ROI measurement, and UAT closure. Simulating an enterprise BSA engagement on public/synthetic data.</div>
@@ -978,7 +1015,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
             </ul></div>
           </div>
           <div class="story-detail-panel" id="o2c-r">
-            <div class="story-detail-text">All seven layers (L0–L6) complete — discovery through UAT closure — ahead of the original Gate 1 target of L0–L2 complete + wave-1 job applications sent by 31 Aug 2026. Gate 2: interview-ready by 18 Oct 2026.</div>
+            <div class="story-detail-text">All seven layers (L0–L6) complete: discovery through UAT closure.</div>
           </div>
 
           <div class="results-grid">
@@ -998,7 +1035,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           </div>
           <div class="case-tags" style="margin-bottom:10px;">
             <span class="case-tag cat-ai">🔬 AI Research Framework</span>
-            <span class="case-tag">🏆 Published Framework</span>
+            <span class="case-tag status">Preprint, not peer-reviewed</span>
             <span class="case-tag">ResearchGate/SSRN</span>
             <span class="case-tag">SSRN · ResearchGate</span>
           </div>
@@ -1021,7 +1058,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
             <div class="star-step" onclick="toggleStoryStep(this,'ace-r')">
               <div class="star-step-icon">📈</div>
               <div class="star-step-label">Result</div>
-              <div class="star-step-hint">Published research framework</div>
+              <div class="star-step-hint">Preprint research framework</div>
             </div>
           </div>
           <div class="story-detail-panel" id="ace-s"><div class="story-detail-text">SME restaurant operators often lack real-time financial intelligence to catch cost overruns and pricing gaps early — a pattern this framework refers to as "financial blindness," the lag between raw cost data and pricing decisions.</div></div>
@@ -1029,7 +1066,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="story-detail-panel" id="ace-a"><div class="story-detail-text"><ul><li>Authored the framework\'s three core components: AI-OCR invoice ingestion, dynamic menu pricing recommendations, and predictive labor scheduling</li><li>Grounded the design in independent research into SME restaurant technology adoption — POS vendor evaluation (Toast, Square, MarketMan), inventory/recipe-costing methodology, and payment-processing cost benchmarking</li><li>Designed human-in-the-loop governance at every financially consequential decision point — no fully automated financial actions</li></ul></div></div>
           <div class="story-detail-panel" id="ace-r"><div class="story-detail-text">Published as a preprint on ResearchGate/SSRN. Currently a concept and framework-design stage publication — implementation and measurable results are the next phase.</div></div>
           <div class="results-grid">
-            <div class="result-chip"><strong>Published</strong> research framework<div class="result-meta">Actual · Live on SSRN and ResearchGate</div></div>
+            <div class="result-chip"><strong>Preprint</strong> research framework, not peer-reviewed<div class="result-meta">Actual · Live on SSRN and ResearchGate</div></div>
             <div class="result-chip"><strong>Human-in-the-loop</strong> governance at every financial decision point<div class="result-meta">Actual · Core design principle of the framework</div></div>
           </div>
           <div class="cs-actions">
@@ -1049,7 +1086,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           </div>
           <div class="case-tags" style="margin-bottom:10px;">
             <span class="case-tag cat-ai">🔬 AI Research Framework</span>
-            <span class="case-tag">🏆 Published Framework</span>
+            <span class="case-tag status">Preprint, not peer-reviewed</span>
             <span class="case-tag">ResearchGate/SSRN</span>
             <span class="case-tag">SSRN · ResearchGate</span>
           </div>
@@ -1080,7 +1117,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="story-detail-panel" id="vet-a"><div class="story-detail-text"><ul><li>Designed a four-layer ML architecture cross-referencing six data domains: corporate registries, beneficial ownership records, sanctions lists, financial transaction patterns, logistics data, and OSINT feeds</li><li>Extended the framework with a SEC EDGAR XBRL financial health signal module</li><li>Built the module to be independently reproducible and publicly documented</li></ul></div></div>
           <div class="story-detail-panel" id="vet-r"><div class="story-detail-text">Published as a preprint on ResearchGate/SSRN. The SEC EDGAR XBRL financial health module is live-validated and independently reproducible — extending the original framework with active, ongoing technical development.</div></div>
           <div class="results-grid">
-            <div class="result-chip"><strong>Published</strong> research framework<div class="result-meta">Actual · Live on SSRN and ResearchGate</div></div>
+            <div class="result-chip"><strong>Preprint</strong> research framework, not peer-reviewed<div class="result-meta">Actual · Live on SSRN and ResearchGate</div></div>
             <div class="result-chip"><strong>Live-validated</strong> SEC EDGAR XBRL financial health module<div class="result-meta">Actual · Independently reproducible and publicly documented</div></div>
           </div>
           <div class="cs-actions">
@@ -1101,6 +1138,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
           <div class="case-tags" style="margin-bottom:10px;">
             <span class="case-tag cat-ai">🤖 AI/ML Project</span>
             <span class="case-tag">✅ Completed</span>
+            <span class="case-tag status">Team academic project</span>
             <span class="case-tag">Westcliff University · AIT 506 · 2026</span>
             <span class="case-tag">Machine Learning</span>
             <span class="case-tag">XGBoost</span>
@@ -1145,6 +1183,27 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
             <a class="cs-btn" href="https://arthunya.github.io/cerop-console/deck/" target="_blank" rel="noopener">🖥️ Deck →</a>
             <a class="cs-btn" href="https://github.com/arthunya/cerop-console" target="_blank" rel="noopener">💻 GitHub →</a>
             <a class="cs-btn" href="https://arthunya.github.io/cerop-console/reports/CEROP_Final_Report.pdf" target="_blank" rel="noopener">📄 Final report →</a>
+          </div>
+        </div>
+
+        <!-- CREW PEOPLE OPS KPI DASHBOARD -->
+        <div class="cs-card animate-in" id="cs-crew">
+          <div class="cs-header">
+            <div class="cs-icon crew">📈</div>
+            <div>
+              <div class="cs-title">Crew People Ops KPI Dashboard</div>
+              <div class="cs-sub">SQL KPI layer, data-quality checks and insights behind a fictional 42-person People Ops dashboard.</div>
+            </div>
+          </div>
+          <div class="case-tags" style="margin-bottom:10px;">
+            <span class="case-tag cat-syn">Exploration · synthetic data</span>
+            <span class="case-tag">SQL</span>
+            <span class="case-tag">Data-quality checks</span>
+          </div>
+          <div class="cs-body">All data is fictional. The visual layout came from a template; the data layer, SQL for every KPI and data-quality checks were added AI-assisted and reviewed by the author. Not a real result.</div>
+          <div class="cs-actions">
+            <a class="cs-btn" href="https://arthunya.github.io/portfolio/Crew-People-Ops-KPI-Dashboard/">View dashboard →</a>
+            <a class="cs-btn" href="https://github.com/arthunya/portfolio/blob/main/Crew-People-Ops-KPI-Dashboard/README.md" target="_blank" rel="noopener">💻 README on GitHub →</a>
           </div>
         </div>
 
@@ -1207,35 +1266,20 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
         </div>
       </div>
 
-      <div class="col-6">
+      <div class="col-12">
         <div class="panel animate-in" style="animation-delay:0.2s">
           <div class="panel-title">🎯 Expertise Impact</div>
-          <div style="margin-top:14px; display:flex; flex-direction:column; gap:12px;">
-            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
-              <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Business Analysis</div>
-              <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Converts current-state problems into clear workflows, requirements, and practical improvements through structured gap analysis and process documentation.</div>
-            </div>
+          <div class="expertise-grid">
             <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
               <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Process Improvement</div>
-              <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Standardized administrative and financial workflows while reducing manual effort and handoff errors. Excel VBA automation cut recurring reporting time by roughly 80%.</div>
+              <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Standardized administrative and financial workflows while reducing manual effort and handoff errors. Excel VBA automation cut recurring reporting time by roughly 80%, from 2–3 hours to about 30 minutes, with SOP-enabled adoption.</div>
             </div>
-            <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
-              <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Reporting Automation</div>
-              <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Reduced recurring report preparation from 2–3 hours to about 30 minutes through VBA automation and template standardization with SOP-enabled adoption.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="panel animate-in" style="animation-delay:0.24s">
-          <div class="panel-title">🎯 Expertise Impact</div>
-          <div style="margin-top:14px; display:flex; flex-direction:column; gap:12px;">
             <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
               <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Business Intelligence</div>
               <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Built customer-operations dashboards analyzing reviews, refunds, complaints, returns, and claims to support data-driven managerial decisions.</div>
             </div>
             <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
-              <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Financial & Operational Modeling</div>
+              <div style="font-size:13.5px; font-weight:600; color:var(--text-primary); margin-bottom:6px;">Financial &amp; Operational Modeling</div>
               <div style="font-size:12px; color:var(--text-secondary); line-height:1.6;">Developed forecasting models that improved budget accuracy by 15%. Designed cost-calculation templates extended to affiliate operations.</div>
             </div>
             <div style="background:var(--bg-card); border:1px solid var(--border-subtle); border-radius:12px; padding:16px;">
@@ -1344,7 +1388,7 @@ body.light-mode .case-card:hover { box-shadow: 0 8px 24px rgba(37,99,235,0.08); 
                 </div>
                 <div class="about-stat-card">
                   <div class="about-stat-value">2</div>
-                  <div class="about-stat-label">Published AI Frameworks</div>
+                  <div class="about-stat-label">AI Frameworks (preprints)</div>
                 </div>
               </div>
 
